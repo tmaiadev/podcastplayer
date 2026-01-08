@@ -61,7 +61,7 @@ export function EpisodesListClient({
         params.delete('search');
       }
 
-      router.replace(`/podcast/${podcastId}?${params.toString()}`, {
+      router.replace(`/${language}/podcast/${podcastId}?${params.toString()}`, {
         scroll: false
       });
     }, 300);
@@ -116,6 +116,7 @@ export function EpisodesListClient({
                 currentPage={currentPage}
                 totalPages={totalPages}
                 podcastId={podcastId}
+                language={language}
               />
             </div>
           )}

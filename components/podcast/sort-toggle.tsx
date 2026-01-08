@@ -21,7 +21,7 @@ export function SortToggle({ currentSort, podcastId, language }: SortToggleProps
     const newSort = currentSort === 'desc' ? 'asc' : 'desc';
     params.set('sort', newSort);
     params.delete('page'); // Reset to page 1 on sort change
-    return `/podcast/${podcastId}?${params.toString()}`;
+    return `/${language}/podcast/${podcastId}?${params.toString()}`;
   };
 
   const label = currentSort === 'desc'

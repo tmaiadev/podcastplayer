@@ -12,7 +12,7 @@ interface PodcastCardProps {
 export function PodcastCard({ podcast, language }: PodcastCardProps) {
   const imageUrl = podcast.image || podcast.artwork;
   const author = podcast.author || podcast.ownerName;
-  const link = `/podcast/${podcast.id}`;
+  const link = `/${language}/podcast/${podcast.id}`;
   const t = getTranslations(language);
 
   return (

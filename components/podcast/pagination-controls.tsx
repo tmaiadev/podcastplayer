@@ -3,24 +3,27 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import type { SupportedLanguage } from '@/lib/i18n/constants';
 
 interface PaginationControlsProps {
   currentPage: number;
   totalPages: number;
   podcastId: number;
+  language: SupportedLanguage;
 }
 
 export function PaginationControls({
   currentPage,
   totalPages,
   podcastId,
+  language,
 }: PaginationControlsProps) {
   const searchParams = useSearchParams();
 
   const createPageUrl = (page: number) => {
     const params = new URLSearchParams(searchParams);
     params.set('page', page.toString());
-    return `/podcast/${podcastId}?${params.toString()}`;
+    return `/${language}/podcast/${podcastId}?${params.toString()}`;
   };
 
   // Generate page numbers to display (max 5 visible)
