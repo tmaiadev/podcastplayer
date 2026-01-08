@@ -15,10 +15,14 @@ export class PodcastIndex {
   private apiSecret: string;
   private baseUrl = 'https://api.podcastindex.org/api/1.0';
   private userAgent = 'PodcastPlayer.app';
+  private cacheRevalidate: number;
 
-  constructor(apiKey?: string, apiSecret?: string) {
+  constructor(apiKey?: string, apiSecret?: string, cacheRevalidate?: number) {
     this.apiKey = apiKey || process.env.PODCAST_INDEX_API_KEY || '';
     this.apiSecret = apiSecret || process.env.PODCAST_INDEX_API_SECRET || '';
+    this.cacheRevalidate =
+      cacheRevalidate ||
+      parseInt(process.env.PODCAST_INDEX_CACHE_DURATION || '10800', 10);
 
     if (!this.apiKey || !this.apiSecret) {
       throw new Error(
@@ -42,7 +46,8 @@ export class PodcastIndex {
 
   private async request<T>(
     endpoint: string,
-    params?: Record<string, string | number | boolean>
+    params?: Record<string, string | number | boolean>,
+    cacheTags?: string[]
   ): Promise<T> {
     const url = new URL(`${this.baseUrl}${endpoint}`);
 
@@ -54,10 +59,17 @@ export class PodcastIndex {
 
     const headers = this.generateAuthHeaders();
 
+    // Build cache tags
+    const tags = cacheTags || [`podcast-index${endpoint}`];
+
     try {
       const response = await fetch(url.toString(), {
         method: 'GET',
         headers,
+        next: {
+          revalidate: this.cacheRevalidate,
+          tags,
+        },
       });
 
       if (!response.ok) {
@@ -84,7 +96,11 @@ export class PodcastIndex {
   }
 
   async getCategories(): Promise<Category[]> {
-    const response = await this.request<CategoriesResponse>('/categories/list');
+    const response = await this.request<CategoriesResponse>(
+      '/categories/list',
+      undefined,
+      ['podcast-index', 'podcast-index-categories']
+    );
     return response.feeds;
   }
 
@@ -101,9 +117,15 @@ export class PodcastIndex {
     if (options?.lang) params.lang = options.lang;
     if (options?.cat) params.cat = options.cat;
 
+    const tags = ['podcast-index', 'podcast-index-trending'];
+    if (options?.cat) {
+      tags.push(`podcast-index-trending-${options.cat}`);
+    }
+
     const response = await this.request<TrendingResponse>(
       '/podcasts/trending',
-      params
+      params,
+      tags
     );
     return response.feeds;
   }
@@ -116,14 +138,19 @@ export class PodcastIndex {
 
     if (options?.max) params.max = options.max;
 
-    return this.request<SearchResponse>('/search/byterm', params);
+    return this.request<SearchResponse>(
+      '/search/byterm',
+      params,
+      ['podcast-index', 'podcast-index-search']
+    );
   }
 
   async getPodcastById(feedId: number): Promise<Podcast> {
     const params: Record<string, string | number> = { id: feedId };
     const response = await this.request<PodcastDetailsResponse>(
       '/podcasts/byfeedid',
-      params
+      params,
+      ['podcast-index', `podcast-index-podcast-${feedId}`]
     );
     return response.feed;
   }
@@ -138,7 +165,8 @@ export class PodcastIndex {
 
     const response = await this.request<EpisodesResponse>(
       '/episodes/byfeedid',
-      params
+      params,
+      ['podcast-index', `podcast-index-episodes-${feedId}`]
     );
     return response.items;
   }
