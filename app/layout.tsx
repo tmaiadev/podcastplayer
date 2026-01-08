@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Nunito_Sans } from "next/font/google";
 import "./globals.css";
+import { getPreferredLanguage } from "@/lib/i18n/locale";
 
 const nunitoSans = Nunito_Sans({variable:'--font-sans'});
 
@@ -19,13 +20,15 @@ export const metadata: Metadata = {
   description: "Your personal podcast player for discovering and listening to your favorite podcasts",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const language = await getPreferredLanguage();
+
   return (
-    <html lang="en" className={nunitoSans.variable}>
+    <html lang={language} className={nunitoSans.variable}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

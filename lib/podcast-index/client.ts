@@ -118,8 +118,20 @@ export class PodcastIndex {
     if (options?.cat) params.cat = options.cat;
 
     const tags = ['podcast-index', 'podcast-index-trending'];
+
+    // Include language in cache tags for per-language caching
+    if (options?.lang) {
+      tags.push(`podcast-index-trending-lang-${options.lang}`);
+    }
+
+    // Include category in cache tags
     if (options?.cat) {
-      tags.push(`podcast-index-trending-${options.cat}`);
+      tags.push(`podcast-index-trending-cat-${options.cat}`);
+    }
+
+    // Include both language and category for granular caching
+    if (options?.lang && options?.cat) {
+      tags.push(`podcast-index-trending-${options.lang}-${options.cat}`);
     }
 
     const response = await this.request<TrendingResponse>(
