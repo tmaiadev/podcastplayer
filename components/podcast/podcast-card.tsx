@@ -1,8 +1,8 @@
-import Image from "next/image";
 import type { Podcast } from "@/lib/podcast-index";
 import type { SupportedLanguage } from "@/lib/i18n/constants";
 import Link from "next/link";
 import { getTranslations } from "@/lib/i18n/translations";
+import { PodcastImage } from './podcast-image';
 
 interface PodcastCardProps {
   podcast: Podcast;
@@ -22,16 +22,14 @@ export function PodcastCard({ podcast, language }: PodcastCardProps) {
     >
       {/* Image container with overflow hidden for zoom effect */}
       <div className="overflow-hidden rounded-lg border-2 transition-shadow duration-300 group-hover:shadow-lg group-focus-visible:shadow-lg">
-        {imageUrl && (
-          <Image
-            src={imageUrl}
-            alt={podcast.title}
-            width={240}
-            height={240}
-            className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-110 group-focus-visible:scale-110"
-            loading="lazy"
-          />
-        )}
+        <PodcastImage
+          src={imageUrl}
+          alt={podcast.title}
+          title={podcast.title}
+          podcastId={podcast.id}
+          size={240}
+          className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-110 group-focus-visible:scale-110"
+        />
       </div>
 
       {/* Text content */}

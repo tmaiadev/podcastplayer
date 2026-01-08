@@ -1,8 +1,8 @@
-import Image from 'next/image';
 import type { Podcast } from '@/lib/podcast-index';
 import type { SupportedLanguage } from '@/lib/i18n/constants';
 import { getTranslations } from '@/lib/i18n/translations';
 import { Badge } from '@/components/ui/badge';
+import { PodcastImage } from './podcast-image';
 
 interface PodcastHeaderProps {
   podcast: Podcast;
@@ -18,16 +18,15 @@ export function PodcastHeader({ podcast, language }: PodcastHeaderProps) {
     <header className="flex flex-col md:flex-row gap-8 items-start">
       {/* Podcast Image */}
       <div className="shrink-0">
-        {imageUrl && (
-          <Image
-            src={imageUrl}
-            alt={podcast.title}
-            width={300}
-            height={300}
-            className="rounded-lg shadow-lg border-2"
-            priority
-          />
-        )}
+        <PodcastImage
+          src={imageUrl}
+          alt={podcast.title}
+          title={podcast.title}
+          podcastId={podcast.id}
+          size={300}
+          priority
+          className="rounded-lg shadow-lg border-2"
+        />
       </div>
 
       {/* Podcast Info */}
