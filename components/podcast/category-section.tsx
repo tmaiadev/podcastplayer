@@ -25,22 +25,11 @@ export function CategorySection({ category, podcasts, language }: CategorySectio
         </Badge>
       </div>
 
-      <div className="horizontal-scroll flex gap-4 overflow-x-auto scroll-smooth pb-2 px-1">
+      <div className="overflow-x-auto flex gap-4 pb-2 px-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         {displayPodcasts.map((podcast) => (
           <PodcastCard key={podcast.id} podcast={podcast} language={language} />
         ))}
       </div>
-
-      <style jsx>{`
-        .horizontal-scroll {
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-          scroll-snap-type: x mandatory;
-        }
-        .horizontal-scroll::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </section>
   );
 }

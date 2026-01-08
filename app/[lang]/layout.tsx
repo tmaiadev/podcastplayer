@@ -34,7 +34,7 @@ export default async function LangLayout({
   }
 
   return (
-    <html lang={lang} className={nunitoSans.variable}>
+    <html lang={lang} className={`${nunitoSans.variable} overflow-x-hidden`}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
