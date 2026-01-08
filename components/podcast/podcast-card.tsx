@@ -1,8 +1,6 @@
-'use client';
-
-import Image from 'next/image';
-import type { Podcast } from '@/lib/podcast-index';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import Image from "next/image";
+import type { Podcast } from "@/lib/podcast-index";
+import Link from "next/link";
 
 interface PodcastCardProps {
   podcast: Podcast;
@@ -11,11 +9,12 @@ interface PodcastCardProps {
 export function PodcastCard({ podcast }: PodcastCardProps) {
   const imageUrl = podcast.image || podcast.artwork;
   const author = podcast.author || podcast.ownerName;
+  const link = `/podcast/${podcast.id}`;
 
   return (
-    <Card
-      className="w-60 flex-shrink-0 cursor-pointer transition-all hover:scale-105 hover:shadow-lg scroll-snap-align-start"
-      size="sm"
+    <Link
+      href={link}
+      className="w-60 shrink-0 cursor-pointer scroll-snap-align-start flex flex-col gap-2"
     >
       {imageUrl && (
         <Image
@@ -23,20 +22,17 @@ export function PodcastCard({ podcast }: PodcastCardProps) {
           alt={podcast.title}
           width={240}
           height={240}
-          className="w-full aspect-square object-cover"
+          className="w-full aspect-square object-cover rounded-lg border-2"
           loading="lazy"
         />
       )}
-      <CardHeader>
-        <CardTitle className="line-clamp-2 text-sm">
-          {podcast.title}
-        </CardTitle>
-        {author && (
-          <CardDescription className="line-clamp-1 text-xs">
-            {author}
-          </CardDescription>
-        )}
-      </CardHeader>
-    </Card>
+      <div className="flex flex-col gap-1">
+        <div className="line-clamp-2 text-sm font-bold">{podcast.title}</div>
+        <div className="line-clamp-1 text-xs">
+          <span className="sr-only">by</span>
+          {author}
+        </div>
+      </div>
+    </Link>
   );
 }
