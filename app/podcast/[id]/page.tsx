@@ -1,0 +1,128 @@
+import { PodcastIndex } from '@/lib/podcast-index';
+import type { Episode } from '@/lib/podcast-index';
+import { getPreferredLanguage } from '@/lib/i18n/locale';
+import { getTranslations } from '@/lib/i18n/translations';
+import { PodcastHeader } from '@/components/podcast/podcast-header';
+import { EpisodesListClient } from '@/components/podcast/episodes-list-client';
+import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
+
+const EPISODES_PER_PAGE = 20;
+
+interface PageProps {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{
+    page?: string;
+    sort?: 'asc' | 'desc';
+    search?: string;
+  }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  const api = new PodcastIndex();
+
+  try {
+    const podcast = await api.getPodcastById(parseInt(id, 10));
+
+    return {
+      title: `${podcast.title} - Podcast Player`,
+      description: podcast.description,
+      openGraph: {
+        title: podcast.title,
+        description: podcast.description,
+        images: [podcast.image || podcast.artwork],
+      },
+    };
+  } catch {
+    return {
+      title: 'Podcast Not Found',
+    };
+  }
+}
+
+export default async function PodcastDetailPage({ params, searchParams }: PageProps) {
+  const { id } = await params;
+  const feedId = parseInt(id, 10);
+
+  if (isNaN(feedId)) {
+    notFound();
+  }
+
+  const api = new PodcastIndex();
+  const language = await getPreferredLanguage();
+  const t = getTranslations(language);
+
+  // Parse search params
+  const searchParamsResolved = await searchParams;
+  const page = Math.max(1, parseInt(searchParamsResolved.page || '1', 10));
+  const sort = searchParamsResolved.sort === 'asc' ? 'asc' : 'desc';
+  const searchQuery = searchParamsResolved.search || '';
+
+  try {
+    // Fetch podcast and episodes in parallel
+    const [podcast, allEpisodes] = await Promise.all([
+      api.getPodcastById(feedId),
+      api.getEpisodesByFeedId(feedId),
+    ]);
+
+    // Sort episodes by date
+    const sortedEpisodes = [...allEpisodes].sort((a, b) => {
+      return sort === 'desc'
+        ? b.datePublished - a.datePublished
+        : a.datePublished - b.datePublished;
+    });
+
+    // If search query exists, filter server-side for SEO
+    const filteredEpisodes = searchQuery
+      ? sortedEpisodes.filter(ep =>
+          ep.title.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : sortedEpisodes;
+
+    // Paginate
+    const totalPages = Math.ceil(filteredEpisodes.length / EPISODES_PER_PAGE);
+    const validPage = Math.min(page, Math.max(1, totalPages));
+    const startIndex = (validPage - 1) * EPISODES_PER_PAGE;
+    const paginatedEpisodes = filteredEpisodes.slice(
+      startIndex,
+      startIndex + EPISODES_PER_PAGE
+    );
+
+    return (
+      <main className="min-h-screen py-8">
+        <div className="container mx-auto px-4">
+          <PodcastHeader podcast={podcast} language={language} />
+
+          <div className="mt-12">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-semibold">
+                {t['podcast.episodes']}
+                <span className="text-muted-foreground text-lg ml-2">
+                  ({allEpisodes.length} {t['podcast.totalEpisodes']})
+                </span>
+              </h2>
+            </div>
+
+            <EpisodesListClient
+              episodes={paginatedEpisodes}
+              allEpisodes={sortedEpisodes}
+              totalCount={filteredEpisodes.length}
+              currentPage={validPage}
+              totalPages={totalPages}
+              sortOrder={sort}
+              initialSearch={searchQuery}
+              language={language}
+              podcastId={feedId}
+            />
+          </div>
+        </div>
+      </main>
+    );
+  } catch (error) {
+    console.error('Failed to fetch podcast:', error);
+    notFound();
+  }
+}
+
+export const revalidate = 3600; // Revalidate every hour

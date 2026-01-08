@@ -15,6 +15,26 @@ export type TranslationKeys = {
   'error.title': string;
   'error.message': string;
   'error.tryAgain': string;
+
+  // Podcast detail page
+  'podcast.episodes': string;
+  'podcast.totalEpisodes': string;
+
+  // Episodes list
+  'episodes.search.placeholder': string;
+  'episodes.search.noResults': string;
+  'episodes.sort.newest': string;
+  'episodes.sort.oldest': string;
+  'episodes.duration': string;
+  'episodes.published': string;
+  'episodes.season': string;
+  'episodes.episode': string;
+
+  // Pagination
+  'pagination.previous': string;
+  'pagination.next': string;
+  'pagination.page': string;
+  'pagination.of': string;
 };
 
 export const translations: Record<SupportedLanguage, TranslationKeys> = {
@@ -26,6 +46,20 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'error.title': 'Something went wrong!',
     'error.message': 'Failed to load podcasts',
     'error.tryAgain': 'Try again',
+    'podcast.episodes': 'Episodes',
+    'podcast.totalEpisodes': 'episodes',
+    'episodes.search.placeholder': 'Search episodes...',
+    'episodes.search.noResults': 'No episodes found',
+    'episodes.sort.newest': 'Newest first',
+    'episodes.sort.oldest': 'Oldest first',
+    'episodes.duration': 'Duration',
+    'episodes.published': 'Published',
+    'episodes.season': 'Season',
+    'episodes.episode': 'Episode',
+    'pagination.previous': 'Previous',
+    'pagination.next': 'Next',
+    'pagination.page': 'Page',
+    'pagination.of': 'of',
   },
   pt: {
     'home.title': 'Descubra Podcasts',
@@ -35,6 +69,20 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'error.title': 'Algo deu errado!',
     'error.message': 'Falha ao carregar podcasts',
     'error.tryAgain': 'Tentar novamente',
+    'podcast.episodes': 'Episódios',
+    'podcast.totalEpisodes': 'episódios',
+    'episodes.search.placeholder': 'Buscar episódios...',
+    'episodes.search.noResults': 'Nenhum episódio encontrado',
+    'episodes.sort.newest': 'Mais recentes',
+    'episodes.sort.oldest': 'Mais antigos',
+    'episodes.duration': 'Duração',
+    'episodes.published': 'Publicado',
+    'episodes.season': 'Temporada',
+    'episodes.episode': 'Episódio',
+    'pagination.previous': 'Anterior',
+    'pagination.next': 'Próximo',
+    'pagination.page': 'Página',
+    'pagination.of': 'de',
   },
   es: {
     'home.title': 'Descubre Podcasts',
@@ -44,6 +92,20 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'error.title': '¡Algo salió mal!',
     'error.message': 'Error al cargar podcasts',
     'error.tryAgain': 'Intentar de nuevo',
+    'podcast.episodes': 'Episodios',
+    'podcast.totalEpisodes': 'episodios',
+    'episodes.search.placeholder': 'Buscar episodios...',
+    'episodes.search.noResults': 'No se encontraron episodios',
+    'episodes.sort.newest': 'Más recientes',
+    'episodes.sort.oldest': 'Más antiguos',
+    'episodes.duration': 'Duración',
+    'episodes.published': 'Publicado',
+    'episodes.season': 'Temporada',
+    'episodes.episode': 'Episodio',
+    'pagination.previous': 'Anterior',
+    'pagination.next': 'Siguiente',
+    'pagination.page': 'Página',
+    'pagination.of': 'de',
   },
   fr: {
     'home.title': 'Découvrez des Podcasts',
@@ -53,6 +115,20 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'error.title': 'Quelque chose s\'est mal passé!',
     'error.message': 'Échec du chargement des podcasts',
     'error.tryAgain': 'Réessayer',
+    'podcast.episodes': 'Épisodes',
+    'podcast.totalEpisodes': 'épisodes',
+    'episodes.search.placeholder': 'Rechercher des épisodes...',
+    'episodes.search.noResults': 'Aucun épisode trouvé',
+    'episodes.sort.newest': 'Plus récents',
+    'episodes.sort.oldest': 'Plus anciens',
+    'episodes.duration': 'Durée',
+    'episodes.published': 'Publié',
+    'episodes.season': 'Saison',
+    'episodes.episode': 'Épisode',
+    'pagination.previous': 'Précédent',
+    'pagination.next': 'Suivant',
+    'pagination.page': 'Page',
+    'pagination.of': 'sur',
   },
   de: {
     'home.title': 'Entdecke Podcasts',
@@ -62,6 +138,20 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'error.title': 'Etwas ist schiefgelaufen!',
     'error.message': 'Podcasts konnten nicht geladen werden',
     'error.tryAgain': 'Erneut versuchen',
+    'podcast.episodes': 'Episoden',
+    'podcast.totalEpisodes': 'Episoden',
+    'episodes.search.placeholder': 'Episoden suchen...',
+    'episodes.search.noResults': 'Keine Episoden gefunden',
+    'episodes.sort.newest': 'Neueste zuerst',
+    'episodes.sort.oldest': 'Älteste zuerst',
+    'episodes.duration': 'Dauer',
+    'episodes.published': 'Veröffentlicht',
+    'episodes.season': 'Staffel',
+    'episodes.episode': 'Episode',
+    'pagination.previous': 'Zurück',
+    'pagination.next': 'Weiter',
+    'pagination.page': 'Seite',
+    'pagination.of': 'von',
   },
 };
 
