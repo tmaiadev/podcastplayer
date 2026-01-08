@@ -37,7 +37,7 @@ export function PodcastImage({
       <div
         className={cn(
           "flex items-center justify-center text-white font-bold",
-          "aspect-square",
+          "aspect-square w-full",
           size === 240 ? "text-6xl" : "text-7xl",
           className
         )}
@@ -58,7 +58,7 @@ export function PodcastImage({
       alt={alt}
       width={size}
       height={size}
-      className={className}
+      className={cn("aspect-square", className)}
       priority={priority}
       loading={priority ? undefined : 'lazy'}
       onError={() => setHasError(true)}

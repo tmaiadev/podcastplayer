@@ -17,7 +17,7 @@ export function PodcastHeader({ podcast, language }: PodcastHeaderProps) {
   return (
     <header className="flex flex-col md:flex-row gap-8 items-start">
       {/* Podcast Image */}
-      <div className="shrink-0">
+      <div className="shrink-0 w-full md:w-auto">
         <PodcastImage
           src={imageUrl}
           alt={podcast.title}
@@ -25,7 +25,7 @@ export function PodcastHeader({ podcast, language }: PodcastHeaderProps) {
           podcastId={podcast.id}
           size={300}
           priority
-          className="rounded-lg shadow-lg border-2"
+          className="rounded-lg shadow-lg border-2 w-full md:w-auto"
         />
       </div>
 
