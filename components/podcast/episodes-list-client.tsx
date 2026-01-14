@@ -10,6 +10,18 @@ import { EpisodeCard } from './episode-card';
 import { PaginationControls } from './pagination-controls';
 import { SortToggle } from './sort-toggle';
 
+function formatTitle(episode: Episode): string {
+  let title = episode.title;
+
+  if (episode.season && episode.episode) {
+    title = `S${episode.season}E${episode.episode} - ${title}`;
+  } else if (episode.episode) {
+    title = `E${episode.episode} - ${title}`;
+  }
+
+  return title;
+}
+
 interface EpisodesListClientProps {
   episodes: Episode[]; // Pre-paginated slice from server
   allEpisodes: Episode[]; // All episodes for client-side search
@@ -40,16 +52,26 @@ export function EpisodesListClient({
   const router = useRouter();
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(initialSearch);
+  const [debouncedSearch, setDebouncedSearch] = useState(initialSearch);
   const t = getTranslations(language);
 
-  // Filter episodes client-side for instant feedback
+  // Debounce search query for filtering
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  // Filter episodes client-side based on debounced search
   const filteredEpisodes = useMemo(() => {
-    if (!searchQuery) return episodes;
+    if (!debouncedSearch) return episodes;
 
     return allEpisodes.filter(episode =>
-      episode.title.toLowerCase().includes(searchQuery.toLowerCase())
+      formatTitle(episode).toLowerCase().includes(debouncedSearch.toLowerCase())
     );
-  }, [searchQuery, episodes, allEpisodes]);
+  }, [debouncedSearch, episodes, allEpisodes]);
 
   // Update URL with search parameter (debounced)
   useEffect(() => {
@@ -117,7 +139,7 @@ export function EpisodesListClient({
           </div>
 
           {/* Pagination (hide when searching) */}
-          {!searchQuery && totalPages > 1 && (
+          {!debouncedSearch && totalPages > 1 && (
             <div className="mt-8">
               <PaginationControls
                 currentPage={currentPage}

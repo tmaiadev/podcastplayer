@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import type { Episode } from "@/lib/podcast-index";
 import type { SupportedLanguage } from "@/lib/i18n/constants";
 import Link from "next/link";
@@ -50,7 +51,7 @@ function formatPublishDate(ts: number, language: SupportedLanguage): string {
   });
 }
 
-export function EpisodeCard({
+export const EpisodeCard = memo(function EpisodeCard({
   episode,
   language,
   podcastId,
@@ -105,4 +106,4 @@ export function EpisodeCard({
       </div>
     </Card >
   );
-}
+});

@@ -7,6 +7,18 @@ import { EpisodesListClient } from '@/components/podcast/episodes-list-client';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
+function formatTitle(episode: Episode): string {
+  let title = episode.title;
+
+  if (episode.season && episode.episode) {
+    title = `S${episode.season}E${episode.episode} - ${title}`;
+  } else if (episode.episode) {
+    title = `E${episode.episode} - ${title}`;
+  }
+
+  return title;
+}
+
 const EPISODES_PER_PAGE = 20;
 
 interface PageProps {
@@ -86,7 +98,7 @@ export default async function PodcastDetailPage({ params, searchParams }: PagePr
   // If search query exists, filter server-side for SEO
   const filteredEpisodes = searchQuery
     ? sortedEpisodes.filter(ep =>
-        ep.title.toLowerCase().includes(searchQuery.toLowerCase())
+        formatTitle(ep).toLowerCase().includes(searchQuery.toLowerCase())
       )
     : sortedEpisodes;
 
