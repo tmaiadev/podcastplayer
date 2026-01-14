@@ -124,6 +124,8 @@ export default async function PodcastDetailPage({ params, searchParams }: PagePr
             initialSearch={searchQuery}
             language={lang}
             podcastId={feedId}
+            podcastImage={podcast.image || podcast.artwork}
+            podcastTitle={podcast.title}
           />
         </div>
       </div>

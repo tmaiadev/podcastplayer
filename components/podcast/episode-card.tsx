@@ -1,12 +1,30 @@
-import type { Episode } from '@/lib/podcast-index';
-import type { SupportedLanguage } from '@/lib/i18n/constants';
-import { getTranslations } from '@/lib/i18n/translations';
-import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
+"use client";
+
+import type { Episode } from "@/lib/podcast-index";
+import type { SupportedLanguage } from "@/lib/i18n/constants";
+import Link from "next/link";
+import { getTranslations } from "@/lib/i18n/translations";
+import { Card } from "@/components/ui/card";
+import { EpisodeImage } from "./episode-image";
 
 interface EpisodeCardProps {
   episode: Episode;
   language: SupportedLanguage;
+  podcastId: number;
+  podcastImage?: string;
+  podcastTitle: string;
+}
+
+function formatTitle(episode: Episode): string {
+  let title = episode.title;
+
+  if (episode.season && episode.episode) {
+    title = `S${episode.season}E${episode.episode} - ${title}`;
+  } else if (episode.episode) {
+    title = `E${episode.episode} - ${title}`;
+  }
+
+  return title;
 }
 
 function formatDuration(seconds: number): string {
@@ -15,59 +33,76 @@ function formatDuration(seconds: number): string {
   const secs = seconds % 60;
 
   if (hours > 0) {
-    return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    return `${hours}:${minutes.toString().padStart(2, "0")}:${secs
+      .toString()
+      .padStart(2, "0")}`;
   }
-  return `${minutes}:${secs.toString().padStart(2, '0')}`;
+  return `${minutes}:${secs.toString().padStart(2, "0")}`;
 }
 
-export function EpisodeCard({ episode, language }: EpisodeCardProps) {
+function formatPublishDate(ts: number): string {
+  const date = new Date(ts * 1000);
+
+  return date.toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
+export function EpisodeCard({
+  episode,
+  language,
+  podcastId,
+  podcastImage,
+  podcastTitle,
+}: EpisodeCardProps) {
   const t = getTranslations(language);
+  const episodeUrl = `/${language}/podcast/${podcastId}/episode/${episode.id}`;
 
   return (
-    <Card className="p-4 hover:shadow-lg transition-shadow">
-      <div className="flex flex-col gap-3">
-        {/* Title and Badges */}
-        <div className="flex items-start justify-between gap-4">
-          <h3 className="text-lg font-semibold flex-1 line-clamp-2">
-            {episode.title}
-          </h3>
+    <Card className="gap-4 md:flex-row">
+      <div className="-mt-6 md:-mb-6 md:shrink-0 md:w-60">
+        <EpisodeImage
+          src={episode.image}
+          alt={episode.title}
+          episode={episode}
+          size={295}
+          podcastImage={podcastImage}
+          podcastTitle={podcastTitle}
+          className="w-full rounded-b-none md:rounded-e-none"
+        />
+      </div>
 
-          <div className="flex gap-2 shrink-0">
-            {episode.season && (
-              <Badge variant="secondary" className="text-xs">
-                {t['episodes.season']} {episode.season}
-              </Badge>
+      <div className="flex flex-col gap-4 px-6 grow">
+        <Link href={episodeUrl} className="block text-primary hover:underline">
+          <h2 className="text-lg font-bold">
+            {formatTitle(episode)}
+          </h2>
+        </Link>
+
+        <div className="flex flex-col gap-2">
+          <div className="line-clamp-2">
+            {episode.description.replace(/<[^>]*>/g, "")}
+          </div>
+
+          <div>
+            {episode.datePublished && (
+              <span>
+                {t["episodes.published"]}: {formatPublishDate(episode.datePublished)}
+              </span>
             )}
-            {episode.episode && (
-              <Badge variant="secondary" className="text-xs">
-                {t['episodes.episode']} {episode.episode}
-              </Badge>
+
+            {episode.duration > 0 && (
+              <span className="ms-4">
+                {t["episodes.duration"]}: {formatDuration(episode.duration)}
+              </span>
             )}
           </div>
         </div>
 
-        {/* Description */}
-        {episode.description && (
-          <p className="text-sm text-muted-foreground line-clamp-2">
-            {episode.description.replace(/<[^>]*>/g, '')}
-          </p>
-        )}
-
-        {/* Metadata */}
-        <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-          {episode.datePublishedPretty && (
-            <span>
-              {t['episodes.published']}: {episode.datePublishedPretty}
-            </span>
-          )}
-
-          {episode.duration > 0 && (
-            <span>
-              {t['episodes.duration']}: {formatDuration(episode.duration)}
-            </span>
-          )}
-        </div>
+        <audio src={episode.enclosureUrl} controls className="w-full" />
       </div>
-    </Card>
+    </Card >
   );
 }

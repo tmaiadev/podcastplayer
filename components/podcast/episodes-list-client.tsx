@@ -20,6 +20,8 @@ interface EpisodesListClientProps {
   initialSearch?: string;
   language: SupportedLanguage;
   podcastId: number;
+  podcastImage?: string;
+  podcastTitle: string;
 }
 
 export function EpisodesListClient({
@@ -32,6 +34,8 @@ export function EpisodesListClient({
   initialSearch = '',
   language,
   podcastId,
+  podcastImage,
+  podcastTitle,
 }: EpisodesListClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -105,6 +109,9 @@ export function EpisodesListClient({
                 key={episode.id}
                 episode={episode}
                 language={language}
+                podcastId={podcastId}
+                podcastImage={podcastImage}
+                podcastTitle={podcastTitle}
               />
             ))}
           </div>
