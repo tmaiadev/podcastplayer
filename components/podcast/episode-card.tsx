@@ -40,10 +40,10 @@ function formatDuration(seconds: number): string {
   return `${minutes}:${secs.toString().padStart(2, "0")}`;
 }
 
-function formatPublishDate(ts: number): string {
+function formatPublishDate(ts: number, language: SupportedLanguage): string {
   const date = new Date(ts * 1000);
 
-  return date.toLocaleDateString(undefined, {
+  return date.toLocaleDateString(language, {
     year: "numeric",
     month: "short",
     day: "numeric",
@@ -89,7 +89,7 @@ export function EpisodeCard({
           <div>
             {episode.datePublished && (
               <span>
-                {t["episodes.published"]}: {formatPublishDate(episode.datePublished)}
+                {t["episodes.published"]}: {formatPublishDate(episode.datePublished, language)}
               </span>
             )}
 
