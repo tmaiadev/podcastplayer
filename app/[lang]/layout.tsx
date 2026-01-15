@@ -4,6 +4,8 @@ import { isValidLanguage } from "@/lib/i18n/locale";
 import { notFound } from "next/navigation";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import Link from "next/link";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { PodcastIcon } from "@hugeicons/core-free-icons";
 
 const nunitoSans = Nunito_Sans({variable:'--font-sans'});
 
@@ -40,7 +42,8 @@ export default async function LangLayout({
       >
         <header className="border-b">
           <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-            <Link href={`/${lang}`} className="text-xl font-bold hover:text-primary transition-colors">
+            <Link href={`/${lang}`} className="text-xl font-bold hover:text-primary transition-colors flex items-center gap-2">
+              <HugeiconsIcon icon={PodcastIcon} size={24} />
               Podcast Player
             </Link>
             <LanguageSwitcher />
