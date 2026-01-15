@@ -6,6 +6,15 @@ import { PodcastHeader } from '@/components/podcast/podcast-header';
 import { EpisodesListClient } from '@/components/podcast/episodes-list-client';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 
 function formatTitle(episode: Episode): string {
   let title = episode.title;
@@ -114,6 +123,20 @@ export default async function PodcastDetailPage({ params, searchParams }: PagePr
   return (
     <main className="min-h-screen py-8">
       <div className="container mx-auto px-4">
+        <Breadcrumb className="mb-8">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href={`/${lang}`}>{t['breadcrumb.home']}</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{podcast.title}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
         <PodcastHeader podcast={podcast} language={lang} />
 
         <div className="mt-12">
