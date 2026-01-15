@@ -38,8 +38,7 @@ export function PodcastCard({ podcast, language }: PodcastCardProps) {
           {podcast.title}
         </div>
         <div className="line-clamp-1 text-xs text-muted-foreground">
-          <span className="sr-only">{t['podcast.by']}</span>
-          {author}
+          {t['podcast.by']} {author}
         </div>
       </div>
     </Link>

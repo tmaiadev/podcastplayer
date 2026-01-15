@@ -6,6 +6,8 @@ import { LanguageSwitcher } from "@/components/language-switcher";
 import Link from "next/link";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { PodcastIcon } from "@hugeicons/core-free-icons";
+import { AppSidebar } from "@/components/navigation/app-sidebar";
+import { MobileNavbar } from "@/components/navigation/mobile-navbar";
 
 const nunitoSans = Nunito_Sans({variable:'--font-sans'});
 
@@ -40,16 +42,30 @@ export default async function LangLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <header className="border-b">
-          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-            <Link href={`/${lang}`} className="text-xl font-bold hover:text-primary transition-colors flex items-center gap-2">
-              <HugeiconsIcon icon={PodcastIcon} size={24} />
-              Podcast Player
-            </Link>
-            <LanguageSwitcher />
+        {/* Desktop Sidebar - fixed position, hidden on mobile */}
+        <AppSidebar language={lang} />
+
+        {/* Main wrapper with left margin on desktop for sidebar */}
+        <div className="md:ml-64">
+          {/* Mobile Header - only visible on mobile */}
+          <header className="border-b md:hidden">
+            <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+              <Link href={`/${lang}`} className="text-xl font-bold hover:text-primary transition-colors flex items-center gap-2">
+                <HugeiconsIcon icon={PodcastIcon} size={24} />
+                Podcast Player
+              </Link>
+              <LanguageSwitcher />
+            </div>
+          </header>
+
+          {/* Main Content - add bottom padding on mobile for navbar */}
+          <div className="pb-24 md:pb-0">
+            {children}
           </div>
-        </header>
-        {children}
+        </div>
+
+        {/* Mobile Bottom Navbar - fixed position */}
+        <MobileNavbar language={lang} />
       </body>
     </html>
   );

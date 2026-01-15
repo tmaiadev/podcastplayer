@@ -38,6 +38,12 @@ export type TranslationKeys = {
 
   // Breadcrumb
   'breadcrumb.home': string;
+
+  // Navigation
+  'nav.discover': string;
+  'nav.search': string;
+  'nav.subscriptions': string;
+  'nav.account': string;
 };
 
 export const translations: Record<SupportedLanguage, TranslationKeys> = {
@@ -64,6 +70,10 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'pagination.page': 'Page',
     'pagination.of': 'of',
     'breadcrumb.home': 'Home',
+    'nav.discover': 'Discover',
+    'nav.search': 'Search',
+    'nav.subscriptions': 'Subscriptions',
+    'nav.account': 'Account',
   },
   pt: {
     'home.title': 'Descubra Podcasts',
@@ -88,6 +98,10 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'pagination.page': 'Página',
     'pagination.of': 'de',
     'breadcrumb.home': 'Início',
+    'nav.discover': 'Descobrir',
+    'nav.search': 'Buscar',
+    'nav.subscriptions': 'Inscrições',
+    'nav.account': 'Conta',
   },
   es: {
     'home.title': 'Descubre Podcasts',
@@ -112,6 +126,10 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'pagination.page': 'Página',
     'pagination.of': 'de',
     'breadcrumb.home': 'Inicio',
+    'nav.discover': 'Descubrir',
+    'nav.search': 'Buscar',
+    'nav.subscriptions': 'Suscripciones',
+    'nav.account': 'Cuenta',
   },
   fr: {
     'home.title': 'Découvrez des Podcasts',
@@ -136,6 +154,10 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'pagination.page': 'Page',
     'pagination.of': 'sur',
     'breadcrumb.home': 'Accueil',
+    'nav.discover': 'Découvrir',
+    'nav.search': 'Rechercher',
+    'nav.subscriptions': 'Abonnements',
+    'nav.account': 'Compte',
   },
   de: {
     'home.title': 'Entdecke Podcasts',
@@ -160,6 +182,10 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'pagination.page': 'Seite',
     'pagination.of': 'von',
     'breadcrumb.home': 'Startseite',
+    'nav.discover': 'Entdecken',
+    'nav.search': 'Suchen',
+    'nav.subscriptions': 'Abonnements',
+    'nav.account': 'Konto',
   },
 };
 
