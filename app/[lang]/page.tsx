@@ -7,7 +7,7 @@ import { isValidLanguage } from '@/lib/i18n/locale';
 import { getTranslations } from '@/lib/i18n/translations';
 import { notFound } from 'next/navigation';
 
-export const revalidate = 3600;
+export const revalidate = 86400; // Revalidate every day
 
 function getFirstDayOfPreviousMonthEpoch(): number {
   const now = new Date();

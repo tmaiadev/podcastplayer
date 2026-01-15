@@ -194,4 +194,4 @@ export default async function EpisodeDetailPage({ params }: PageProps) {
   );
 }
 
-export const revalidate = 3600;
+export const revalidate = 86400; // Revalidate every day
