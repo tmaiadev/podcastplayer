@@ -9,6 +9,20 @@ import { notFound } from 'next/navigation';
 
 export const revalidate = 3600;
 
+function getFirstDayOfPreviousMonthEpoch(): number {
+  const now = new Date();
+  const firstDayPrevMonth = new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth() - 1,
+    1,
+    0,
+    0,
+    0,
+    0
+  ));
+  return Math.floor(firstDayPrevMonth.getTime() / 1000);
+}
+
 interface PageProps {
   params: Promise<{ lang: string }>;
 }
@@ -25,7 +39,8 @@ async function fetchCategoriesWithPodcasts(language: SupportedLanguage) {
       const podcasts = await api.getTrending({
         max: 12,
         cat: category.name,
-        lang: language, // Pass language from URL to API
+        lang: language,
+        since: getFirstDayOfPreviousMonthEpoch(),
       });
       return { category, podcasts };
     })
