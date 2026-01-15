@@ -35,6 +35,9 @@ export type TranslationKeys = {
   'pagination.next': string;
   'pagination.page': string;
   'pagination.of': string;
+
+  // Breadcrumb
+  'breadcrumb.home': string;
 };
 
 export const translations: Record<SupportedLanguage, TranslationKeys> = {
@@ -60,6 +63,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'pagination.next': 'Next',
     'pagination.page': 'Page',
     'pagination.of': 'of',
+    'breadcrumb.home': 'Home',
   },
   pt: {
     'home.title': 'Descubra Podcasts',
@@ -83,6 +87,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'pagination.next': 'Próximo',
     'pagination.page': 'Página',
     'pagination.of': 'de',
+    'breadcrumb.home': 'Início',
   },
   es: {
     'home.title': 'Descubre Podcasts',
@@ -106,6 +111,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'pagination.next': 'Siguiente',
     'pagination.page': 'Página',
     'pagination.of': 'de',
+    'breadcrumb.home': 'Inicio',
   },
   fr: {
     'home.title': 'Découvrez des Podcasts',
@@ -129,6 +135,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'pagination.next': 'Suivant',
     'pagination.page': 'Page',
     'pagination.of': 'sur',
+    'breadcrumb.home': 'Accueil',
   },
   de: {
     'home.title': 'Entdecke Podcasts',
@@ -152,6 +159,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'pagination.next': 'Weiter',
     'pagination.page': 'Seite',
     'pagination.of': 'von',
+    'breadcrumb.home': 'Startseite',
   },
 };
 
