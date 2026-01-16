@@ -1,6 +1,8 @@
 'use client';
 
-import type { Category, Podcast } from '@/lib/podcast-index';
+import type { Podcast } from '@/lib/podcast-index';
+import { getCategory } from '@/lib/categories';
+import type { Category } from '@/lib/categories';
 import type { SupportedLanguage } from '@/lib/i18n/constants';
 import { PodcastCard } from './podcast-card';
 import { Badge } from '@/components/ui/badge';
@@ -20,7 +22,7 @@ export function CategorySection({ category, podcasts, language }: CategorySectio
   return (
     <section>
       <div className="flex items-center gap-3 mb-6">
-        <h2 className="text-2xl font-semibold">{category.name}</h2>
+        <h2 className="text-2xl font-semibold">{getCategory(category.id, language)?.name ?? category.name}</h2>
         <Badge variant="secondary" className="text-xs">
           {displayPodcasts.length} {t['category.shows']}
         </Badge>

@@ -1,5 +1,7 @@
 import { PodcastIndex } from '@/lib/podcast-index';
-import type { Category, Podcast } from '@/lib/podcast-index';
+import type { Podcast } from '@/lib/podcast-index';
+import { getCategories } from '@/lib/categories';
+import type { Category } from '@/lib/categories';
 import { SUPPORTED_LANGUAGES, type SupportedLanguage } from '@/lib/i18n/constants';
 import { CategorySection } from '@/components/podcast/category-section';
 import { Separator } from '@/components/ui/separator';
@@ -34,7 +36,7 @@ interface PageProps {
 async function fetchCategoriesWithPodcasts(language: SupportedLanguage) {
   const api = new PodcastIndex();
 
-  const allCategories = await api.getCategories();
+  const allCategories = getCategories('en');
 
   const topCategories = allCategories.slice(0, 8);
 

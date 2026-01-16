@@ -1,8 +1,6 @@
 import crypto from 'crypto';
 import { fetchWithCache } from '../fetchWithCache';
 import type {
-  Category,
-  CategoriesResponse,
   Podcast,
   Episode,
   TrendingResponse,
@@ -88,16 +86,6 @@ export class PodcastIndex {
       }
       throw error;
     }
-  }
-
-  async getCategories(): Promise<Category[]> {
-    const response = await this.request<CategoriesResponse>(
-      '/categories/list',
-      undefined,
-      'podcast-index-categories',
-      2592000 // 1 month
-    );
-    return response.feeds;
   }
 
   async getTrending(options?: {
