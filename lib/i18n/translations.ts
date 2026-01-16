@@ -44,6 +44,13 @@ export type TranslationKeys = {
   'nav.search': string;
   'nav.subscriptions': string;
   'nav.account': string;
+
+  // Search page
+  'search.title': string;
+  'search.placeholder': string;
+  'search.noResults': string;
+  'search.empty': string;
+  'search.results': string;
 };
 
 export const translations: Record<SupportedLanguage, TranslationKeys> = {
@@ -74,6 +81,11 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'nav.search': 'Search',
     'nav.subscriptions': 'Subscriptions',
     'nav.account': 'Account',
+    'search.title': 'Search Podcasts',
+    'search.placeholder': 'Search for podcasts...',
+    'search.noResults': 'No podcasts found',
+    'search.empty': 'Enter a search term to find podcasts',
+    'search.results': 'results',
   },
   pt: {
     'home.title': 'Descubra Podcasts',
@@ -102,6 +114,11 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'nav.search': 'Buscar',
     'nav.subscriptions': 'Inscrições',
     'nav.account': 'Conta',
+    'search.title': 'Buscar Podcasts',
+    'search.placeholder': 'Buscar podcasts...',
+    'search.noResults': 'Nenhum podcast encontrado',
+    'search.empty': 'Digite um termo para encontrar podcasts',
+    'search.results': 'resultados',
   },
   es: {
     'home.title': 'Descubre Podcasts',
@@ -130,6 +147,11 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'nav.search': 'Buscar',
     'nav.subscriptions': 'Suscripciones',
     'nav.account': 'Cuenta',
+    'search.title': 'Buscar Podcasts',
+    'search.placeholder': 'Buscar podcasts...',
+    'search.noResults': 'No se encontraron podcasts',
+    'search.empty': 'Ingresa un término para buscar podcasts',
+    'search.results': 'resultados',
   },
   fr: {
     'home.title': 'Découvrez des Podcasts',
@@ -158,6 +180,11 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'nav.search': 'Rechercher',
     'nav.subscriptions': 'Abonnements',
     'nav.account': 'Compte',
+    'search.title': 'Rechercher des Podcasts',
+    'search.placeholder': 'Rechercher des podcasts...',
+    'search.noResults': 'Aucun podcast trouvé',
+    'search.empty': 'Entrez un terme pour rechercher des podcasts',
+    'search.results': 'résultats',
   },
   de: {
     'home.title': 'Entdecke Podcasts',
@@ -186,6 +213,11 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
     'nav.search': 'Suchen',
     'nav.subscriptions': 'Abonnements',
     'nav.account': 'Konto',
+    'search.title': 'Podcasts suchen',
+    'search.placeholder': 'Podcasts suchen...',
+    'search.noResults': 'Keine Podcasts gefunden',
+    'search.empty': 'Gib einen Suchbegriff ein, um Podcasts zu finden',
+    'search.results': 'Ergebnisse',
   },
 };
 
