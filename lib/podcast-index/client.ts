@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { fetchWithCache } from '../fetchWithCache';
 import type {
   Category,
   CategoriesResponse,
@@ -15,14 +16,10 @@ export class PodcastIndex {
   private apiSecret: string;
   private baseUrl = 'https://api.podcastindex.org/api/1.0';
   private userAgent = 'PodcastPlayer.app';
-  private cacheRevalidate: number;
 
-  constructor(apiKey?: string, apiSecret?: string, cacheRevalidate?: number) {
+  constructor(apiKey?: string, apiSecret?: string) {
     this.apiKey = apiKey || process.env.PODCAST_INDEX_API_KEY || '';
     this.apiSecret = apiSecret || process.env.PODCAST_INDEX_API_SECRET || '';
-    this.cacheRevalidate =
-      cacheRevalidate ||
-      parseInt(process.env.PODCAST_INDEX_CACHE_DURATION || '10800', 10);
 
     if (!this.apiKey || !this.apiSecret) {
       throw new Error(
@@ -47,7 +44,8 @@ export class PodcastIndex {
   private async request<T>(
     endpoint: string,
     params?: Record<string, string | number | boolean>,
-    cacheTags?: string[]
+    cacheTag?: string,
+    cacheDuration?: number
   ): Promise<T> {
     const url = new URL(`${this.baseUrl}${endpoint}`);
 
@@ -59,17 +57,14 @@ export class PodcastIndex {
 
     const headers = this.generateAuthHeaders();
 
-    // Build cache tags
-    const tags = cacheTags || [`podcast-index${endpoint}`];
+    const tag = cacheTag || `podcast-index${endpoint.replace(/\//g, '-')}`;
 
     try {
-      const response = await fetch(url.toString(), {
+      const response = await fetchWithCache(url.toString(), {
         method: 'GET',
         headers,
-        next: {
-          revalidate: this.cacheRevalidate,
-          tags,
-        },
+        cacheTag: tag,
+        cacheUntil: cacheDuration ? Date.now() + cacheDuration * 1000 : undefined,
       });
 
       if (!response.ok) {
@@ -99,7 +94,8 @@ export class PodcastIndex {
     const response = await this.request<CategoriesResponse>(
       '/categories/list',
       undefined,
-      ['podcast-index', 'podcast-index-categories']
+      'podcast-index-categories',
+      2592000 // 1 month
     );
     return response.feeds;
   }
@@ -117,27 +113,16 @@ export class PodcastIndex {
     if (options?.lang) params.lang = options.lang;
     if (options?.cat) params.cat = options.cat;
 
-    const tags = ['podcast-index', 'podcast-index-trending'];
-
-    // Include language in cache tags for per-language caching
-    if (options?.lang) {
-      tags.push(`podcast-index-trending-lang-${options.lang}`);
-    }
-
-    // Include category in cache tags
-    if (options?.cat) {
-      tags.push(`podcast-index-trending-cat-${options.cat}`);
-    }
-
-    // Include both language and category for granular caching
-    if (options?.lang && options?.cat) {
-      tags.push(`podcast-index-trending-${options.lang}-${options.cat}`);
-    }
+    // Build a unique cache tag based on options
+    let cacheTag = 'podcast-index-trending';
+    if (options?.lang) cacheTag += `-lang-${options.lang}`;
+    if (options?.cat) cacheTag += `-cat-${options.cat}`;
 
     const response = await this.request<TrendingResponse>(
       '/podcasts/trending',
       params,
-      tags
+      cacheTag,
+      604800 // 1 week
     );
     return response.feeds;
   }
@@ -150,10 +135,15 @@ export class PodcastIndex {
 
     if (options?.max) params.max = options.max;
 
+    // Sanitize query for cache tag (lowercase, replace non-alphanumeric with dashes)
+    const sanitizedQuery = query.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const cacheTag = `podcast-index-search-${sanitizedQuery}`;
+
     return this.request<SearchResponse>(
       '/search/byterm',
       params,
-      ['podcast-index', 'podcast-index-search']
+      cacheTag,
+      2592000 // 1 month
     );
   }
 
@@ -162,7 +152,8 @@ export class PodcastIndex {
     const response = await this.request<PodcastDetailsResponse>(
       '/podcasts/byfeedid',
       params,
-      ['podcast-index', `podcast-index-podcast-${feedId}`]
+      `podcast-index-podcast-${feedId}`,
+      604800 // 1 week
     );
     return response.feed;
   }
@@ -178,7 +169,8 @@ export class PodcastIndex {
     const response = await this.request<EpisodesResponse>(
       '/episodes/byfeedid',
       params,
-      ['podcast-index', `podcast-index-episodes-${feedId}`]
+      `podcast-index-episodes-${feedId}`,
+      3600 // 1 hour
     );
     return response.items;
   }
