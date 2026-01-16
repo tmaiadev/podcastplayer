@@ -3,13 +3,15 @@ import type { SupportedLanguage } from "@/lib/i18n/constants";
 import Link from "next/link";
 import { getTranslations } from "@/lib/i18n/translations";
 import { PodcastImage } from './podcast-image';
+import { cn } from "@/lib/utils";
 
 interface PodcastCardProps {
   podcast: Podcast;
   language: SupportedLanguage;
+  className?: string;
 }
 
-export function PodcastCard({ podcast, language }: PodcastCardProps) {
+export function PodcastCard({ podcast, language, className }: PodcastCardProps) {
   const imageUrl = podcast.image || podcast.artwork;
   const author = podcast.author || podcast.ownerName;
   const link = `/${language}/podcast/${podcast.id}`;
@@ -18,7 +20,10 @@ export function PodcastCard({ podcast, language }: PodcastCardProps) {
   return (
     <Link
       href={link}
-      className="group w-60 shrink-0 scroll-snap-align-start flex flex-col gap-2 focus-visible:outline-none"
+      className={cn(
+        "group w-60 shrink-0 flex flex-col gap-2 focus-visible:outline-none",
+        className
+      )}
     >
       {/* Image container with overflow hidden for zoom effect */}
       <div className="overflow-hidden rounded-lg border-2 transition-shadow duration-300 group-hover:shadow-lg group-focus-visible:shadow-lg">

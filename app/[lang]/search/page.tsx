@@ -65,6 +65,7 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
                       key={podcast.id}
                       podcast={podcast}
                       language={lang}
+                      className="w-full shrink"
                     />
                   ))}
                 </div>
