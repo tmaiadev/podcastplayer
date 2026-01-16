@@ -9,7 +9,7 @@ import {
   PodcastIcon,
   Home01Icon,
   Search01Icon,
-  PlayListIcon,
+  FavouriteIcon,
   UserIcon,
 } from "@hugeicons/core-free-icons";
 import { LanguageSwitcher } from "@/components/language-switcher";
@@ -61,7 +61,7 @@ export function AppSidebar({ language }: AppSidebarProps) {
     {
       label: t["nav.subscriptions"],
       href: `/${language}/subscriptions`,
-      icon: PlayListIcon,
+      icon: FavouriteIcon,
     },
     {
       label: t["nav.account"],

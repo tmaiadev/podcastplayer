@@ -9,7 +9,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Home01Icon,
   Search01Icon,
-  PlayListIcon,
+  FavouriteIcon,
   UserIcon,
   Cancel01Icon,
 } from "@hugeicons/core-free-icons";
@@ -59,7 +59,7 @@ export function MobileNavbar({ language }: MobileNavbarProps) {
     {
       label: t["nav.subscriptions"],
       href: `/${language}/subscriptions`,
-      icon: PlayListIcon,
+      icon: FavouriteIcon,
     },
     {
       label: t["nav.account"],
