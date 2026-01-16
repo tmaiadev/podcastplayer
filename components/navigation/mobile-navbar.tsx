@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { SupportedLanguage } from "@/lib/i18n/constants";
 import { getTranslations } from "@/lib/i18n/translations";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -46,9 +46,20 @@ function NavLink({ href, icon, label, isActive }: NavLinkProps) {
 
 export function MobileNavbar({ language }: MobileNavbarProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const t = getTranslations(language);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/${language}/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setIsSearchExpanded(false);
+      setSearchQuery("");
+    }
+  };
 
   const navItems = [
     {
@@ -79,7 +90,7 @@ export function MobileNavbar({ language }: MobileNavbarProps) {
       <div className="flex items-center gap-2">
         {isSearchExpanded ? (
           // Expanded search field
-          <div className="flex-1 flex items-center gap-2 bg-background/80 backdrop-blur-lg rounded-full border px-4 py-2 shadow-lg">
+          <form onSubmit={handleSearchSubmit} className="flex-1 flex items-center gap-2 bg-background/80 backdrop-blur-lg rounded-full border px-4 py-2 shadow-lg">
             <HugeiconsIcon
               icon={Search01Icon}
               size={20}
@@ -89,16 +100,25 @@ export function MobileNavbar({ language }: MobileNavbarProps) {
               ref={inputRef}
               type="search"
               placeholder={t["nav.search"]}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 px-0"
-              onBlur={() => setIsSearchExpanded(false)}
+              onBlur={() => {
+                setIsSearchExpanded(false);
+                setSearchQuery("");
+              }}
             />
             <button
-              onClick={() => setIsSearchExpanded(false)}
+              type="button"
+              onClick={() => {
+                setIsSearchExpanded(false);
+                setSearchQuery("");
+              }}
               className="shrink-0 p-1 hover:bg-accent rounded-full"
             >
               <HugeiconsIcon icon={Cancel01Icon} size={18} />
             </button>
-          </div>
+          </form>
         ) : (
           <>
             {/* Main nav segment */}
