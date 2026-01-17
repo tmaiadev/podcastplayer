@@ -105,6 +105,7 @@ export class PodcastIndex {
     let cacheTag = 'podcast-index-trending';
     if (options?.lang) cacheTag += `-lang-${options.lang}`;
     if (options?.cat) cacheTag += `-cat-${options.cat}`;
+    if (options?.max) cacheTag += `-max-${options.max}`;
 
     const response = await this.request<TrendingResponse>(
       '/podcasts/trending',
