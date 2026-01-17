@@ -38,8 +38,7 @@ async function fetchCategoriesWithPodcasts(language: SupportedLanguage) {
 
   const allCategories = getCategories('en');
 
-  const topCategories = allCategories.slice(0, 8);
-
+  const topCategories = allCategories;
   const results = await Promise.allSettled(
     topCategories.map(async (category) => {
       const podcasts = await api.getTrending({
@@ -55,8 +54,9 @@ async function fetchCategoriesWithPodcasts(language: SupportedLanguage) {
   return results
     .filter(
       (result): result is PromiseFulfilledResult<{ category: Category; podcasts: Podcast[] }> =>
-        result.status === 'fulfilled'
+        result.status === 'fulfilled' && result.value.podcasts.length == 12
     )
+    .slice(0, 24)
     .map((result) => result.value);
 }
 
