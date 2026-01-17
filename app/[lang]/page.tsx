@@ -10,7 +10,7 @@ import { isValidLanguage } from '@/lib/i18n/locale';
 import { getTranslations } from '@/lib/i18n/translations';
 import { notFound } from 'next/navigation';
 
-export const revalidate = 86400 * 30; // Revalidate every month
+export const revalidate = 2592000; // Revalidate every month (30 days)
 
 export async function generateStaticParams() {
   return SUPPORTED_LANGUAGES.map((lang) => ({ lang }));
