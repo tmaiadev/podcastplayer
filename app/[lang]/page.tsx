@@ -2,7 +2,7 @@ import { PodcastIndex } from '@/lib/podcast-index';
 import type { Podcast } from '@/lib/podcast-index';
 import { getCategories } from '@/lib/categories';
 import type { Category } from '@/lib/categories';
-import { SUPPORTED_LANGUAGES, type SupportedLanguage } from '@/lib/i18n/constants';
+import type { SupportedLanguage } from '@/lib/i18n/constants';
 import { CategorySection } from '@/components/podcast/category-section';
 import { Separator } from '@/components/ui/separator';
 import { isValidLanguage } from '@/lib/i18n/locale';
@@ -10,9 +10,10 @@ import { getTranslations } from '@/lib/i18n/translations';
 import { notFound } from 'next/navigation';
 
 export const revalidate = 86400; // Revalidate every day
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  return SUPPORTED_LANGUAGES.map((lang) => ({ lang }));
+  return [];
 }
 
 function getFirstDayOfPreviousMonthEpoch(): number {

@@ -3,9 +3,9 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { PodcastIndex } from '@/lib/podcast-index';
 import type { Podcast } from '@/lib/podcast-index';
-import { getCategory, getCategories } from '@/lib/categories';
+import { getCategory } from '@/lib/categories';
 import { PodcastCard } from '@/components/podcast/podcast-card';
-import { SUPPORTED_LANGUAGES, isValidLanguage } from '@/lib/i18n/constants';
+import { isValidLanguage } from '@/lib/i18n/constants';
 import { getTranslations } from '@/lib/i18n/translations';
 import type { BreadcrumbParams } from '@/lib/breadcrumb';
 import {
@@ -18,22 +18,14 @@ import {
 } from '@/components/ui/breadcrumb';
 
 export const revalidate = 86400; // Revalidate every day
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  return [];
+}
 
 interface PageProps {
   params: Promise<{ lang: string; catId: string }>;
-}
-
-export async function generateStaticParams() {
-  const categories = getCategories('en');
-  const params: { lang: string; catId: string }[] = [];
-
-  for (const lang of SUPPORTED_LANGUAGES) {
-    for (const category of categories) {
-      params.push({ lang, catId: String(category.id) });
-    }
-  }
-
-  return params;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
