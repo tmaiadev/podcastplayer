@@ -5,20 +5,18 @@ import { getTranslations } from '@/lib/i18n/translations';
 import type { SupportedLanguage } from '@/lib/i18n/constants';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
+import { parseBreadcrumbParams, buildBreadcrumbTrail } from '@/lib/breadcrumb';
+import { DynamicBreadcrumb } from '@/components/navigation/dynamic-breadcrumb';
 import { EpisodeImage } from '@/components/podcast/episode-image';
 import { sanitizeHtml } from '@/lib/sanitize-html';
 
 interface PageProps {
   params: Promise<{ lang: string; id: string; episodeId: string }>;
+  searchParams: Promise<{
+    from?: string;
+    catId?: string;
+    q?: string;
+  }>;
 }
 
 function formatTitle(episode: Episode): string {
@@ -86,7 +84,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 
-export default async function EpisodeDetailPage({ params }: PageProps) {
+export default async function EpisodeDetailPage({ params, searchParams }: PageProps) {
   const { lang, id, episodeId } = await params;
   const feedId = parseInt(id, 10);
   const epId = parseInt(episodeId, 10);
@@ -101,6 +99,10 @@ export default async function EpisodeDetailPage({ params }: PageProps) {
 
   const api = new PodcastIndex();
   const t = getTranslations(lang);
+
+  // Parse breadcrumb params
+  const searchParamsResolved = await searchParams;
+  const breadcrumbParams = parseBreadcrumbParams(searchParamsResolved);
 
   let podcast, episode;
 
@@ -123,29 +125,20 @@ export default async function EpisodeDetailPage({ params }: PageProps) {
 
   const sanitizedDescription = sanitizeHtml(episode.description);
 
+  // Build dynamic breadcrumb trail
+  const breadcrumbTrail = buildBreadcrumbTrail({
+    language: lang,
+    params: breadcrumbParams,
+    podcastTitle: podcast.title,
+    podcastId: feedId,
+    episodeTitle: episode.title,
+  });
+
   return (
     <main className="min-h-screen py-8">
       <div className="container mx-auto px-4">
         {/* Breadcrumb */}
-        <Breadcrumb className="mb-8">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href={`/${lang}`}>{t['breadcrumb.home']}</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href={`/${lang}/podcast/${feedId}`}>{podcast.title}</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{episode.title}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <DynamicBreadcrumb trail={breadcrumbTrail} className="mb-8" />
 
         {/* Episode Header */}
         <div className="flex flex-col md:flex-row gap-6 mb-8">

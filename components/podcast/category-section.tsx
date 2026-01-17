@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import Link from 'next/link';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { ArrowRight01Icon } from '@hugeicons/core-free-icons';
@@ -7,6 +8,7 @@ import type { Podcast } from '@/lib/podcast-index';
 import { getCategory } from '@/lib/categories';
 import type { Category } from '@/lib/categories';
 import type { SupportedLanguage } from '@/lib/i18n/constants';
+import type { BreadcrumbParams } from '@/lib/breadcrumb';
 import { PodcastCard } from './podcast-card';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
@@ -18,6 +20,11 @@ interface CategorySectionProps {
 
 export function CategorySection({ category, podcasts, language }: CategorySectionProps) {
   const displayPodcasts = podcasts.slice(0, 12);
+
+  const breadcrumbContext: BreadcrumbParams = useMemo(() => ({
+    from: 'category',
+    catId: category.id,
+  }), [category.id]);
 
   return (
     <section>
@@ -35,7 +42,12 @@ export function CategorySection({ category, podcasts, language }: CategorySectio
       <ScrollArea className="w-full">
         <div className="flex gap-4 pb-2 px-1">
           {displayPodcasts.map((podcast) => (
-            <PodcastCard key={podcast.id} podcast={podcast} language={language} />
+            <PodcastCard
+              key={podcast.id}
+              podcast={podcast}
+              language={language}
+              breadcrumbContext={breadcrumbContext}
+            />
           ))}
         </div>
         <ScrollBar orientation="horizontal" />

@@ -1,7 +1,9 @@
 import type { Podcast } from "@/lib/podcast-index";
 import type { SupportedLanguage } from "@/lib/i18n/constants";
+import type { BreadcrumbParams } from "@/lib/breadcrumb";
 import Link from "next/link";
 import { getTranslations } from "@/lib/i18n/translations";
+import { buildPodcastUrl } from "@/lib/breadcrumb";
 import { PodcastImage } from './podcast-image';
 import { cn } from "@/lib/utils";
 
@@ -9,12 +11,13 @@ interface PodcastCardProps {
   podcast: Podcast;
   language: SupportedLanguage;
   className?: string;
+  breadcrumbContext?: BreadcrumbParams;
 }
 
-export function PodcastCard({ podcast, language, className }: PodcastCardProps) {
+export function PodcastCard({ podcast, language, className, breadcrumbContext }: PodcastCardProps) {
   const imageUrl = podcast.image || podcast.artwork;
   const author = podcast.author || podcast.ownerName;
-  const link = `/${language}/podcast/${podcast.id}`;
+  const link = buildPodcastUrl(language, podcast.id, breadcrumbContext);
   const t = getTranslations(language);
 
   return (

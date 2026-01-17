@@ -152,6 +152,7 @@ export type TranslationKeys = {
 
 	// Breadcrumb
 	"breadcrumb.home": string;
+	"breadcrumb.search": string;
 
 	// Navigation
 	"nav.discover": string;
@@ -303,6 +304,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"pagination.page": "Page",
 		"pagination.of": "of",
 		"breadcrumb.home": "Home",
+		"breadcrumb.search": "Search",
 		"nav.discover": "Discover",
 		"nav.search": "Search",
 		"nav.subscriptions": "Subscriptions",
@@ -448,6 +450,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"pagination.page": "Página",
 		"pagination.of": "de",
 		"breadcrumb.home": "Início",
+		"breadcrumb.search": "Busca",
 		"nav.discover": "Descobrir",
 		"nav.search": "Buscar",
 		"nav.subscriptions": "Inscrições",
@@ -593,6 +596,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"pagination.page": "Página",
 		"pagination.of": "de",
 		"breadcrumb.home": "Inicio",
+		"breadcrumb.search": "Búsqueda",
 		"nav.discover": "Descubrir",
 		"nav.search": "Buscar",
 		"nav.subscriptions": "Suscripciones",
@@ -738,6 +742,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"pagination.page": "Page",
 		"pagination.of": "sur",
 		"breadcrumb.home": "Accueil",
+		"breadcrumb.search": "Recherche",
 		"nav.discover": "Découvrir",
 		"nav.search": "Rechercher",
 		"nav.subscriptions": "Abonnements",
@@ -883,6 +888,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"pagination.page": "Seite",
 		"pagination.of": "von",
 		"breadcrumb.home": "Startseite",
+		"breadcrumb.search": "Suche",
 		"nav.discover": "Entdecken",
 		"nav.search": "Suchen",
 		"nav.subscriptions": "Abonnements",

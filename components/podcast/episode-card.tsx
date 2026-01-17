@@ -3,8 +3,10 @@
 import { memo } from "react";
 import type { Episode } from "@/lib/podcast-index";
 import type { SupportedLanguage } from "@/lib/i18n/constants";
+import type { BreadcrumbParams } from "@/lib/breadcrumb";
 import Link from "next/link";
 import { getTranslations } from "@/lib/i18n/translations";
+import { buildEpisodeUrl } from "@/lib/breadcrumb";
 import { Card } from "@/components/ui/card";
 import { EpisodeImage } from "./episode-image";
 
@@ -14,6 +16,7 @@ interface EpisodeCardProps {
   podcastId: number;
   podcastImage?: string;
   podcastTitle: string;
+  breadcrumbContext?: BreadcrumbParams;
 }
 
 function formatTitle(episode: Episode): string {
@@ -57,9 +60,10 @@ export const EpisodeCard = memo(function EpisodeCard({
   podcastId,
   podcastImage,
   podcastTitle,
+  breadcrumbContext,
 }: EpisodeCardProps) {
   const t = getTranslations(language);
-  const episodeUrl = `/${language}/podcast/${podcastId}/episode/${episode.id}`;
+  const episodeUrl = buildEpisodeUrl(language, podcastId, episode.id, breadcrumbContext);
 
   return (
     <Card className="gap-4 md:flex-row">

@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import type { Episode } from '@/lib/podcast-index';
 import type { SupportedLanguage } from '@/lib/i18n/constants';
+import type { BreadcrumbParams } from '@/lib/breadcrumb';
 import { getTranslations } from '@/lib/i18n/translations';
 import { Input } from '@/components/ui/input';
 import { EpisodeCard } from './episode-card';
@@ -34,6 +35,7 @@ interface EpisodesListClientProps {
   podcastId: number;
   podcastImage?: string;
   podcastTitle: string;
+  breadcrumbContext?: BreadcrumbParams;
 }
 
 export function EpisodesListClient({
@@ -48,6 +50,7 @@ export function EpisodesListClient({
   podcastId,
   podcastImage,
   podcastTitle,
+  breadcrumbContext,
 }: EpisodesListClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -134,6 +137,7 @@ export function EpisodesListClient({
                 podcastId={podcastId}
                 podcastImage={podcastImage}
                 podcastTitle={podcastTitle}
+                breadcrumbContext={breadcrumbContext}
               />
             ))}
           </div>

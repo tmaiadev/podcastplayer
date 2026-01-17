@@ -6,15 +6,8 @@ import { PodcastHeader } from '@/components/podcast/podcast-header';
 import { EpisodesListClient } from '@/components/podcast/episodes-list-client';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
+import { parseBreadcrumbParams, buildBreadcrumbTrail } from '@/lib/breadcrumb';
+import { DynamicBreadcrumb } from '@/components/navigation/dynamic-breadcrumb';
 
 function formatTitle(episode: Episode): string {
   let title = episode.title;
@@ -36,6 +29,9 @@ interface PageProps {
     page?: string;
     sort?: 'asc' | 'desc';
     search?: string;
+    from?: string;
+    catId?: string;
+    q?: string;
   }>;
 }
 
@@ -84,6 +80,9 @@ export default async function PodcastDetailPage({ params, searchParams }: PagePr
   const sort = searchParamsResolved.sort === 'asc' ? 'asc' : 'desc';
   const searchQuery = searchParamsResolved.search || '';
 
+  // Parse breadcrumb params
+  const breadcrumbParams = parseBreadcrumbParams(searchParamsResolved);
+
   let podcast, allEpisodes;
 
   try {
@@ -120,22 +119,17 @@ export default async function PodcastDetailPage({ params, searchParams }: PagePr
     startIndex + EPISODES_PER_PAGE
   );
 
+  // Build dynamic breadcrumb trail
+  const breadcrumbTrail = buildBreadcrumbTrail({
+    language: lang,
+    params: breadcrumbParams,
+    podcastTitle: podcast.title,
+  });
+
   return (
     <main className="min-h-screen py-8">
       <div className="container mx-auto px-4">
-        <Breadcrumb className="mb-8">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href={`/${lang}`}>{t['breadcrumb.home']}</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{podcast.title}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <DynamicBreadcrumb trail={breadcrumbTrail} className="mb-8" />
 
         <PodcastHeader podcast={podcast} language={lang} />
 
@@ -161,6 +155,7 @@ export default async function PodcastDetailPage({ params, searchParams }: PagePr
             podcastId={feedId}
             podcastImage={podcast.image || podcast.artwork}
             podcastTitle={podcast.title}
+            breadcrumbContext={breadcrumbParams}
           />
         </div>
       </div>

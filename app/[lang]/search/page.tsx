@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { PodcastCard } from "@/components/podcast/podcast-card";
 import { SearchForm } from "./search-form";
 import type { Metadata } from "next";
+import type { BreadcrumbParams } from "@/lib/breadcrumb";
 
 interface PageProps {
   params: Promise<{ lang: string }>;
@@ -39,6 +40,10 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
     results = response.feeds;
   }
 
+  const breadcrumbContext: BreadcrumbParams | undefined = query
+    ? { from: 'search', q: query }
+    : undefined;
+
   return (
     <main className="min-h-screen py-8">
       <div className="container mx-auto px-4">
@@ -66,6 +71,7 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
                       podcast={podcast}
                       language={lang}
                       className="w-full shrink"
+                      breadcrumbContext={breadcrumbContext}
                     />
                   ))}
                 </div>

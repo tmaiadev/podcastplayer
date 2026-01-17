@@ -7,6 +7,7 @@ import { getCategory, getCategories } from '@/lib/categories';
 import { PodcastCard } from '@/components/podcast/podcast-card';
 import { SUPPORTED_LANGUAGES, isValidLanguage } from '@/lib/i18n/constants';
 import { getTranslations } from '@/lib/i18n/translations';
+import type { BreadcrumbParams } from '@/lib/breadcrumb';
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -92,6 +93,11 @@ export default async function CategoryPage({ params }: PageProps) {
   // Fetch trending podcasts for this category
   const podcasts = await fetchTrendingPodcasts(categoryId, lang);
 
+  const breadcrumbContext: BreadcrumbParams = {
+    from: 'category',
+    catId: categoryId,
+  };
+
   return (
     <main className="min-h-screen py-8">
       <div className="container mx-auto px-4">
@@ -123,6 +129,7 @@ export default async function CategoryPage({ params }: PageProps) {
                 podcast={podcast}
                 language={lang}
                 className="w-full"
+                breadcrumbContext={breadcrumbContext}
               />
             ))}
           </div>
