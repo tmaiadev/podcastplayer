@@ -17,7 +17,7 @@ interface FetchWithCacheOptions extends RequestInit {
   cacheUntil?: number;
 }
 
-const CACHE_DIR = path.join(process.cwd(), '.next', 'cache', 'fetch-with-cache');
+const CACHE_DIR = path.join(process.cwd(), 'cache');
 const DEFAULT_CACHE_DURATION = 3600000; // 1 hour in milliseconds
 
 async function ensureCacheDir(): Promise<void> {
