@@ -166,6 +166,22 @@ export type TranslationKeys = {
 	"search.noResults": string;
 	"search.empty": string;
 	"search.results": string;
+
+	// Player
+	"player.play": string;
+	"player.pause": string;
+	"player.skipForward": string;
+	"player.skipBackward": string;
+	"player.sleepTimer": string;
+	"player.sleepTimer.off": string;
+	"player.sleepTimer.minutes": string;
+	"player.sleepTimer.hour": string;
+	"player.options.download": string;
+	"player.options.subscribe": string;
+	"player.options.playbackRate": string;
+	"player.options.goToPodcast": string;
+	"player.options.goToEpisode": string;
+	"player.noEpisode": string;
 };
 
 export const translations: Record<SupportedLanguage, TranslationKeys> = {
@@ -314,6 +330,20 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"search.noResults": "No podcasts found",
 		"search.empty": "Enter a search term to find podcasts",
 		"search.results": "results",
+		"player.play": "Play",
+		"player.pause": "Pause",
+		"player.skipForward": "Forward 30s",
+		"player.skipBackward": "Back 30s",
+		"player.sleepTimer": "Sleep Timer",
+		"player.sleepTimer.off": "Off",
+		"player.sleepTimer.minutes": "minutes",
+		"player.sleepTimer.hour": "1 hour",
+		"player.options.download": "Download",
+		"player.options.subscribe": "Subscribe",
+		"player.options.playbackRate": "Playback Speed",
+		"player.options.goToPodcast": "Go to Podcast",
+		"player.options.goToEpisode": "Go to Episode",
+		"player.noEpisode": "No episode selected",
 	},
 	pt: {
 		"home.title": "Descubra Podcasts",
@@ -460,6 +490,20 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"search.noResults": "Nenhum podcast encontrado",
 		"search.empty": "Digite um termo para encontrar podcasts",
 		"search.results": "resultados",
+		"player.play": "Reproduzir",
+		"player.pause": "Pausar",
+		"player.skipForward": "Avançar 30s",
+		"player.skipBackward": "Voltar 30s",
+		"player.sleepTimer": "Timer de Sono",
+		"player.sleepTimer.off": "Desligado",
+		"player.sleepTimer.minutes": "minutos",
+		"player.sleepTimer.hour": "1 hora",
+		"player.options.download": "Baixar",
+		"player.options.subscribe": "Inscrever-se",
+		"player.options.playbackRate": "Velocidade",
+		"player.options.goToPodcast": "Ir para o Podcast",
+		"player.options.goToEpisode": "Ir para o Episódio",
+		"player.noEpisode": "Nenhum episódio selecionado",
 	},
 	es: {
 		"home.title": "Descubre Podcasts",
@@ -606,6 +650,20 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"search.noResults": "No se encontraron podcasts",
 		"search.empty": "Ingresa un término para buscar podcasts",
 		"search.results": "resultados",
+		"player.play": "Reproducir",
+		"player.pause": "Pausar",
+		"player.skipForward": "Adelantar 30s",
+		"player.skipBackward": "Retroceder 30s",
+		"player.sleepTimer": "Temporizador",
+		"player.sleepTimer.off": "Apagado",
+		"player.sleepTimer.minutes": "minutos",
+		"player.sleepTimer.hour": "1 hora",
+		"player.options.download": "Descargar",
+		"player.options.subscribe": "Suscribirse",
+		"player.options.playbackRate": "Velocidad",
+		"player.options.goToPodcast": "Ir al Podcast",
+		"player.options.goToEpisode": "Ir al Episodio",
+		"player.noEpisode": "Ningún episodio seleccionado",
 	},
 	fr: {
 		"home.title": "Découvrez des Podcasts",
@@ -752,6 +810,20 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"search.noResults": "Aucun podcast trouvé",
 		"search.empty": "Entrez un terme pour rechercher des podcasts",
 		"search.results": "résultats",
+		"player.play": "Lecture",
+		"player.pause": "Pause",
+		"player.skipForward": "Avancer 30s",
+		"player.skipBackward": "Reculer 30s",
+		"player.sleepTimer": "Minuterie",
+		"player.sleepTimer.off": "Désactivé",
+		"player.sleepTimer.minutes": "minutes",
+		"player.sleepTimer.hour": "1 heure",
+		"player.options.download": "Télécharger",
+		"player.options.subscribe": "S'abonner",
+		"player.options.playbackRate": "Vitesse",
+		"player.options.goToPodcast": "Aller au Podcast",
+		"player.options.goToEpisode": "Aller à l'Épisode",
+		"player.noEpisode": "Aucun épisode sélectionné",
 	},
 	de: {
 		"home.title": "Entdecke Podcasts",
@@ -898,6 +970,20 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"search.noResults": "Keine Podcasts gefunden",
 		"search.empty": "Gib einen Suchbegriff ein, um Podcasts zu finden",
 		"search.results": "Ergebnisse",
+		"player.play": "Abspielen",
+		"player.pause": "Pause",
+		"player.skipForward": "30s vor",
+		"player.skipBackward": "30s zurück",
+		"player.sleepTimer": "Schlaf-Timer",
+		"player.sleepTimer.off": "Aus",
+		"player.sleepTimer.minutes": "Minuten",
+		"player.sleepTimer.hour": "1 Stunde",
+		"player.options.download": "Herunterladen",
+		"player.options.subscribe": "Abonnieren",
+		"player.options.playbackRate": "Geschwindigkeit",
+		"player.options.goToPodcast": "Zum Podcast",
+		"player.options.goToEpisode": "Zur Episode",
+		"player.noEpisode": "Keine Episode ausgewählt",
 	},
 };
 

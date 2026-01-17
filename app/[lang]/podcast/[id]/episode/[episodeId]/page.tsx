@@ -9,6 +9,7 @@ import { parseBreadcrumbParams, buildBreadcrumbTrail } from '@/lib/breadcrumb';
 import { DynamicBreadcrumb } from '@/components/navigation/dynamic-breadcrumb';
 import { EpisodeImage } from '@/components/podcast/episode-image';
 import { sanitizeHtml } from '@/lib/sanitize-html';
+import { PlayEpisodeButton } from '@/components/player';
 
 interface PageProps {
   params: Promise<{ lang: string; id: string; episodeId: string }>;
@@ -172,9 +173,18 @@ export default async function EpisodeDetailPage({ params, searchParams }: PagePr
           </div>
         </div>
 
-        {/* Audio Player */}
+        {/* Play Button */}
         <div className="mb-8">
-          <audio src={episode.enclosureUrl} controls className="w-full" />
+          <PlayEpisodeButton
+            episode={episode}
+            podcast={podcast}
+            language={lang}
+            size="lg"
+          />
+          {/* Fallback audio player for no-JS */}
+          <noscript>
+            <audio src={episode.enclosureUrl} controls className="w-full mt-4" />
+          </noscript>
         </div>
 
         {/* Description */}

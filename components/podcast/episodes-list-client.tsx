@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import type { Episode } from '@/lib/podcast-index';
+import type { Episode, Podcast } from '@/lib/podcast-index';
 import type { SupportedLanguage } from '@/lib/i18n/constants';
 import type { BreadcrumbParams } from '@/lib/breadcrumb';
 import { getTranslations } from '@/lib/i18n/translations';
@@ -32,9 +32,7 @@ interface EpisodesListClientProps {
   sortOrder: 'asc' | 'desc';
   initialSearch?: string;
   language: SupportedLanguage;
-  podcastId: number;
-  podcastImage?: string;
-  podcastTitle: string;
+  podcast: Podcast;
   breadcrumbContext?: BreadcrumbParams;
 }
 
@@ -47,9 +45,7 @@ export function EpisodesListClient({
   sortOrder,
   initialSearch = '',
   language,
-  podcastId,
-  podcastImage,
-  podcastTitle,
+  podcast,
   breadcrumbContext,
 }: EpisodesListClientProps) {
   const router = useRouter();
@@ -90,13 +86,13 @@ export function EpisodesListClient({
         params.delete('search');
       }
 
-      router.replace(`/${language}/podcast/${podcastId}?${params.toString()}`, {
+      router.replace(`/${language}/podcast/${podcast.id}?${params.toString()}`, {
         scroll: false
       });
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [searchQuery, initialSearch, podcastId, router, searchParams]);
+  }, [searchQuery, initialSearch, podcast.id, router, searchParams, language]);
 
   return (
     <div>
@@ -114,7 +110,7 @@ export function EpisodesListClient({
 
         <SortToggle
           currentSort={sortOrder}
-          podcastId={podcastId}
+          podcastId={podcast.id}
           language={language}
         />
       </div>
@@ -134,9 +130,7 @@ export function EpisodesListClient({
                 key={episode.id}
                 episode={episode}
                 language={language}
-                podcastId={podcastId}
-                podcastImage={podcastImage}
-                podcastTitle={podcastTitle}
+                podcast={podcast}
                 breadcrumbContext={breadcrumbContext}
               />
             ))}
@@ -148,7 +142,7 @@ export function EpisodesListClient({
               <PaginationControls
                 currentPage={currentPage}
                 totalPages={totalPages}
-                podcastId={podcastId}
+                podcastId={podcast.id}
                 language={language}
               />
             </div>

@@ -13,6 +13,7 @@ import {
   UserIcon,
 } from "@hugeicons/core-free-icons";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { SidebarPlayer } from "@/components/player";
 import { cn } from "@/lib/utils";
 
 interface AppSidebarProps {
@@ -84,7 +85,7 @@ export function AppSidebar({ language }: AppSidebarProps) {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-1">
+      <nav className="p-4 space-y-1 grow">
         {navItems.map((item) => (
           <NavLink
             key={item.href}
@@ -95,6 +96,11 @@ export function AppSidebar({ language }: AppSidebarProps) {
           />
         ))}
       </nav>
+
+      {/* Player */}
+      <div className="flex-1 grow-0 flex flex-col h-min justify-end border-t">
+        <SidebarPlayer language={language} />
+      </div>
 
       {/* Footer */}
       <div className="p-4 border-t">

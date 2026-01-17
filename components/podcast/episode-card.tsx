@@ -1,7 +1,7 @@
 "use client";
 
 import { memo } from "react";
-import type { Episode } from "@/lib/podcast-index";
+import type { Episode, Podcast } from "@/lib/podcast-index";
 import type { SupportedLanguage } from "@/lib/i18n/constants";
 import type { BreadcrumbParams } from "@/lib/breadcrumb";
 import Link from "next/link";
@@ -9,13 +9,12 @@ import { getTranslations } from "@/lib/i18n/translations";
 import { buildEpisodeUrl } from "@/lib/breadcrumb";
 import { Card } from "@/components/ui/card";
 import { EpisodeImage } from "./episode-image";
+import { PlayEpisodeButton } from "@/components/player";
 
 interface EpisodeCardProps {
   episode: Episode;
   language: SupportedLanguage;
-  podcastId: number;
-  podcastImage?: string;
-  podcastTitle: string;
+  podcast: Podcast;
   breadcrumbContext?: BreadcrumbParams;
 }
 
@@ -57,13 +56,12 @@ function formatPublishDate(ts: number, language: SupportedLanguage): string {
 export const EpisodeCard = memo(function EpisodeCard({
   episode,
   language,
-  podcastId,
-  podcastImage,
-  podcastTitle,
+  podcast,
   breadcrumbContext,
 }: EpisodeCardProps) {
   const t = getTranslations(language);
-  const episodeUrl = buildEpisodeUrl(language, podcastId, episode.id, breadcrumbContext);
+  const episodeUrl = buildEpisodeUrl(language, podcast.id, episode.id, breadcrumbContext);
+  const podcastImage = podcast.image || podcast.artwork;
 
   return (
     <Card className="gap-4 md:flex-row">
@@ -74,7 +72,7 @@ export const EpisodeCard = memo(function EpisodeCard({
           episode={episode}
           size={295}
           podcastImage={podcastImage}
-          podcastTitle={podcastTitle}
+          podcastTitle={podcast.title}
           className="w-full rounded-b-none md:rounded-e-none"
         />
       </div>
@@ -106,7 +104,19 @@ export const EpisodeCard = memo(function EpisodeCard({
           </div>
         </div>
 
-        <audio src={episode.enclosureUrl} controls className="w-full" />
+        <div className="flex items-center gap-4">
+          <PlayEpisodeButton
+            episode={episode}
+            podcast={podcast}
+            language={language}
+            variant="outline"
+            size="sm"
+          />
+          {/* Fallback audio player for no-JS */}
+          <noscript>
+            <audio src={episode.enclosureUrl} controls className="w-full" />
+          </noscript>
+        </div>
       </div>
     </Card >
   );
