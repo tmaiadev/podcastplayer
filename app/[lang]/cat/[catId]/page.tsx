@@ -55,12 +55,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-async function fetchTrendingPodcasts(categoryName: string, lang: string): Promise<Podcast[]> {
+async function fetchTrendingPodcasts(categoryId: number, lang: string): Promise<Podcast[]> {
   try {
     const api = new PodcastIndex();
     return await api.getTrending({
       max: 50,
-      cat: categoryName,
+      cat: String(categoryId),
       lang: lang,
     });
   } catch {
@@ -82,18 +82,15 @@ export default async function CategoryPage({ params }: PageProps) {
     notFound();
   }
 
-  // Get category in English for API call
-  const categoryEnglish = getCategory(categoryId, 'en');
-  if (!categoryEnglish) {
-    notFound();
-  }
-
   // Get localized category for display
   const categoryLocalized = getCategory(categoryId, lang);
+  if (!categoryLocalized) {
+    notFound();
+  }
   const t = getTranslations(lang);
 
   // Fetch trending podcasts for this category
-  const podcasts = await fetchTrendingPodcasts(categoryEnglish.name, lang);
+  const podcasts = await fetchTrendingPodcasts(categoryId, lang);
 
   return (
     <main className="min-h-screen py-8">
