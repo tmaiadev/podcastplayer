@@ -22,9 +22,13 @@ export function CategorySection({ category, podcasts, language }: CategorySectio
   return (
     <section>
       <div className="flex items-center gap-3 mb-6">
-        <Link href={`/${language}/cat/${category.id}`} className="flex items-center gap-1 hover:underline">
-          <h2 className="text-2xl font-semibold">{getCategory(category.id, language)?.name ?? category.name}</h2>
-          <HugeiconsIcon icon={ArrowRight01Icon} size={24} />
+        <Link href={`/${language}/cat/${category.id}`} className="group flex items-center gap-1">
+          <h2 className="text-2xl font-semibold transition-colors duration-200 group-hover:text-primary group-focus-visible:text-primary">
+            {getCategory(category.id, language)?.name ?? category.name}
+          </h2>
+          <span className="transition-transform duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1">
+            <HugeiconsIcon icon={ArrowRight01Icon} size={24} />
+          </span>
         </Link>
       </div>
 
