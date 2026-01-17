@@ -1,6 +1,7 @@
 import type { Podcast } from '@/lib/podcast-index';
 import type { SupportedLanguage } from '@/lib/i18n/constants';
 import { getTranslations } from '@/lib/i18n/translations';
+import { getCategory } from '@/lib/categories';
 import { Badge } from '@/components/ui/badge';
 import { PodcastImage } from './podcast-image';
 
@@ -42,9 +43,9 @@ export function PodcastHeader({ podcast, language }: PodcastHeaderProps) {
         {/* Categories */}
         {podcast.categories && Object.keys(podcast.categories).length > 0 && (
           <div className="flex gap-2 flex-wrap">
-            {Object.values(podcast.categories).map((category) => (
-              <Badge key={category} variant="secondary">
-                {category}
+            {Object.entries(podcast.categories).map(([id, name]) => (
+              <Badge key={id} variant="secondary">
+                {getCategory(Number(id), language)?.name ?? name}
               </Badge>
             ))}
           </div>
