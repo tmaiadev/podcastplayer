@@ -182,6 +182,16 @@ export type TranslationKeys = {
 	"player.options.goToPodcast": string;
 	"player.options.goToEpisode": string;
 	"player.noEpisode": string;
+
+	// Subscriptions page
+	"subscriptions.title": string;
+	"subscriptions.description": string;
+	"subscriptions.notSignedIn": string;
+	"subscriptions.signIn": string;
+
+	// Login page
+	"login.title": string;
+	"login.suspended": string;
 };
 
 export const translations: Record<SupportedLanguage, TranslationKeys> = {
@@ -344,6 +354,12 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"player.options.goToPodcast": "Go to Podcast",
 		"player.options.goToEpisode": "Go to Episode",
 		"player.noEpisode": "No episode selected",
+		"subscriptions.title": "Subscriptions",
+		"subscriptions.description": "Your favorited shows will appear here",
+		"subscriptions.notSignedIn": "You are not signed in",
+		"subscriptions.signIn": "Sign in",
+		"login.title": "Login",
+		"login.suspended": "New member registration is temporarily suspended. This functionality will be returning soon.",
 	},
 	pt: {
 		"home.title": "Descubra Podcasts",
@@ -504,6 +520,12 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"player.options.goToPodcast": "Ir para o Podcast",
 		"player.options.goToEpisode": "Ir para o Episódio",
 		"player.noEpisode": "Nenhum episódio selecionado",
+		"subscriptions.title": "Inscrições",
+		"subscriptions.description": "Seus programas favoritos aparecerão aqui",
+		"subscriptions.notSignedIn": "Você não está conectado",
+		"subscriptions.signIn": "Entrar",
+		"login.title": "Entrar",
+		"login.suspended": "O registro de novos membros está temporariamente suspenso. Esta funcionalidade retornará em breve.",
 	},
 	es: {
 		"home.title": "Descubre Podcasts",
@@ -664,6 +686,12 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"player.options.goToPodcast": "Ir al Podcast",
 		"player.options.goToEpisode": "Ir al Episodio",
 		"player.noEpisode": "Ningún episodio seleccionado",
+		"subscriptions.title": "Suscripciones",
+		"subscriptions.description": "Tus programas favoritos aparecerán aquí",
+		"subscriptions.notSignedIn": "No has iniciado sesión",
+		"subscriptions.signIn": "Iniciar sesión",
+		"login.title": "Iniciar sesión",
+		"login.suspended": "El registro de nuevos miembros está temporalmente suspendido. Esta funcionalidad volverá pronto.",
 	},
 	fr: {
 		"home.title": "Découvrez des Podcasts",
@@ -824,6 +852,12 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"player.options.goToPodcast": "Aller au Podcast",
 		"player.options.goToEpisode": "Aller à l'Épisode",
 		"player.noEpisode": "Aucun épisode sélectionné",
+		"subscriptions.title": "Abonnements",
+		"subscriptions.description": "Vos émissions favorites apparaîtront ici",
+		"subscriptions.notSignedIn": "Vous n'êtes pas connecté",
+		"subscriptions.signIn": "Se connecter",
+		"login.title": "Connexion",
+		"login.suspended": "L'inscription de nouveaux membres est temporairement suspendue. Cette fonctionnalité reviendra bientôt.",
 	},
 	de: {
 		"home.title": "Entdecke Podcasts",
@@ -984,6 +1018,12 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"player.options.goToPodcast": "Zum Podcast",
 		"player.options.goToEpisode": "Zur Episode",
 		"player.noEpisode": "Keine Episode ausgewählt",
+		"subscriptions.title": "Abonnements",
+		"subscriptions.description": "Deine Lieblingssendungen werden hier angezeigt",
+		"subscriptions.notSignedIn": "Du bist nicht angemeldet",
+		"subscriptions.signIn": "Anmelden",
+		"login.title": "Anmelden",
+		"login.suspended": "Die Registrierung neuer Mitglieder ist vorübergehend ausgesetzt. Diese Funktion wird bald zurückkehren.",
 	},
 };
 
