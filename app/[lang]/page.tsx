@@ -1,6 +1,6 @@
 import { PodcastIndex } from '@/lib/podcast-index';
 import type { Podcast } from '@/lib/podcast-index';
-import { getCategories } from '@/lib/categories';
+import { getPopularCategories } from '@/lib/categories';
 import type { Category } from '@/lib/categories';
 import type { SupportedLanguage } from '@/lib/i18n/constants';
 import { SUPPORTED_LANGUAGES } from '@/lib/i18n/constants';
@@ -37,9 +37,7 @@ interface PageProps {
 async function fetchCategoriesWithPodcasts(language: SupportedLanguage) {
   const api = new PodcastIndex();
 
-  const allCategories = getCategories('en');
-
-  const topCategories = allCategories;
+  const topCategories = getPopularCategories('en');
   const results = await Promise.allSettled(
     topCategories.map(async (category) => {
       const podcasts = await api.getTrending({
@@ -57,7 +55,6 @@ async function fetchCategoriesWithPodcasts(language: SupportedLanguage) {
       (result): result is PromiseFulfilledResult<{ category: Category; podcasts: Podcast[] }> =>
         result.status === 'fulfilled' && result.value.podcasts.length == 12
     )
-    .slice(0, 24)
     .map((result) => result.value);
 }
 
