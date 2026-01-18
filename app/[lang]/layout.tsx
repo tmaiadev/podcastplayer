@@ -9,6 +9,7 @@ import { PodcastIcon } from "@hugeicons/core-free-icons";
 import { AppSidebar } from "@/components/navigation/app-sidebar";
 import { MobileNavbar } from "@/components/navigation/mobile-navbar";
 import { PlayerProvider, MobilePlayer } from "@/components/player";
+import { Analytics } from "@vercel/analytics/next";
 
 const nunitoSans = Nunito_Sans({variable:'--font-sans'});
 
@@ -72,6 +73,7 @@ export default async function LangLayout({
           {/* Mobile Bottom Navbar - fixed position */}
           <MobileNavbar language={lang} />
         </PlayerProvider>
+        <Analytics />
       </body>
     </html>
   );
