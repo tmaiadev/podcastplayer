@@ -1,7 +1,7 @@
 import { isValidLanguage } from "@/lib/i18n/locale";
 import { getTranslations } from "@/lib/i18n/translations";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import type { Metadata } from "next";
 
 interface PageProps {
@@ -34,15 +34,22 @@ export default async function SubscriptionsPage({ params }: PageProps) {
           <p className="text-muted-foreground">{t["subscriptions.description"]}</p>
         </header>
 
-        <div className="text-center py-12">
-          <p className="text-muted-foreground mb-4">{t["subscriptions.notSignedIn"]}</p>
-          <Link
-            href={`/${lang}/login`}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
-          >
-            {t["subscriptions.signIn"]}
-          </Link>
-        </div>
+        <SignedOut>
+          <div className="text-center py-12">
+            <p className="text-muted-foreground mb-4">{t["subscriptions.notSignedIn"]}</p>
+            <SignInButton mode="modal">
+              <button className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+                {t["subscriptions.signIn"]}
+              </button>
+            </SignInButton>
+          </div>
+        </SignedOut>
+
+        <SignedIn>
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">{t["subscriptions.noSubscriptions"]}</p>
+          </div>
+        </SignedIn>
       </div>
     </main>
   );

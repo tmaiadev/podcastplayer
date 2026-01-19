@@ -10,7 +10,6 @@ import {
   Home01Icon,
   Search01Icon,
   FavouriteIcon,
-  UserIcon,
   Cancel01Icon,
 } from "@hugeicons/core-free-icons";
 import { Input } from "@/components/ui/input";
@@ -71,11 +70,6 @@ export function MobileNavbar({ language }: MobileNavbarProps) {
       label: t["nav.subscriptions"],
       href: `/${language}/subscriptions`,
       icon: FavouriteIcon,
-    },
-    {
-      label: t["nav.account"],
-      href: `/${language}/account`,
-      icon: UserIcon,
     },
   ];
 

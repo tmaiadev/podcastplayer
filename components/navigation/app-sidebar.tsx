@@ -10,9 +10,9 @@ import {
   Home01Icon,
   Search01Icon,
   FavouriteIcon,
-  UserIcon,
 } from "@hugeicons/core-free-icons";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 import { SidebarPlayer } from "@/components/player";
 import { cn } from "@/lib/utils";
 
@@ -64,11 +64,6 @@ export function AppSidebar({ language }: AppSidebarProps) {
       href: `/${language}/subscriptions`,
       icon: FavouriteIcon,
     },
-    {
-      label: t["nav.account"],
-      href: `/${language}/account`,
-      icon: UserIcon,
-    },
   ];
 
   return (
@@ -103,8 +98,11 @@ export function AppSidebar({ language }: AppSidebarProps) {
       </div>
 
       {/* Footer */}
-      <div className="p-4 border-t">
+      <div className="p-4 border-t flex items-center justify-between">
         <LanguageSwitcher />
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
       </div>
     </aside>
   );

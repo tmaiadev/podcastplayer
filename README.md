@@ -32,9 +32,14 @@ Create a `.env.local` file with your API credentials:
 ```
 PODCAST_INDEX_API_KEY=<your_api_key>
 PODCAST_INDEX_API_SECRET=<your_api_secret>
+
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<your_clerk_publishable_key>
+CLERK_SECRET_KEY=<your_clerk_secret_key>
 ```
 
-Get your free API credentials at https://api.podcastindex.org/
+Get your Podcast Index API credentials at https://api.podcastindex.org/
+
+Get your Clerk credentials at https://clerk.com/
 
 ## Getting Started
 
