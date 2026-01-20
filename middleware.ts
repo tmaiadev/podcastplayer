@@ -12,6 +12,11 @@ const isPublicRoute = createRouteMatcher([
 function handleI18nRouting(request: NextRequest): NextResponse | null {
   const pathname = request.nextUrl.pathname;
 
+  // Check if pathname has API
+  if (pathname.startsWith('/api/')) {
+    return null;
+  }
+
   // Check if pathname already has a language prefix
   const pathnameHasLocale = SUPPORTED_LANGUAGES.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`

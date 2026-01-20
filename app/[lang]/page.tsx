@@ -1,14 +1,17 @@
 import { PodcastIndex } from '@/lib/podcast-index';
 import type { Podcast } from '@/lib/podcast-index';
-import { getPopularCategories } from '@/lib/categories';
+import { getPopularCategories, POPULAR_CATEGORIES } from '@/lib/categories';
 import type { Category } from '@/lib/categories';
 import type { SupportedLanguage } from '@/lib/i18n/constants';
 import { SUPPORTED_LANGUAGES } from '@/lib/i18n/constants';
 import { CategorySection } from '@/components/podcast/category-section';
+import { LazyCategorySection } from '@/components/podcast/lazy-category-section';
 import { Separator } from '@/components/ui/separator';
 import { isValidLanguage } from '@/lib/i18n/locale';
-import { getTranslations } from '@/lib/i18n/translations';
+import { getTranslations, getTranslation, TranslationKeys } from '@/lib/i18n/translations';
 import { notFound } from 'next/navigation';
+
+const EAGER_LOAD_COUNT = 4;
 
 export const revalidate = 2592000; // Revalidate every month (30 days)
 
@@ -34,10 +37,10 @@ interface PageProps {
   params: Promise<{ lang: string }>;
 }
 
-async function fetchCategoriesWithPodcasts(language: SupportedLanguage) {
+async function fetchEagerCategories(language: SupportedLanguage) {
   const api = new PodcastIndex();
 
-  const topCategories = getPopularCategories('en');
+  const topCategories = getPopularCategories('en').slice(0, EAGER_LOAD_COUNT);
   const results = await Promise.allSettled(
     topCategories.map(async (category) => {
       const podcasts = await api.getTrending({
@@ -58,6 +61,13 @@ async function fetchCategoriesWithPodcasts(language: SupportedLanguage) {
     .map((result) => result.value);
 }
 
+function getLazyCategories(language: SupportedLanguage): Category[] {
+  return POPULAR_CATEGORIES.slice(EAGER_LOAD_COUNT).map((id) => ({
+    id,
+    name: getTranslation(language, `category.${id}` as keyof TranslationKeys),
+  }));
+}
+
 export default async function Page({ params }: PageProps) {
   const { lang } = await params;
 
@@ -66,8 +76,11 @@ export default async function Page({ params }: PageProps) {
     notFound();
   }
 
-  const data = await fetchCategoriesWithPodcasts(lang);
+  const eagerData = await fetchEagerCategories(lang);
+  const lazyCategories = getLazyCategories(lang);
   const t = getTranslations(lang);
+
+  const totalSections = eagerData.length + lazyCategories.length;
 
   return (
     <main className="min-h-screen py-8">
@@ -80,10 +93,19 @@ export default async function Page({ params }: PageProps) {
         </header>
 
         <div className="space-y-12">
-          {data.map(({ category, podcasts }, index) => (
+          {/* Eager-loaded categories (server-rendered) */}
+          {eagerData.map(({ category, podcasts }, index) => (
             <div key={category.id}>
               <CategorySection category={category} podcasts={podcasts} language={lang} />
-              {index < data.length - 1 && <Separator className="mt-12" />}
+              {index < totalSections - 1 && <Separator className="mt-12" />}
+            </div>
+          ))}
+
+          {/* Lazy-loaded categories (client-side) */}
+          {lazyCategories.map((category, index) => (
+            <div key={category.id}>
+              <LazyCategorySection category={category} language={lang} />
+              {eagerData.length + index < totalSections - 1 && <Separator className="mt-12" />}
             </div>
           ))}
         </div>

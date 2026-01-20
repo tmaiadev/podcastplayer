@@ -52,7 +52,7 @@ async function fetchTrendingPodcasts(categoryId: number, lang: string): Promise<
   try {
     const api = new PodcastIndex();
     return await api.getTrending({
-      max: 50,
+      max: 36,
       cat: String(categoryId),
       lang: lang,
     });
