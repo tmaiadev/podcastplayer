@@ -17,13 +17,6 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 
-export const revalidate = 86400; // Revalidate every day
-export const dynamicParams = true;
-
-export async function generateStaticParams() {
-  return [];
-}
-
 interface PageProps {
   params: Promise<{ lang: string; catId: string }>;
 }
