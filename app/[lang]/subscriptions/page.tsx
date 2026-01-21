@@ -1,4 +1,4 @@
-import { isValidLanguage } from "@/lib/i18n/locale";
+import { isValidLanguage } from "@/lib/i18n/constants";
 import { getTranslations } from "@/lib/i18n/translations";
 import { notFound } from "next/navigation";
 import { SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";

@@ -1,5 +1,5 @@
 import { PodcastIndex } from "@/lib/podcast-index";
-import { isValidLanguage } from "@/lib/i18n/locale";
+import { isValidLanguage } from "@/lib/i18n/constants";
 import { getTranslations } from "@/lib/i18n/translations";
 import { notFound } from "next/navigation";
 import { PodcastCard } from "@/components/podcast/podcast-card";

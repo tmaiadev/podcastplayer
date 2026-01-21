@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PodcastIndex } from '@/lib/podcast-index';
-import { isValidLanguage } from '@/lib/i18n/locale';
+import { isValidLanguage } from '@/lib/i18n/constants';
 
 function getFirstDayOfPreviousMonthEpoch(): number {
   const now = new Date();

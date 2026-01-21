@@ -1,6 +1,6 @@
 import { PodcastIndex } from '@/lib/podcast-index';
 import type { Episode } from '@/lib/podcast-index';
-import { isValidLanguage } from '@/lib/i18n/locale';
+import { isValidLanguage } from '@/lib/i18n/constants';
 import { getTranslations } from '@/lib/i18n/translations';
 import { PodcastHeader } from '@/components/podcast/podcast-header';
 import { EpisodesListClient } from '@/components/podcast/episodes-list-client';

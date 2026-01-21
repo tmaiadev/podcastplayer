@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono, Nunito_Sans } from "next/font/google";
 import "../globals.css";
-import { isValidLanguage } from "@/lib/i18n/locale";
+import { isValidLanguage } from "@/lib/i18n/constants";
 import { notFound } from "next/navigation";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import Link from "next/link";

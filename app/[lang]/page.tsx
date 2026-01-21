@@ -7,7 +7,7 @@ import { SUPPORTED_LANGUAGES } from '@/lib/i18n/constants';
 import { CategorySection } from '@/components/podcast/category-section';
 import { LazyCategorySection } from '@/components/podcast/lazy-category-section';
 import { Separator } from '@/components/ui/separator';
-import { isValidLanguage } from '@/lib/i18n/locale';
+import { isValidLanguage } from '@/lib/i18n/constants';
 import { getTranslations, getTranslation, TranslationKeys } from '@/lib/i18n/translations';
 import { notFound } from 'next/navigation';
 
