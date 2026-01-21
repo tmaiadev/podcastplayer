@@ -35,11 +35,16 @@ PODCAST_INDEX_API_SECRET=<your_api_secret>
 
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<your_clerk_publishable_key>
 CLERK_SECRET_KEY=<your_clerk_secret_key>
+
+CONVEX_DEPLOYMENT=
+NEXT_PUBLIC_CONVEX_URL=
 ```
 
 Get your Podcast Index API credentials at https://api.podcastindex.org/
 
 Get your Clerk credentials at https://clerk.com/
+
+Get your Convex credentials at https://www.convex.dev/
 
 ## Getting Started
 
