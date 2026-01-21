@@ -10,6 +10,7 @@ import { AppSidebar } from "@/components/navigation/app-sidebar";
 import { MobileNavbar } from "@/components/navigation/mobile-navbar";
 import { PlayerProvider, MobilePlayer } from "@/components/player";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import { ClerkThemeProvider } from "@/components/clerk/clerk-theme-provider";
 
@@ -82,6 +83,7 @@ export default async function LangLayout({
             <MobileNavbar language={lang} />
           </PlayerProvider>
           <Analytics />
+          <SpeedInsights />
         </body>
       </html>
     </ClerkThemeProvider>
