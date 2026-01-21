@@ -45,7 +45,7 @@ async function fetchEagerCategories(language: SupportedLanguage) {
     topCategories.map(async (category) => {
       const podcasts = await api.getTrending({
         max: 12,
-        cat: category.name,
+        cat: String(category.id),
         lang: language,
         since: getFirstDayOfPreviousMonthEpoch(),
       });

@@ -32,7 +32,7 @@ export function LazyCategorySection({ category, language }: LazyCategorySectionP
 
       try {
         const params = new URLSearchParams({
-          cat: category.name,
+          cat: String(category.id),
           lang: language,
           max: '12',
         });
@@ -58,7 +58,7 @@ export function LazyCategorySection({ category, language }: LazyCategorySectionP
     };
 
     fetchPodcasts();
-  }, [isIntersecting, state, category.name, language]);
+  }, [isIntersecting, state, category.id, language]);
 
   // Hide section on error (matching server behavior)
   if (state === 'error') {
