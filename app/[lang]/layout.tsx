@@ -14,7 +14,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import { ClerkThemeProvider } from "@/components/clerk/clerk-theme-provider";
 
-const nunitoSans = Nunito_Sans({variable:'--font-sans'});
+const nunitoSans = Nunito_Sans({ variable: '--font-sans' });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -71,21 +71,22 @@ export default async function LangLayout({
               </header>
 
               {/* Main Content - add bottom padding on mobile for navbar and player */}
-              <div className="pb-40 md:pb-0">
+              <div className="md:pb-0">
                 {children}
               </div>
             </div>
 
-            {/* Mobile Floating Player - appears above navbar when playing */}
-            <MobilePlayer language={lang} />
-
-            {/* Mobile Bottom Navbar - fixed position */}
-            <MobileNavbar language={lang} />
+            <div className="p-2 fixed left-0 bottom-0 right-0 md:hidden">
+              <div className="flex flex-col gap-2 w-full">
+                <MobilePlayer language={lang} />
+                <MobileNavbar language={lang} />
+              </div>
+            </div>
           </PlayerProvider>
           <Analytics />
           <SpeedInsights />
         </body>
       </html>
-    </ClerkThemeProvider>
+    </ClerkThemeProvider >
   );
 }

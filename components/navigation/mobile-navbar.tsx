@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import type { SupportedLanguage } from "@/lib/i18n/constants";
 import { getTranslations } from "@/lib/i18n/translations";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -14,6 +14,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { useMobileNavState } from "./use-mobile-nav-state";
 
 interface MobileNavbarProps {
   language: SupportedLanguage;
@@ -24,12 +25,14 @@ interface NavLinkProps {
   icon: typeof Home01Icon;
   label: string;
   isActive: boolean;
+  onClick: () => void;
 }
 
-function NavLink({ href, icon, label, isActive }: NavLinkProps) {
+function NavLink({ href, icon, label, isActive, onClick }: NavLinkProps) {
   return (
     <Link
       href={href}
+      onClick={onClick}
       className={cn(
         "flex flex-col items-center gap-1 px-3 py-1 rounded-lg transition-colors",
         isActive
@@ -44,7 +47,6 @@ function NavLink({ href, icon, label, isActive }: NavLinkProps) {
 }
 
 export function MobileNavbar({ language }: MobileNavbarProps) {
-  const pathname = usePathname();
   const router = useRouter();
   const t = getTranslations(language);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
@@ -60,31 +62,39 @@ export function MobileNavbar({ language }: MobileNavbarProps) {
     }
   };
 
-  const navItems = [
+  const navItems = useMemo(() => [
     {
+      id: 1,
       label: t["nav.discover"],
       href: `/${language}`,
       icon: Home01Icon,
     },
     {
+      id: 2,
       label: t["nav.subscriptions"],
       href: `/${language}/subscriptions`,
       icon: FavouriteIcon,
     },
-  ];
+  ], [language, t]);
+
+  const { activeNavItem, handleNavItemClick } = useMobileNavState(
+    navItems.map(item => ({ id: item.id, href: item.href }))
+  );
 
   useEffect(() => {
-    if (isSearchExpanded && inputRef.current) {
-      inputRef.current.focus();
-    }
+    requestAnimationFrame(() => {
+      if (isSearchExpanded && inputRef.current) {
+        inputRef.current.focus();
+      }
+    });
   }, [isSearchExpanded]);
 
   return (
-    <nav className="fixed bottom-4 left-4 right-4 z-50 md:hidden">
+    <nav className="md:hidden">
       <div className="flex items-center gap-2">
         {isSearchExpanded ? (
           // Expanded search field
-          <form onSubmit={handleSearchSubmit} className="flex-1 flex items-center gap-2 bg-background/80 backdrop-blur-lg rounded-full border px-4 py-2 shadow-lg">
+          <form onSubmit={handleSearchSubmit} className="flex-1 flex items-center gap-2 bg-background/80 backdrop-blur-sm rounded-full border px-4 py-2 shadow-lg">
             <HugeiconsIcon
               icon={Search01Icon}
               size={20}
@@ -119,11 +129,12 @@ export function MobileNavbar({ language }: MobileNavbarProps) {
             <div className="flex-1 flex justify-around bg-background/80 backdrop-blur-lg rounded-full border px-2 py-2 shadow-lg">
               {navItems.map((item) => (
                 <NavLink
-                  key={item.href}
+                  key={item.id}
                   href={item.href}
                   icon={item.icon}
                   label={item.label}
-                  isActive={pathname === item.href}
+                  isActive={activeNavItem === item.id}
+                  onClick={() => handleNavItemClick(item.id)}
                 />
               ))}
             </div>

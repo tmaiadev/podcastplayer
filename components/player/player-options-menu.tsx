@@ -22,6 +22,8 @@ import {
   PodcastIcon,
   PlayIcon,
   Moon02Icon,
+  GoBackward30SecIcon,
+  GoForward30SecIcon,
 } from "@hugeicons/core-free-icons";
 import type { SupportedLanguage } from "@/lib/i18n/constants";
 import { getTranslations } from "@/lib/i18n/translations";
@@ -39,6 +41,7 @@ export function PlayerOptionsMenu({
   variant = "desktop",
   trigger,
 }: PlayerOptionsMenuProps) {
+  const isMobile = variant === "mobile";
   const t = getTranslations(language);
   const {
     currentEpisode,
@@ -48,6 +51,8 @@ export function PlayerOptionsMenu({
     sleepTimerRemaining,
     setSleepTimer,
     download,
+    skipForward,
+    skipBackward,
   } = usePlayer();
 
   const playbackRates: PlaybackRate[] = [0.5, 1, 1.5, 2, 3];
@@ -79,6 +84,25 @@ export function PlayerOptionsMenu({
         </DropdownMenuTrigger>
       )}
       <DropdownMenuContent align="end" className="whitespace-nowrap min-w-50">
+        {/* Skip Backward - Mobile Only */}
+        {isMobile && (
+          <DropdownMenuItem onClick={() => skipForward(30)}>
+            <HugeiconsIcon icon={GoForward30SecIcon} size={16} />
+            {t["player.skipForward"]}
+          </DropdownMenuItem>
+        )}
+
+        {/* Skip Forward - Mobile Only */}
+        {isMobile && (
+          <DropdownMenuItem onClick={() => skipBackward(30)}>
+            <HugeiconsIcon icon={GoBackward30SecIcon} size={16} />
+            {t["player.skipBackward"]}
+          </DropdownMenuItem>
+        )}
+
+        {/* Separator if mobile */}
+        {isMobile && <DropdownMenuSeparator />}
+
         {/* Download */}
         <DropdownMenuItem
           onClick={download}
@@ -109,7 +133,7 @@ export function PlayerOptionsMenu({
         </DropdownMenuSub>
 
         {/* Sleep Timer - Mobile only */}
-        {variant === "mobile" && (
+        {isMobile && (
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <HugeiconsIcon icon={Moon02Icon} size={16} />

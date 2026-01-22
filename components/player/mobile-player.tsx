@@ -7,8 +7,6 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import {
   PlayIcon,
   PauseIcon,
-  GoForward30SecIcon,
-  GoBackward30SecIcon,
   MoreHorizontalCircle01Icon,
 } from "@hugeicons/core-free-icons";
 import type { SupportedLanguage } from "@/lib/i18n/constants";
@@ -28,8 +26,6 @@ export function MobilePlayer({ language }: MobilePlayerProps) {
     isPlaying,
     pause,
     resume,
-    skipForward,
-    skipBackward,
   } = usePlayer();
 
   // Hide if no episode is playing
@@ -44,8 +40,8 @@ export function MobilePlayer({ language }: MobilePlayerProps) {
     "/placeholder-podcast.png";
 
   return (
-    <div className="fixed bottom-24 left-4 right-4 z-50 md:hidden">
-      <div className="bg-background/80 backdrop-blur-lg rounded-2xl shadow-lg border p-1">
+    <div className="md:hidden">
+      <div className="bg-background/80 backdrop-blur-sm rounded-2xl shadow-lg border p-1">
         <div className="flex items-center gap-3">
           {/* Cover Image */}
           <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-muted shrink-0">
@@ -72,16 +68,6 @@ export function MobilePlayer({ language }: MobilePlayerProps) {
 
           {/* Controls */}
           <div className="flex items-center gap-1 shrink-0">
-            {/* Skip Backward */}
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              onClick={() => skipBackward(30)}
-              title={t["player.skipBackward"]}
-            >
-              <HugeiconsIcon icon={GoBackward30SecIcon} size={18} />
-            </Button>
-
             {/* Play/Pause */}
             <Button
               variant="ghost"
@@ -93,16 +79,6 @@ export function MobilePlayer({ language }: MobilePlayerProps) {
                 icon={isPlaying ? PauseIcon : PlayIcon}
                 size={20}
               />
-            </Button>
-
-            {/* Skip Forward */}
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              onClick={() => skipForward(30)}
-              title={t["player.skipForward"]}
-            >
-              <HugeiconsIcon icon={GoForward30SecIcon} size={18} />
             </Button>
 
             {/* Options Menu */}
