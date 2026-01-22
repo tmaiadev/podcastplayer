@@ -181,6 +181,7 @@ export type TranslationKeys = {
 	"player.options.playbackRate": string;
 	"player.options.goToPodcast": string;
 	"player.options.goToEpisode": string;
+	"player.options.setCurrentTime": string;
 	"player.noEpisode": string;
 
 	// Subscriptions page
@@ -354,6 +355,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"player.options.playbackRate": "Playback Speed",
 		"player.options.goToPodcast": "Go to Podcast",
 		"player.options.goToEpisode": "Go to Episode",
+		"player.options.setCurrentTime": "Set current time",
 		"player.noEpisode": "No episode selected",
 		"subscriptions.title": "Subscriptions",
 		"subscriptions.description": "Keep track of your favorite podcasts in one place",
@@ -521,6 +523,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"player.options.playbackRate": "Velocidade",
 		"player.options.goToPodcast": "Ir para o Podcast",
 		"player.options.goToEpisode": "Ir para o Episódio",
+		"player.options.setCurrentTime": "Definir tempo atual",
 		"player.noEpisode": "Nenhum episódio selecionado",
 		"subscriptions.title": "Inscrições",
 		"subscriptions.description": "Acompanhe seus podcasts favoritos em um só lugar",
@@ -688,6 +691,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"player.options.playbackRate": "Velocidad",
 		"player.options.goToPodcast": "Ir al Podcast",
 		"player.options.goToEpisode": "Ir al Episodio",
+		"player.options.setCurrentTime": "Establecer tiempo actual",
 		"player.noEpisode": "Ningún episodio seleccionado",
 		"subscriptions.title": "Suscripciones",
 		"subscriptions.description": "Mantén tus podcasts favoritos en un solo lugar",
@@ -855,6 +859,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"player.options.playbackRate": "Vitesse",
 		"player.options.goToPodcast": "Aller au Podcast",
 		"player.options.goToEpisode": "Aller à l'Épisode",
+		"player.options.setCurrentTime": "Définir l'heure actuelle",
 		"player.noEpisode": "Aucun épisode sélectionné",
 		"subscriptions.title": "Abonnements",
 		"subscriptions.description": "Gardez vos podcasts préférés au même endroit",
@@ -1022,6 +1027,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"player.options.playbackRate": "Geschwindigkeit",
 		"player.options.goToPodcast": "Zum Podcast",
 		"player.options.goToEpisode": "Zur Episode",
+		"player.options.setCurrentTime": "Aktuelle Zeit einstellen",
 		"player.noEpisode": "Keine Episode ausgewählt",
 		"subscriptions.title": "Abonnements",
 		"subscriptions.description": "Behalte deine Lieblingspodcasts an einem Ort",

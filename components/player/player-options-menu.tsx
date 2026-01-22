@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,6 +30,8 @@ import type { SupportedLanguage } from "@/lib/i18n/constants";
 import { getTranslations } from "@/lib/i18n/translations";
 import { usePlayer } from "./use-player";
 import type { PlaybackRate, SleepTimerOption } from "./player-context";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import { PlayerProgress, formatTime } from "./player-progress";
 
 interface PlayerOptionsMenuProps {
   language: SupportedLanguage;
@@ -43,9 +46,11 @@ export function PlayerOptionsMenu({
 }: PlayerOptionsMenuProps) {
   const isMobile = variant === "mobile";
   const t = getTranslations(language);
+  const [showSeekDrawer, setShowSeekDrawer] = useState(false);
   const {
     currentEpisode,
     currentPodcast,
+    currentTime,
     playbackRate,
     setPlaybackRate,
     sleepTimerRemaining,
@@ -97,6 +102,17 @@ export function PlayerOptionsMenu({
           <DropdownMenuItem onClick={() => skipBackward(30)}>
             <HugeiconsIcon icon={GoBackward30SecIcon} size={16} />
             {t["player.skipBackward"]}
+          </DropdownMenuItem>
+        )}
+
+        {/* Set Current Time - Mobile Only */}
+        {isMobile && (
+          <DropdownMenuItem
+            onClick={() => setShowSeekDrawer(true)}
+            disabled={!currentEpisode}
+          >
+            <HugeiconsIcon icon={Clock01Icon} size={16} />
+            {t["player.options.setCurrentTime"]} ({formatTime(currentTime)})
           </DropdownMenuItem>
         )}
 
@@ -186,6 +202,17 @@ export function PlayerOptionsMenu({
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>
+
+      <Drawer open={showSeekDrawer} onOpenChange={setShowSeekDrawer}>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>{t["player.options.setCurrentTime"]}</DrawerTitle>
+          </DrawerHeader>
+          <div className="px-4 pb-8">
+            <PlayerProgress />
+          </div>
+        </DrawerContent>
+      </Drawer>
     </DropdownMenu>
   );
 }

@@ -1,9 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { usePlayer } from "./use-player";
 
-function formatTime(seconds: number): string {
+export function formatTime(seconds: number): string {
   if (!isFinite(seconds) || seconds < 0) return "0:00";
 
   const hours = Math.floor(seconds / 3600);
@@ -24,25 +25,41 @@ interface PlayerProgressProps {
 
 export function PlayerProgress({ className }: PlayerProgressProps) {
   const { currentTime, duration, seek } = usePlayer();
+  const [draggedTime, setDraggedTime] = useState<number | null>(null);
 
-  const handleSeek = (value: number[]) => {
-    seek(value[0]);
+  const handleValueChange = (value: number[]) => {
+    // Update preview time while dragging (no media seeking)
+    setDraggedTime(value[0]);
   };
 
-  const remaining = duration - currentTime;
+  const handleValueCommit = (value: number[]) => {
+    // Actually seek the media on release
+    seek(value[0]);
+
+    // Reset dragging state after a short delay to allow UI updates
+    setTimeout(() => {
+      // Reset dragging state
+      setDraggedTime(null);
+    }, 500);
+  };
+
+  // Use dragged time if dragging, otherwise use actual playback time
+  const displayTime = draggedTime !== null ? draggedTime : currentTime;
+  const displayRemaining = duration - displayTime;
 
   return (
     <div className={className}>
       <Slider
-        value={[currentTime]}
+        value={[draggedTime !== null ? draggedTime : currentTime]}
         max={duration || 100}
         step={1}
-        onValueChange={handleSeek}
+        onValueChange={handleValueChange}
+        onValueCommit={handleValueCommit}
         disabled={duration === 0}
       />
       <div className="flex justify-between text-xs text-muted-foreground mt-1">
-        <span>{formatTime(currentTime)}</span>
-        <span>-{formatTime(remaining)}</span>
+        <span>{formatTime(displayTime)}</span>
+        <span>-{formatTime(displayRemaining)}</span>
       </div>
     </div>
   );
