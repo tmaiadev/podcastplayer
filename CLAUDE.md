@@ -45,6 +45,11 @@ This is a Next.js 16 podcast player with React 19, TypeScript, and TailwindCSS 4
 
 **i18n**: Translations live in `/lib/i18n/translations.ts`. The `getTranslations(lang)` function returns typed translation objects. Pass translations from layout to child components.
 
+**Important**: When adding new UI text, always add translations for all supported languages (EN, PT, ES, FR, DE):
+1. Add the new key to the `TranslationKeys` type
+2. Add the translation value to each language object in the `translations` record
+3. Access via `t["your.key"]` in components
+
 ### Component Organization
 
 - `/components/ui/` - shadcn/ui primitives (Button, Card, Dialog, etc.)

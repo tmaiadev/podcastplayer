@@ -183,6 +183,7 @@ export type TranslationKeys = {
 	"player.options.goToEpisode": string;
 	"player.options.setCurrentTime": string;
 	"player.noEpisode": string;
+	"player.options": string;
 
 	// Subscriptions page
 	"subscriptions.title": string;
@@ -357,6 +358,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"player.options.goToEpisode": "Go to Episode",
 		"player.options.setCurrentTime": "Set current time",
 		"player.noEpisode": "No episode selected",
+		"player.options": "Options",
 		"subscriptions.title": "Subscriptions",
 		"subscriptions.description": "Keep track of your favorite podcasts in one place",
 		"subscriptions.notSignedIn": "You are not signed in",
@@ -525,6 +527,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"player.options.goToEpisode": "Ir para o Episódio",
 		"player.options.setCurrentTime": "Definir tempo atual",
 		"player.noEpisode": "Nenhum episódio selecionado",
+		"player.options": "Opções",
 		"subscriptions.title": "Inscrições",
 		"subscriptions.description": "Acompanhe seus podcasts favoritos em um só lugar",
 		"subscriptions.notSignedIn": "Você não está conectado",
@@ -693,6 +696,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"player.options.goToEpisode": "Ir al Episodio",
 		"player.options.setCurrentTime": "Establecer tiempo actual",
 		"player.noEpisode": "Ningún episodio seleccionado",
+		"player.options": "Opciones",
 		"subscriptions.title": "Suscripciones",
 		"subscriptions.description": "Mantén tus podcasts favoritos en un solo lugar",
 		"subscriptions.notSignedIn": "No has iniciado sesión",
@@ -861,6 +865,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"player.options.goToEpisode": "Aller à l'Épisode",
 		"player.options.setCurrentTime": "Définir l'heure actuelle",
 		"player.noEpisode": "Aucun épisode sélectionné",
+		"player.options": "Options",
 		"subscriptions.title": "Abonnements",
 		"subscriptions.description": "Gardez vos podcasts préférés au même endroit",
 		"subscriptions.notSignedIn": "Vous n'êtes pas connecté",
@@ -1029,6 +1034,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"player.options.goToEpisode": "Zur Episode",
 		"player.options.setCurrentTime": "Aktuelle Zeit einstellen",
 		"player.noEpisode": "Keine Episode ausgewählt",
+		"player.options": "Optionen",
 		"subscriptions.title": "Abonnements",
 		"subscriptions.description": "Behalte deine Lieblingspodcasts an einem Ort",
 		"subscriptions.notSignedIn": "Du bist nicht angemeldet",
