@@ -10,6 +10,9 @@ pnpm dev           # Start development server
 pnpm build         # Create production build
 pnpm start         # Start production server
 pnpm lint          # Run ESLint
+pnpm test          # Run Jest tests
+pnpm test:watch    # Run tests in watch mode
+pnpm test:coverage # Run tests with coverage report
 ```
 
 Requires Node.js v20+ and pnpm.
@@ -58,3 +61,35 @@ Required:
 Optional:
 - `PODCAST_INDEX_CACHE_DURATION` - Cache TTL in seconds (default: 86400)
 - `CUSTOM_CACHE` - Set to "true" for file-based caching instead of Next.js cache
+
+### Testing
+
+**Stack**: Jest 30 + React Testing Library + jest-environment-jsdom
+
+**Configuration**:
+- `jest.config.js` - Jest configuration using next/jest
+- `jest.setup.tsx` - Test setup with mocks for Next.js navigation, Audio API, sessionStorage
+
+**Test Organization**: Tests are co-located with source files in `__tests__` directories:
+```
+/lib/__tests__/                    - Utility function tests
+/lib/breadcrumb/__tests__/         - Breadcrumb utility tests
+/lib/i18n/__tests__/               - Translation tests
+/components/player/__tests__/      - Player component tests
+/components/podcast/__tests__/     - Podcast component tests
+/components/navigation/__tests__/  - Navigation component tests
+```
+
+**What to Test**:
+- Utility functions in `/lib/` (pure functions, high coverage)
+- React hooks (`usePlayer`, `useMobileNavState`)
+- Component rendering and user interactions
+- Do NOT test `/components/ui/` (shadcn third-party) or `/convex/` (generated)
+
+**Mocking Patterns**:
+- Next.js navigation: mocked in `jest.setup.tsx`
+- Audio API: MockAudio class in setup
+- Child components: use `jest.mock()` for isolated unit tests
+
+**Git Hooks** (via Husky):
+- `pre-push`: Runs `pnpm test` before pushing. Push is blocked if tests fail.
