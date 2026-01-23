@@ -26,7 +26,11 @@ export function MobilePlayer({ language }: MobilePlayerProps) {
     isPlaying,
     pause,
     resume,
+    currentTime,
+    duration,
   } = usePlayer();
+
+  const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   // Hide if no episode is playing
   if (!currentEpisode) {
@@ -41,7 +45,7 @@ export function MobilePlayer({ language }: MobilePlayerProps) {
 
   return (
     <div className="md:hidden">
-      <div className="bg-background/80 backdrop-blur-sm rounded-2xl shadow-lg border p-1">
+      <div className="bg-background/80 backdrop-blur-sm rounded-2xl shadow-lg border p-1 relative overflow-hidden">
         <div className="flex items-center gap-3">
           {/* Cover Image */}
           <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-muted shrink-0">
@@ -95,6 +99,12 @@ export function MobilePlayer({ language }: MobilePlayerProps) {
             />
           </div>
         </div>
+
+        {/* Progress bar */}
+        <div
+          className="absolute bottom-0 left-0 h-0.5 bg-primary rounded-full shadow-[0_0_8px_var(--primary)]"
+          style={{ width: `${progressPercentage}%` }}
+        />
       </div>
     </div>
   );
