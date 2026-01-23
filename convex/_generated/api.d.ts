@@ -9,6 +9,7 @@
  */
 
 import type * as fetchCache from "../fetchCache.js";
+import type * as subscriptions from "../subscriptions.js";
 
 import type {
   ApiFromModules,
@@ -18,6 +19,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   fetchCache: typeof fetchCache;
+  subscriptions: typeof subscriptions;
 }>;
 
 /**

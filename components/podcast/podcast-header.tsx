@@ -4,6 +4,7 @@ import { getTranslations } from '@/lib/i18n/translations';
 import { getCategory } from '@/lib/categories';
 import { Badge } from '@/components/ui/badge';
 import { PodcastImage } from './podcast-image';
+import { SubscribeButton } from '@/components/subscription/subscribe-button';
 
 interface PodcastHeaderProps {
   podcast: Podcast;
@@ -59,6 +60,9 @@ export function PodcastHeader({ podcast, language }: PodcastHeaderProps) {
             </p>
           </div>
         )}
+
+        {/* Subscribe Button */}
+        <SubscribeButton podcastId={podcast.id} translations={t} />
       </div>
     </header>
   );

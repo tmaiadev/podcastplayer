@@ -3,6 +3,7 @@ import { getTranslations } from "@/lib/i18n/translations";
 import { notFound } from "next/navigation";
 import { SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import type { Metadata } from "next";
+import { SubscriptionsList } from "@/components/subscription/subscriptions-list";
 
 interface PageProps {
   params: Promise<{ lang: string }>;
@@ -46,9 +47,7 @@ export default async function SubscriptionsPage({ params }: PageProps) {
         </SignedOut>
 
         <SignedIn>
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">{t["subscriptions.noSubscriptions"]}</p>
-          </div>
+          <SubscriptionsList language={lang} translations={t} />
         </SignedIn>
       </div>
     </main>
