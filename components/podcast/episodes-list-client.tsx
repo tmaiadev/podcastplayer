@@ -39,7 +39,6 @@ interface EpisodesListClientProps {
 export function EpisodesListClient({
   episodes,
   allEpisodes,
-  totalCount,
   currentPage,
   totalPages,
   sortOrder,

@@ -53,8 +53,9 @@ export async function fetchWithCache(
 		}
 	}
 
-	// Fetch from origin
-	const { cacheTag: _, cacheUntil: __, ...fetchOptions } = options || {};
+	// Fetch from origin - extract cache options to pass only valid fetch options
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { cacheTag: _cacheTag, cacheUntil: _cacheUntil, ...fetchOptions } = options || {};
 	const response = await fetch(urlString, fetchOptions);
 
 	if (response.ok) {

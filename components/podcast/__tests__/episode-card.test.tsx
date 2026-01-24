@@ -12,6 +12,7 @@ jest.mock('@/components/player', () => ({
 // Mock the episode image
 jest.mock('../episode-image', () => ({
   EpisodeImage: ({ alt }: { alt: string }) => (
+    // eslint-disable-next-line @next/next/no-img-element
     <img data-testid="episode-image" alt={alt} />
   ),
 }));

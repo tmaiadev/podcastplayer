@@ -5,6 +5,7 @@ import type { Podcast } from '@/lib/podcast-index';
 // Mock the PodcastImage component
 jest.mock('../podcast-image', () => ({
   PodcastImage: ({ alt, title }: { alt: string; title: string }) => (
+    // eslint-disable-next-line @next/next/no-img-element
     <img data-testid="podcast-image" alt={alt} title={title} />
   ),
 }));

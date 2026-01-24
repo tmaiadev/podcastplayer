@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
 const STORAGE_KEY = "mobile-nav-active-item";
@@ -33,25 +33,24 @@ function inferActiveFromPath(pathname: string, navItems: NavItem[]): number {
 
 export function useMobileNavState(navItems: NavItem[]) {
   const pathname = usePathname();
-  const [activeNavItem, setActiveNavItem] = useState<number>(-1);
-  const firstLoadRef = useRef(true);
-
-  // Initialize on first load
-  useEffect(() => {
-    if (!firstLoadRef.current) return;
-    firstLoadRef.current = false;
-
-    const activeId = inferActiveFromPath(pathname, navItems);
-    setActiveNavItem(activeId);
-  }, [pathname, navItems]);
+  const initializedRef = useRef(false);
+  const [activeNavItem, setActiveNavItem] = useState<number>(() => {
+    if (typeof window === "undefined") return navItems[0]?.id ?? -1;
+    return inferActiveFromPath(pathname, navItems);
+  });
 
   // Update on pathname changes (only for exact matches)
   useEffect(() => {
-    if (firstLoadRef.current) return;
+    // Skip the first effect run since we initialized in useState
+    if (!initializedRef.current) {
+      initializedRef.current = true;
+      return;
+    }
 
     const exactMatch = navItems.find(item => pathname === item.href);
     if (exactMatch) {
       sessionStorage.setItem(STORAGE_KEY, String(exactMatch.id));
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- sync state with URL pathname
       setActiveNavItem(exactMatch.id);
     }
     // Don't update for non-exact matches - preserves highlight on sub-pages

@@ -21,7 +21,7 @@ describe('translations object', () => {
   it('has non-empty values for all translations', () => {
     SUPPORTED_LANGUAGES.forEach((lang) => {
       const langTranslations = translations[lang];
-      Object.entries(langTranslations).forEach(([key, value]) => {
+      Object.values(langTranslations).forEach((value) => {
         expect(value.trim()).not.toBe('');
       });
     });

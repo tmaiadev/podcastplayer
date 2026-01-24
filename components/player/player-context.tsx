@@ -151,9 +151,10 @@ export function PlayerProvider({ children }: PlayerProviderProps) {
     };
   }, []);
 
-  // Sleep timer effect
+  // Sleep timer effect - intentionally updates state in interval to show countdown
   useEffect(() => {
     if (state.sleepTimerEndTime === null) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- clear timer state when disabled
       setState((prev) => ({ ...prev, sleepTimerRemaining: null }));
       return;
     }
