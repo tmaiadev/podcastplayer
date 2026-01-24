@@ -106,3 +106,10 @@ export interface PodcastWithEpisodes {
   podcast: Podcast;
   episodes: Episode[];
 }
+
+export interface EpisodeByIdResponse {
+  status: string;
+  id: string;
+  episode: Episode;
+  description: string;
+}

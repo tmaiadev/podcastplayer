@@ -28,7 +28,7 @@ export interface PlayerState {
 }
 
 export interface PlayerActions {
-  play: (episode: Episode, podcast: Podcast) => void;
+  play: (episode: Episode, podcast: Podcast, startTime?: number) => void;
   pause: () => void;
   resume: () => void;
   seek: (time: number) => void;
@@ -184,12 +184,15 @@ export function PlayerProvider({ children }: PlayerProviderProps) {
     return () => clearInterval(interval);
   }, [state.sleepTimerEndTime]);
 
-  const play = useCallback((episode: Episode, podcast: Podcast) => {
+  const play = useCallback((episode: Episode, podcast: Podcast, startTime?: number) => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    // If same episode, just resume
+    // If same episode, just resume (optionally from a specific time)
     if (audio.src === episode.enclosureUrl) {
+      if (startTime !== undefined) {
+        audio.currentTime = startTime;
+      }
       audio.play().catch(console.error);
       return;
     }
@@ -199,10 +202,20 @@ export function PlayerProvider({ children }: PlayerProviderProps) {
       ...prev,
       currentEpisode: episode,
       currentPodcast: podcast,
-      currentTime: 0,
+      currentTime: startTime ?? 0,
       duration: 0,
       buffered: 0,
     }));
+
+    // Set start time after audio loads
+    if (startTime !== undefined && startTime > 0) {
+      const handleCanPlay = () => {
+        audio.currentTime = startTime;
+        audio.removeEventListener("canplay", handleCanPlay);
+      };
+      audio.addEventListener("canplay", handleCanPlay);
+    }
+
     audio.play().catch(console.error);
   }, []);
 

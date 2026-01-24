@@ -10,6 +10,7 @@ import {
   Home01Icon,
   Search01Icon,
   FavouriteIcon,
+  Clock01Icon,
 } from "@hugeicons/core-free-icons";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { SignedIn, UserButton } from "@clerk/nextjs";
@@ -63,6 +64,11 @@ export function AppSidebar({ language }: AppSidebarProps) {
       label: t["nav.subscriptions"],
       href: `/${language}/subscriptions`,
       icon: FavouriteIcon,
+    },
+    {
+      label: t["nav.history"],
+      href: `/${language}/history`,
+      icon: Clock01Icon,
     },
   ];
 

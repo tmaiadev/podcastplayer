@@ -19,4 +19,15 @@ export default defineSchema({
 	})
 		.index("byUserId", ["userId"])
 		.index("byUserAndPodcast", ["userId", "podcastId"]),
+	listeningHistory: defineTable({
+		userId: v.string(),
+		episodeId: v.number(),
+		podcastId: v.number(),
+		currentTime: v.number(),
+		duration: v.number(),
+		lastListenedAt: v.number(),
+	})
+		.index("byUserId", ["userId"])
+		.index("byUserIdAndLastListened", ["userId", "lastListenedAt"])
+		.index("byUserAndEpisode", ["userId", "episodeId"]),
 });

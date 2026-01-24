@@ -28,6 +28,11 @@ describe('parseBreadcrumbParams', () => {
     expect(result.from).toBe('subscriptions');
   });
 
+  it('parses valid origin "history"', () => {
+    const result = parseBreadcrumbParams({ from: 'history' });
+    expect(result.from).toBe('history');
+  });
+
   it('returns undefined for invalid origin', () => {
     const result = parseBreadcrumbParams({ from: 'invalid' });
     expect(result.from).toBeUndefined();
@@ -66,37 +71,24 @@ describe('parseBreadcrumbParams', () => {
 });
 
 describe('buildBreadcrumbTrail', () => {
-  it('always starts with Home', () => {
+  it('returns empty trail when no params', () => {
     const trail = buildBreadcrumbTrail({
       language: 'en',
       params: {},
     });
-    expect(trail[0]).toEqual({
-      label: 'Home',
-      href: '/en',
-    });
+    expect(trail).toHaveLength(0);
   });
 
-  it('uses localized Home label', () => {
-    const ptTrail = buildBreadcrumbTrail({
-      language: 'pt',
-      params: {},
-    });
-    expect(ptTrail[0].label).toBe('Início');
-
-    const deTrail = buildBreadcrumbTrail({
-      language: 'de',
-      params: {},
-    });
-    expect(deTrail[0].label).toBe('Startseite');
-  });
-
-  it('adds category breadcrumb when from=category', () => {
+  it('adds Home and category breadcrumbs when from=category', () => {
     const trail = buildBreadcrumbTrail({
       language: 'en',
       params: { from: 'category', catId: 16 }, // Comedy
     });
     expect(trail).toHaveLength(2);
+    expect(trail[0]).toEqual({
+      label: 'Home',
+      href: '/en',
+    });
     expect(trail[1]).toEqual({
       label: 'Comedy',
       href: '/en/cat/16',
@@ -108,11 +100,37 @@ describe('buildBreadcrumbTrail', () => {
       language: 'en',
       params: { from: 'search', q: 'test query' },
     });
-    expect(trail).toHaveLength(2);
-    expect(trail[1]).toEqual({
+    expect(trail).toHaveLength(1);
+    expect(trail[0]).toEqual({
       label: 'Search: "test query"',
       href: '/en/search?q=test%20query',
     });
+  });
+
+  it('adds history breadcrumb when from=history', () => {
+    const trail = buildBreadcrumbTrail({
+      language: 'en',
+      params: { from: 'history' },
+    });
+    expect(trail).toHaveLength(1);
+    expect(trail[0]).toEqual({
+      label: 'History',
+      href: '/en/history',
+    });
+  });
+
+  it('uses localized history label', () => {
+    const ptTrail = buildBreadcrumbTrail({
+      language: 'pt',
+      params: { from: 'history' },
+    });
+    expect(ptTrail[0].label).toBe('Histórico');
+
+    const deTrail = buildBreadcrumbTrail({
+      language: 'de',
+      params: { from: 'history' },
+    });
+    expect(deTrail[0].label).toBe('Verlauf');
   });
 
   it('adds podcast without link when viewing podcast page', () => {
@@ -121,16 +139,17 @@ describe('buildBreadcrumbTrail', () => {
       params: {},
       podcastTitle: 'My Podcast',
     });
-    expect(trail[1]).toEqual({
+    expect(trail).toHaveLength(1);
+    expect(trail[0]).toEqual({
       label: 'My Podcast',
     });
-    expect(trail[1].href).toBeUndefined();
+    expect(trail[0].href).toBeUndefined();
   });
 
   it('adds podcast with link when viewing episode page', () => {
     const trail = buildBreadcrumbTrail({
       language: 'en',
-      params: { from: 'home' },
+      params: { from: 'history' },
       podcastTitle: 'My Podcast',
       podcastId: 123,
       episodeTitle: 'Episode 1',
@@ -168,6 +187,20 @@ describe('buildBreadcrumbTrail', () => {
     expect(trail[1].label).toBe('Comedy');
     expect(trail[2].label).toBe('Comedy Show');
     expect(trail[3].label).toBe('Funny Episode');
+  });
+
+  it('builds complete trail for episode from history', () => {
+    const trail = buildBreadcrumbTrail({
+      language: 'en',
+      params: { from: 'history' },
+      podcastTitle: 'My Podcast',
+      podcastId: 123,
+      episodeTitle: 'Episode 1',
+    });
+    expect(trail).toHaveLength(3);
+    expect(trail[0].label).toBe('History');
+    expect(trail[1].label).toBe('My Podcast');
+    expect(trail[2].label).toBe('Episode 1');
   });
 });
 

@@ -19,6 +19,12 @@ function inferActiveFromPath(pathname: string, navItems: NavItem[]): number {
     return subsItem?.id ?? -1;
   }
 
+  // Check for history-related pages
+  if (pathname.includes('/history')) {
+    const historyItem = navItems.find(item => item.href.includes('/history'));
+    return historyItem?.id ?? -1;
+  }
+
   // For ambiguous routes (podcast, category, search), use sessionStorage
   const stored = sessionStorage.getItem(STORAGE_KEY);
   if (stored) {
@@ -34,23 +40,23 @@ function inferActiveFromPath(pathname: string, navItems: NavItem[]): number {
 export function useMobileNavState(navItems: NavItem[]) {
   const pathname = usePathname();
   const initializedRef = useRef(false);
-  const [activeNavItem, setActiveNavItem] = useState<number>(() => {
-    if (typeof window === "undefined") return navItems[0]?.id ?? -1;
-    return inferActiveFromPath(pathname, navItems);
-  });
+  // Always use first nav item as initial value to avoid hydration mismatch
+  const [activeNavItem, setActiveNavItem] = useState<number>(navItems[0]?.id ?? -1);
 
-  // Update on pathname changes (only for exact matches)
+  // Set correct active item after mount (client-side only)
   useEffect(() => {
-    // Skip the first effect run since we initialized in useState
     if (!initializedRef.current) {
       initializedRef.current = true;
+      const inferred = inferActiveFromPath(pathname, navItems);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- sync state with URL pathname after hydration
+      setActiveNavItem(inferred);
       return;
     }
 
+    // On subsequent pathname changes, only update for exact matches
     const exactMatch = navItems.find(item => pathname === item.href);
     if (exactMatch) {
       sessionStorage.setItem(STORAGE_KEY, String(exactMatch.id));
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- sync state with URL pathname
       setActiveNavItem(exactMatch.id);
     }
     // Don't update for non-exact matches - preserves highlight on sub-pages

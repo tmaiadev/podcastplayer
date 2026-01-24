@@ -45,7 +45,7 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
     : undefined;
 
   return (
-    <main className="min-h-screen py-8">
+    <>
       <div className="container mx-auto px-4">
         <header className="mb-8">
           <h1 className="text-4xl font-bold mb-6">{t["search.title"]}</h1>
@@ -88,6 +88,6 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
           )}
         </div>
       </div>
-    </main>
+    </>
   );
 }

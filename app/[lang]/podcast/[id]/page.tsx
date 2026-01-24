@@ -127,37 +127,35 @@ export default async function PodcastDetailPage({ params, searchParams }: PagePr
   });
 
   return (
-    <main className="min-h-screen py-8">
-      <div className="container mx-auto px-4">
-        <DynamicBreadcrumb trail={breadcrumbTrail} className="mb-8" />
+    <div className="container mx-auto px-4">
+      <DynamicBreadcrumb trail={breadcrumbTrail} className="mb-8" />
 
-        <PodcastHeader podcast={podcast} language={lang} />
+      <PodcastHeader podcast={podcast} language={lang} />
 
-        <div className="mt-12">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-semibold">
-              {t['podcast.episodes']}
-              <span className="text-muted-foreground text-lg ml-2">
-                ({allEpisodes.length} {t['podcast.totalEpisodes']})
-              </span>
-            </h2>
-          </div>
-
-          <EpisodesListClient
-            episodes={paginatedEpisodes}
-            allEpisodes={sortedEpisodes}
-            totalCount={filteredEpisodes.length}
-            currentPage={validPage}
-            totalPages={totalPages}
-            sortOrder={sort}
-            initialSearch={searchQuery}
-            language={lang}
-            podcast={podcast}
-            breadcrumbContext={breadcrumbParams}
-          />
+      <div className="mt-12">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-semibold">
+            {t['podcast.episodes']}
+            <span className="text-muted-foreground text-lg ml-2">
+              ({allEpisodes.length} {t['podcast.totalEpisodes']})
+            </span>
+          </h2>
         </div>
+
+        <EpisodesListClient
+          episodes={paginatedEpisodes}
+          allEpisodes={sortedEpisodes}
+          totalCount={filteredEpisodes.length}
+          currentPage={validPage}
+          totalPages={totalPages}
+          sortOrder={sort}
+          initialSearch={searchQuery}
+          language={lang}
+          podcast={podcast}
+          breadcrumbContext={breadcrumbParams}
+        />
       </div>
-    </main>
+    </div>
   );
 }
 

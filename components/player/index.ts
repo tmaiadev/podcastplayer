@@ -6,3 +6,5 @@ export { PlayerProgress } from "./player-progress";
 export { SleepTimerDropdown } from "./sleep-timer-dropdown";
 export { PlayerOptionsMenu } from "./player-options-menu";
 export { PlayEpisodeButton } from "./play-episode-button";
+export { PlayerProviderWithSync } from "./player-provider-with-sync";
+export { useProgressSync } from "./use-progress-sync";

@@ -1,4 +1,4 @@
-export type BreadcrumbOrigin = 'home' | 'category' | 'search' | 'subscriptions';
+export type BreadcrumbOrigin = 'home' | 'category' | 'search' | 'subscriptions' | 'history';
 
 export interface BreadcrumbParams {
   from?: BreadcrumbOrigin;

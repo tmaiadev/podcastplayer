@@ -84,42 +84,40 @@ export default async function CategoryPage({ params }: PageProps) {
   };
 
   return (
-    <main className="min-h-screen py-8">
-      <div className="container mx-auto px-4">
-        <Breadcrumb className="mb-8">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href={`/${lang}`}>{t['breadcrumb.home']}</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{categoryLocalized?.name}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+    <div className="container mx-auto px-4">
+      <Breadcrumb className="mb-8">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href={`/${lang}`}>{t['breadcrumb.home']}</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{categoryLocalized?.name}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
 
-        <header className="mb-12">
-          <h1 className="text-4xl font-bold">{categoryLocalized?.name}</h1>
-        </header>
+      <header className="mb-12">
+        <h1 className="text-4xl font-bold">{categoryLocalized?.name}</h1>
+      </header>
 
-        {podcasts.length === 0 ? (
-          <p className="text-muted-foreground">{t['search.noResults']}</p>
-        ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
-            {podcasts.map((podcast) => (
-              <PodcastCard
-                key={podcast.id}
-                podcast={podcast}
-                language={lang}
-                className="w-full"
-                breadcrumbContext={breadcrumbContext}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-    </main>
+      {podcasts.length === 0 ? (
+        <p className="text-muted-foreground">{t['search.noResults']}</p>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+          {podcasts.map((podcast) => (
+            <PodcastCard
+              key={podcast.id}
+              podcast={podcast}
+              language={lang}
+              className="w-full"
+              breadcrumbContext={breadcrumbContext}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

@@ -11,6 +11,7 @@ import {
   Search01Icon,
   FavouriteIcon,
   Cancel01Icon,
+  Clock01Icon,
 } from "@hugeicons/core-free-icons";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -74,6 +75,12 @@ export function MobileNavbar({ language }: MobileNavbarProps) {
       label: t["nav.subscriptions"],
       href: `/${language}/subscriptions`,
       icon: FavouriteIcon,
+    },
+    {
+      id: 3,
+      label: t["nav.history"],
+      href: `/${language}/history`,
+      icon: Clock01Icon,
     },
   ], [language, t]);
 

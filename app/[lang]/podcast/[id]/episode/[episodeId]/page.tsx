@@ -136,64 +136,62 @@ export default async function EpisodeDetailPage({ params, searchParams }: PagePr
   });
 
   return (
-    <main className="min-h-screen py-8">
-      <div className="container mx-auto px-4">
-        {/* Breadcrumb */}
-        <DynamicBreadcrumb trail={breadcrumbTrail} className="mb-8" />
+    <div className="container mx-auto px-4">
+      {/* Breadcrumb */}
+      <DynamicBreadcrumb trail={breadcrumbTrail} className="mb-8" />
 
-        {/* Episode Header */}
-        <div className="flex flex-col md:flex-row gap-6 mb-8">
-          <div className="shrink-0">
-            <EpisodeImage
-              src={episode.image}
-              alt={episode.title}
-              episode={episode}
-              size={250}
-              podcastImage={podcast.image || podcast.artwork}
-              podcastTitle={podcast.title}
-              className="rounded-lg"
-            />
-          </div>
-
-          <div className="flex flex-col gap-4">
-            <h1 className="text-3xl font-bold">{formatTitle(episode)}</h1>
-
-            <div className="text-muted-foreground space-y-1">
-              {episode.datePublished && (
-                <p>
-                  {t['episodes.published']}: {formatPublishDate(episode.datePublished, lang)}
-                </p>
-              )}
-              {episode.duration > 0 && (
-                <p>
-                  {t['episodes.duration']}: {formatDuration(episode.duration)}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Play Button */}
-        <div className="mb-8">
-          <PlayEpisodeButton
+      {/* Episode Header */}
+      <div className="flex flex-col md:flex-row gap-6 mb-8">
+        <div className="shrink-0">
+          <EpisodeImage
+            src={episode.image}
+            alt={episode.title}
             episode={episode}
-            podcast={podcast}
-            language={lang}
-            size="lg"
+            size={250}
+            podcastImage={podcast.image || podcast.artwork}
+            podcastTitle={podcast.title}
+            className="rounded-lg"
           />
-          {/* Fallback audio player for no-JS */}
-          <noscript>
-            <audio src={episode.enclosureUrl} controls className="w-full mt-4" />
-          </noscript>
         </div>
 
-        {/* Description */}
-        <div
-          className="prose prose-neutral dark:prose-invert max-w-none"
-          dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
-        />
+        <div className="flex flex-col gap-4">
+          <h1 className="text-3xl font-bold">{formatTitle(episode)}</h1>
+
+          <div className="text-muted-foreground space-y-1">
+            {episode.datePublished && (
+              <p>
+                {t['episodes.published']}: {formatPublishDate(episode.datePublished, lang)}
+              </p>
+            )}
+            {episode.duration > 0 && (
+              <p>
+                {t['episodes.duration']}: {formatDuration(episode.duration)}
+              </p>
+            )}
+          </div>
+        </div>
       </div>
-    </main>
+
+      {/* Play Button */}
+      <div className="mb-8">
+        <PlayEpisodeButton
+          episode={episode}
+          podcast={podcast}
+          language={lang}
+          size="lg"
+        />
+        {/* Fallback audio player for no-JS */}
+        <noscript>
+          <audio src={episode.enclosureUrl} controls className="w-full mt-4" />
+        </noscript>
+      </div>
+
+      {/* Description */}
+      <div
+        className="prose prose-neutral dark:prose-invert max-w-none"
+        dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+      />
+    </div>
   );
 }
 

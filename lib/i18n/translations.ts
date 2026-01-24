@@ -153,6 +153,7 @@ export type TranslationKeys = {
 	// Breadcrumb
 	"breadcrumb.home": string;
 	"breadcrumb.search": string;
+	"breadcrumb.history": string;
 
 	// Navigation
 	"nav.discover": string;
@@ -206,6 +207,17 @@ export type TranslationKeys = {
 	// Login page
 	"login.title": string;
 	"login.suspended": string;
+
+	// History
+	"nav.history": string;
+	"history.title": string;
+	"history.description": string;
+	"history.notSignedIn": string;
+	"history.signIn": string;
+	"history.noHistory": string;
+	"history.continue": string;
+	"history.progress": string;
+	"history.loadMore": string;
 };
 
 export const translations: Record<SupportedLanguage, TranslationKeys> = {
@@ -345,6 +357,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"pagination.of": "of",
 		"breadcrumb.home": "Home",
 		"breadcrumb.search": "Search",
+		"breadcrumb.history": "History",
 		"nav.discover": "Discover",
 		"nav.search": "Search",
 		"nav.subscriptions": "Subscriptions",
@@ -386,6 +399,15 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"subscription.unsubscribing": "Unsubscribing...",
 		"login.title": "Login",
 		"login.suspended": "New member registration is temporarily suspended. This functionality will be returning soon.",
+		"nav.history": "History",
+		"history.title": "Listening History",
+		"history.description": "Resume your recently played episodes",
+		"history.notSignedIn": "You are not signed in",
+		"history.signIn": "Sign in",
+		"history.noHistory": "No listening history yet",
+		"history.continue": "Continue",
+		"history.progress": "progress",
+		"history.loadMore": "Load more",
 	},
 	pt: {
 		"home.title": "Descubra Podcasts",
@@ -523,6 +545,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"pagination.of": "de",
 		"breadcrumb.home": "Início",
 		"breadcrumb.search": "Busca",
+		"breadcrumb.history": "Histórico",
 		"nav.discover": "Descobrir",
 		"nav.search": "Buscar",
 		"nav.subscriptions": "Inscrições",
@@ -564,6 +587,15 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"subscription.unsubscribing": "Cancelando...",
 		"login.title": "Entrar",
 		"login.suspended": "O registro de novos membros está temporariamente suspenso. Esta funcionalidade retornará em breve.",
+		"nav.history": "Histórico",
+		"history.title": "Histórico de Reprodução",
+		"history.description": "Continue seus episódios recentes",
+		"history.notSignedIn": "Você não está conectado",
+		"history.signIn": "Entrar",
+		"history.noHistory": "Nenhum histórico ainda",
+		"history.continue": "Continuar",
+		"history.progress": "progresso",
+		"history.loadMore": "Carregar mais",
 	},
 	es: {
 		"home.title": "Descubre Podcasts",
@@ -701,6 +733,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"pagination.of": "de",
 		"breadcrumb.home": "Inicio",
 		"breadcrumb.search": "Búsqueda",
+		"breadcrumb.history": "Historial",
 		"nav.discover": "Descubrir",
 		"nav.search": "Buscar",
 		"nav.subscriptions": "Suscripciones",
@@ -742,6 +775,15 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"subscription.unsubscribing": "Cancelando...",
 		"login.title": "Iniciar sesión",
 		"login.suspended": "El registro de nuevos miembros está temporalmente suspendido. Esta funcionalidad volverá pronto.",
+		"nav.history": "Historial",
+		"history.title": "Historial de Reproducción",
+		"history.description": "Continúa tus episodios recientes",
+		"history.notSignedIn": "No has iniciado sesión",
+		"history.signIn": "Iniciar sesión",
+		"history.noHistory": "Sin historial todavía",
+		"history.continue": "Continuar",
+		"history.progress": "progreso",
+		"history.loadMore": "Cargar más",
 	},
 	fr: {
 		"home.title": "Découvrez des Podcasts",
@@ -879,6 +921,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"pagination.of": "sur",
 		"breadcrumb.home": "Accueil",
 		"breadcrumb.search": "Recherche",
+		"breadcrumb.history": "Historique",
 		"nav.discover": "Découvrir",
 		"nav.search": "Rechercher",
 		"nav.subscriptions": "Abonnements",
@@ -920,6 +963,15 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"subscription.unsubscribing": "Désabonnement...",
 		"login.title": "Connexion",
 		"login.suspended": "L'inscription de nouveaux membres est temporairement suspendue. Cette fonctionnalité reviendra bientôt.",
+		"nav.history": "Historique",
+		"history.title": "Historique d'écoute",
+		"history.description": "Reprenez vos épisodes récents",
+		"history.notSignedIn": "Vous n'êtes pas connecté",
+		"history.signIn": "Se connecter",
+		"history.noHistory": "Pas encore d'historique",
+		"history.continue": "Continuer",
+		"history.progress": "progression",
+		"history.loadMore": "Charger plus",
 	},
 	de: {
 		"home.title": "Entdecke Podcasts",
@@ -1057,6 +1109,7 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"pagination.of": "von",
 		"breadcrumb.home": "Startseite",
 		"breadcrumb.search": "Suche",
+		"breadcrumb.history": "Verlauf",
 		"nav.discover": "Entdecken",
 		"nav.search": "Suchen",
 		"nav.subscriptions": "Abonnements",
@@ -1098,6 +1151,15 @@ export const translations: Record<SupportedLanguage, TranslationKeys> = {
 		"subscription.unsubscribing": "Abbestelle...",
 		"login.title": "Anmelden",
 		"login.suspended": "Die Registrierung neuer Mitglieder ist vorübergehend ausgesetzt. Diese Funktion wird bald zurückkehren.",
+		"nav.history": "Verlauf",
+		"history.title": "Wiedergabeverlauf",
+		"history.description": "Setze deine kürzlich gehörten Episoden fort",
+		"history.notSignedIn": "Du bist nicht angemeldet",
+		"history.signIn": "Anmelden",
+		"history.noHistory": "Noch kein Verlauf",
+		"history.continue": "Fortsetzen",
+		"history.progress": "Fortschritt",
+		"history.loadMore": "Mehr laden",
 	},
 };
 

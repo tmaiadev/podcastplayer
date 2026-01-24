@@ -83,33 +83,31 @@ export default async function Page({ params }: PageProps) {
   const totalSections = eagerData.length + lazyCategories.length;
 
   return (
-    <main className="min-h-screen py-8">
-      <div className="container mx-auto px-4">
-        <header className="mb-12">
-          <h1 className="text-4xl font-bold mb-2">{t['home.title']}</h1>
-          <p className="text-muted-foreground">
-            {t['home.subtitle']}
-          </p>
-        </header>
+    <div className="container mx-auto px-4">
+      <header className="mb-12">
+        <h1 className="text-4xl font-bold mb-2">{t['home.title']}</h1>
+        <p className="text-muted-foreground">
+          {t['home.subtitle']}
+        </p>
+      </header>
 
-        <div className="space-y-12">
-          {/* Eager-loaded categories (server-rendered) */}
-          {eagerData.map(({ category, podcasts }, index) => (
-            <div key={category.id}>
-              <CategorySection category={category} podcasts={podcasts} language={lang} />
-              {index < totalSections - 1 && <Separator className="mt-12" />}
-            </div>
-          ))}
+      <div className="space-y-12">
+        {/* Eager-loaded categories (server-rendered) */}
+        {eagerData.map(({ category, podcasts }, index) => (
+          <div key={category.id}>
+            <CategorySection category={category} podcasts={podcasts} language={lang} />
+            {index < totalSections - 1 && <Separator className="mt-12" />}
+          </div>
+        ))}
 
-          {/* Lazy-loaded categories (client-side) */}
-          {lazyCategories.map((category, index) => (
-            <div key={category.id}>
-              <LazyCategorySection category={category} language={lang} />
-              {eagerData.length + index < totalSections - 1 && <Separator className="mt-12" />}
-            </div>
-          ))}
-        </div>
+        {/* Lazy-loaded categories (client-side) */}
+        {lazyCategories.map((category, index) => (
+          <div key={category.id}>
+            <LazyCategorySection category={category} language={lang} />
+            {eagerData.length + index < totalSections - 1 && <Separator className="mt-12" />}
+          </div>
+        ))}
       </div>
-    </main>
+    </div>
   );
 }

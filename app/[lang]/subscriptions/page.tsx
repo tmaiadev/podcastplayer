@@ -28,28 +28,26 @@ export default async function SubscriptionsPage({ params }: PageProps) {
   const t = getTranslations(lang);
 
   return (
-    <main className="min-h-screen py-8">
-      <div className="container mx-auto px-4">
-        <header className="mb-8">
-          <h1 className="text-4xl font-bold mb-4">{t["subscriptions.title"]}</h1>
-          <p className="text-muted-foreground">{t["subscriptions.description"]}</p>
-        </header>
+    <div className="container mx-auto px-4">
+      <header className="mb-8">
+        <h1 className="text-4xl font-bold mb-4">{t["subscriptions.title"]}</h1>
+        <p className="text-muted-foreground">{t["subscriptions.description"]}</p>
+      </header>
 
-        <SignedOut>
-          <div className="text-center py-12">
-            <p className="text-muted-foreground mb-4">{t["subscriptions.notSignedIn"]}</p>
-            <SignInButton mode="modal">
-              <button className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
-                {t["subscriptions.signIn"]}
-              </button>
-            </SignInButton>
-          </div>
-        </SignedOut>
+      <SignedOut>
+        <div className="text-center py-12">
+          <p className="text-muted-foreground mb-4">{t["subscriptions.notSignedIn"]}</p>
+          <SignInButton mode="modal">
+            <button className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+              {t["subscriptions.signIn"]}
+            </button>
+          </SignInButton>
+        </div>
+      </SignedOut>
 
-        <SignedIn>
-          <SubscriptionsList language={lang} translations={t} />
-        </SignedIn>
-      </div>
-    </main>
+      <SignedIn>
+        <SubscriptionsList language={lang} translations={t} />
+      </SignedIn>
+    </div>
   );
 }

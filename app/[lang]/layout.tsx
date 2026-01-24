@@ -8,7 +8,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { PodcastIcon } from "@hugeicons/core-free-icons";
 import { AppSidebar } from "@/components/navigation/app-sidebar";
 import { MobileNavbar } from "@/components/navigation/mobile-navbar";
-import { PlayerProvider, MobilePlayer } from "@/components/player";
+import { PlayerProviderWithSync, MobilePlayer } from "@/components/player";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SignedIn, UserButton } from "@clerk/nextjs";
@@ -50,7 +50,7 @@ export default async function LangLayout({
           <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
           >
-            <PlayerProvider>
+            <PlayerProviderWithSync>
               {/* Desktop Sidebar - fixed position, hidden on mobile */}
               <AppSidebar language={lang} />
 
@@ -74,7 +74,9 @@ export default async function LangLayout({
 
                 {/* Main Content - add bottom padding on mobile for navbar and player */}
                 <div className="pb-36 md:pb-0">
-                  {children}
+                  <main className="md:min-h-screen py-8">
+                    {children}
+                  </main>
                 </div>
               </div>
 
@@ -84,7 +86,7 @@ export default async function LangLayout({
                   <MobileNavbar language={lang} />
                 </div>
               </div>
-            </PlayerProvider>
+            </PlayerProviderWithSync>
             <Analytics />
             <SpeedInsights />
           </body>

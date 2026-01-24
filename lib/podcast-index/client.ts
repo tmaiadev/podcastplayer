@@ -7,6 +7,7 @@ import type {
   SearchResponse,
   PodcastDetailsResponse,
   EpisodesResponse,
+  EpisodeByIdResponse,
 } from './types';
 
 export class PodcastIndex {
@@ -162,5 +163,16 @@ export class PodcastIndex {
       3600 // 1 hour
     );
     return response.items;
+  }
+
+  async getEpisodeById(episodeId: number): Promise<Episode> {
+    const params: Record<string, string | number> = { id: episodeId };
+    const response = await this.request<EpisodeByIdResponse>(
+      '/episodes/byid',
+      params,
+      `podcast-index-episode-${episodeId}`,
+      604800 // 1 week
+    );
+    return response.episode;
   }
 }
