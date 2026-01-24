@@ -13,6 +13,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import { ClerkThemeProvider } from "@/components/clerk/clerk-theme-provider";
+import { ConvexClientProvider } from "@/components/providers/convex-provider";
 
 const nunitoSans = Nunito_Sans({ variable: '--font-sans' });
 
@@ -44,11 +45,12 @@ export default async function LangLayout({
 
   return (
     <ClerkThemeProvider>
-      <html lang={lang} className={`${nunitoSans.variable} overflow-x-hidden`}>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <PlayerProvider>
+      <ConvexClientProvider>
+        <html lang={lang} className={`${nunitoSans.variable} overflow-x-hidden`}>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          >
+            <PlayerProvider>
             {/* Desktop Sidebar - fixed position, hidden on mobile */}
             <AppSidebar language={lang} />
 
@@ -85,8 +87,9 @@ export default async function LangLayout({
           </PlayerProvider>
           <Analytics />
           <SpeedInsights />
-        </body>
-      </html>
-    </ClerkThemeProvider >
+          </body>
+        </html>
+      </ConvexClientProvider>
+    </ClerkThemeProvider>
   );
 }

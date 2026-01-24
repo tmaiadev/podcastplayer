@@ -12,4 +12,11 @@ export default defineSchema({
 			headers: v.record(v.string(), v.string()),
 		}),
 	}).index("byCacheTag", ["cacheTag"]),
+	subscriptions: defineTable({
+		userId: v.string(),
+		podcastId: v.number(),
+		subscribedAt: v.number(),
+	})
+		.index("byUserId", ["userId"])
+		.index("byUserAndPodcast", ["userId", "podcastId"]),
 });

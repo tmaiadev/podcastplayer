@@ -91,7 +91,7 @@ export function MobilePlayer({ language }: MobilePlayerProps) {
               variant="mobile"
               trigger={
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon-sm">
+                  <Button variant="ghost" size="icon-sm" aria-label={t["player.options"]}>
                     <HugeiconsIcon icon={MoreHorizontalCircle01Icon} size={18} />
                   </Button>
                 </DropdownMenuTrigger>
