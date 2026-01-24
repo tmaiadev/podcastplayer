@@ -51,42 +51,42 @@ export default async function LangLayout({
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
           >
             <PlayerProvider>
-            {/* Desktop Sidebar - fixed position, hidden on mobile */}
-            <AppSidebar language={lang} />
+              {/* Desktop Sidebar - fixed position, hidden on mobile */}
+              <AppSidebar language={lang} />
 
-            {/* Main wrapper with left margin on desktop for sidebar */}
-            <div className="md:ml-64">
-              {/* Mobile Header - only visible on mobile */}
-              <header className="border-b md:hidden">
-                <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-                  <Link href={`/${lang}`} className="text-xl font-bold hover:text-primary transition-colors flex items-center gap-2">
-                    <HugeiconsIcon icon={PodcastIcon} size={24} />
-                    Podcast Player
-                  </Link>
-                  <div className="flex items-center gap-3">
-                    <LanguageSwitcher />
-                    <SignedIn>
-                      <UserButton />
-                    </SignedIn>
+              {/* Main wrapper with left margin on desktop for sidebar */}
+              <div className="md:ml-64">
+                {/* Mobile Header - only visible on mobile */}
+                <header className="border-b md:hidden">
+                  <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+                    <Link href={`/${lang}`} className="text-xl font-bold hover:text-primary transition-colors flex items-center gap-2">
+                      <HugeiconsIcon icon={PodcastIcon} size={24} />
+                      Podcast Player
+                    </Link>
+                    <div className="flex items-center gap-3">
+                      <LanguageSwitcher />
+                      <SignedIn>
+                        <UserButton />
+                      </SignedIn>
+                    </div>
                   </div>
+                </header>
+
+                {/* Main Content - add bottom padding on mobile for navbar and player */}
+                <div className="pb-36 md:pb-0">
+                  {children}
                 </div>
-              </header>
-
-              {/* Main Content - add bottom padding on mobile for navbar and player */}
-              <div className="md:pb-0">
-                {children}
               </div>
-            </div>
 
-            <div className="p-2 fixed left-0 bottom-0 right-0 md:hidden">
-              <div className="flex flex-col gap-2 w-full">
-                <MobilePlayer language={lang} />
-                <MobileNavbar language={lang} />
+              <div className="p-2 fixed left-0 bottom-0 right-0 md:hidden">
+                <div className="flex flex-col gap-2 w-full">
+                  <MobilePlayer language={lang} />
+                  <MobileNavbar language={lang} />
+                </div>
               </div>
-            </div>
-          </PlayerProvider>
-          <Analytics />
-          <SpeedInsights />
+            </PlayerProvider>
+            <Analytics />
+            <SpeedInsights />
           </body>
         </html>
       </ConvexClientProvider>

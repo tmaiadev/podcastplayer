@@ -14,7 +14,7 @@ export function sanitizeHtml(html: string): string {
     /<a\s+([^>]*?)>/gi,
     (match, attributes) => {
       // Remove existing target and rel attributes to avoid duplicates
-      let cleanAttrs = attributes
+      const cleanAttrs = attributes
         .replace(/\s*target\s*=\s*["'][^"']*["']/gi, '')
         .replace(/\s*rel\s*=\s*["'][^"']*["']/gi, '')
         .trim();

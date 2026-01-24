@@ -146,7 +146,7 @@ export function SubscriptionsList({ language, translations: t }: SubscriptionsLi
 	return (
 		<div className="space-y-6">
 			{/* Sort controls */}
-			<div className="flex items-center gap-3">
+			<div className="flex items-center gap-3 justify-end">
 				<span className="text-sm text-muted-foreground">{t["subscriptions.sortBy"]}:</span>
 				<Select value={sortOrder} onValueChange={handleSortChange}>
 					<SelectTrigger className="w-48">
