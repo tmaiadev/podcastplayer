@@ -13,6 +13,8 @@ pnpm lint          # Run ESLint
 pnpm test          # Run Jest tests
 pnpm test:watch    # Run tests in watch mode
 pnpm test:coverage # Run tests with coverage report
+pnpm db:generate   # Generate Drizzle migrations
+pnpm db:migrate    # Run Drizzle migrations
 ```
 
 Requires Node.js v20+ and pnpm.
@@ -39,7 +41,9 @@ This is a Next.js 16 podcast player with React 19, TypeScript, and TailwindCSS 4
 
 **Player State**: The audio player uses React Context (`/components/player/player-context.tsx`). Access via `usePlayer()` hook. State includes current episode/podcast, playback rate, sleep timer, and playback position.
 
-**Data Fetching**: All Podcast Index API calls go through `/lib/podcast-index/client.ts` with SHA1-based authentication. Caching is handled by `/lib/fetchWithCache.ts` with configurable strategies.
+**Data Fetching**: All Podcast Index API calls go through `/lib/podcast-index/client.ts` with SHA1-based authentication. Caching is handled by `/lib/fetchWithCache.ts` using file-based caching in `.next/cache/fetch-with-cache/`.
+
+**Database**: SQLite with Drizzle ORM for user data (subscriptions and listening history). Schema defined in `/lib/db/schema.ts`, client in `/lib/db/index.ts`. Server Actions in `/lib/actions/` handle all database operations with Clerk authentication.
 
 **Authentication**: Clerk handles auth via middleware. The `ClerkThemeProvider` integrates with next-themes for dark mode.
 
@@ -56,6 +60,17 @@ This is a Next.js 16 podcast player with React 19, TypeScript, and TailwindCSS 4
 - `/components/player/` - Audio player (context, mobile variant, sidebar variant)
 - `/components/podcast/` - Domain components (PodcastCard, EpisodeList, etc.)
 - `/components/navigation/` - Sidebar, MobileNavbar, Breadcrumbs
+- `/components/subscription/` - Subscribe button and subscriptions list
+- `/components/history/` - Listening history list and cards
+
+### Data Layer
+
+- `/lib/db/schema.ts` - Drizzle schema (subscriptions, listeningHistory tables)
+- `/lib/db/index.ts` - Database client initialization
+- `/lib/actions/subscriptions.ts` - Server Actions for subscription management
+- `/lib/actions/history.ts` - Server Actions for listening history
+- `/lib/hooks/use-subscriptions.ts` - SWR hooks for subscriptions
+- `/lib/hooks/use-history.ts` - SWR hooks for history and progress sync
 
 ### Environment Variables
 
@@ -65,7 +80,6 @@ Required:
 
 Optional:
 - `PODCAST_INDEX_CACHE_DURATION` - Cache TTL in seconds (default: 86400)
-- `CUSTOM_CACHE` - Set to "true" for file-based caching instead of Next.js cache
 
 ### Testing
 
@@ -87,9 +101,9 @@ Optional:
 
 **What to Test**:
 - Utility functions in `/lib/` (pure functions, high coverage)
-- React hooks (`usePlayer`, `useMobileNavState`)
+- React hooks (`usePlayer`, `useMobileNavState`, `useSubscriptions`, `useHistory`)
 - Component rendering and user interactions
-- Do NOT test `/components/ui/` (shadcn third-party) or `/convex/` (generated)
+- Do NOT test `/components/ui/` (shadcn third-party)
 
 **Mocking Patterns**:
 - Next.js navigation: mocked in `jest.setup.tsx`

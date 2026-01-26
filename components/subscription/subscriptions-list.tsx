@@ -1,7 +1,5 @@
 "use client";
 
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import type { Podcast } from "@/lib/podcast-index";
 import type { SupportedLanguage } from "@/lib/i18n/constants";
@@ -16,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Loading03Icon } from "@hugeicons/core-free-icons";
+import { useSubscriptions } from "@/lib/hooks/use-subscriptions";
 
 type SortOption = "subscribed" | "name" | "author" | "lastUpdated";
 
@@ -33,7 +32,7 @@ interface SubscriptionsListProps {
 }
 
 export function SubscriptionsList({ language, translations: t }: SubscriptionsListProps) {
-	const subscriptions = useQuery(api.subscriptions.getUserSubscriptions);
+	const { subscriptions, isLoading } = useSubscriptions();
 	const [sortOrder, setSortOrder] = useState<SortOption>(() => {
 		if (typeof window !== "undefined") {
 			const stored = localStorage.getItem(STORAGE_KEY);
@@ -126,7 +125,7 @@ export function SubscriptionsList({ language, translations: t }: SubscriptionsLi
 	}, [subscriptions, podcasts, sortOrder]);
 
 	// Loading state
-	if (subscriptions === undefined) {
+	if (isLoading || subscriptions === undefined) {
 		return (
 			<div className="flex items-center justify-center py-12">
 				<HugeiconsIcon icon={Loading03Icon} strokeWidth={2} className="size-8 animate-spin text-muted-foreground" />

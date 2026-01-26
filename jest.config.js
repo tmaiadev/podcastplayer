@@ -16,7 +16,6 @@ const config = {
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/.next/',
-    '<rootDir>/convex/',
   ],
   collectCoverageFrom: [
     'lib/**/*.{ts,tsx}',
@@ -26,7 +25,6 @@ const config = {
     '!**/*.d.ts',
     '!**/node_modules/**',
     '!components/ui/**',
-    '!convex/**',
   ],
 };
 

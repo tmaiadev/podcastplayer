@@ -1,13 +1,12 @@
 "use client";
 
-import { useQuery, useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import { useAuth, SignInButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { HeartAddIcon, HeartRemoveIcon, Loading03Icon } from "@hugeicons/core-free-icons";
 import type { TranslationKeys } from "@/lib/i18n/translations";
 import { useState } from "react";
+import { useIsSubscribed, useSubscribeMutation } from "@/lib/hooks/use-subscriptions";
 
 interface SubscribeButtonProps {
 	podcastId: number;
@@ -16,18 +15,15 @@ interface SubscribeButtonProps {
 
 export function SubscribeButton({ podcastId, translations: t }: SubscribeButtonProps) {
 	const { isSignedIn, isLoaded } = useAuth();
-	const isSubscribed = useQuery(
-		api.subscriptions.isSubscribed,
-		isSignedIn ? { podcastId } : "skip"
-	);
-	const subscribe = useMutation(api.subscriptions.subscribe);
-	const unsubscribe = useMutation(api.subscriptions.unsubscribe);
+	const { isSubscribed, isLoading: isSubscribedLoading, mutate } = useIsSubscribed(podcastId);
+	const { subscribe, unsubscribe } = useSubscribeMutation();
 	const [isLoading, setIsLoading] = useState(false);
 
 	const handleSubscribe = async () => {
 		setIsLoading(true);
 		try {
-			await subscribe({ podcastId });
+			await subscribe(podcastId);
+			mutate(true); // Optimistic update
 		} finally {
 			setIsLoading(false);
 		}
@@ -36,7 +32,8 @@ export function SubscribeButton({ podcastId, translations: t }: SubscribeButtonP
 	const handleUnsubscribe = async () => {
 		setIsLoading(true);
 		try {
-			await unsubscribe({ podcastId });
+			await unsubscribe(podcastId);
+			mutate(false); // Optimistic update
 		} finally {
 			setIsLoading(false);
 		}
@@ -62,7 +59,7 @@ export function SubscribeButton({ podcastId, translations: t }: SubscribeButtonP
 		);
 	}
 
-	if (isSubscribed === undefined) {
+	if (isSubscribedLoading || isSubscribed === undefined) {
 		return (
 			<Button disabled variant="outline" className="gap-2">
 				<HugeiconsIcon icon={Loading03Icon} strokeWidth={2} className="size-4 animate-spin" />
