@@ -1,7 +1,5 @@
 "use client";
 
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import { useState, useEffect, useRef, useCallback } from "react";
 import type { Episode, Podcast } from "@/lib/podcast-index";
 import type { SupportedLanguage } from "@/lib/i18n/constants";
@@ -10,6 +8,7 @@ import { HistoryCard } from "./history-card";
 import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Loading03Icon } from "@hugeicons/core-free-icons";
+import { useHistory } from "@/lib/hooks/use-history";
 
 interface HistoryItem {
 	episodeId: number;
@@ -38,10 +37,7 @@ export function HistoryList({ language, translations: t }: HistoryListProps) {
 	const episodeDataRef = useRef(episodeData);
 	episodeDataRef.current = episodeData;
 
-	const history = useQuery(api.listeningHistory.getHistory, {
-		limit: 10,
-		cursor,
-	});
+	const { history, isLoading } = useHistory(10, cursor);
 
 	// Merge new history items when data loads
 	useEffect(() => {
@@ -110,7 +106,7 @@ export function HistoryList({ language, translations: t }: HistoryListProps) {
 	};
 
 	// Loading state
-	if (history === undefined) {
+	if (isLoading && allItems.length === 0) {
 		return (
 			<div className="flex items-center justify-center py-12">
 				<HugeiconsIcon
@@ -175,7 +171,7 @@ export function HistoryList({ language, translations: t }: HistoryListProps) {
 					<Button
 						variant="outline"
 						onClick={handleLoadMore}
-						disabled={history === undefined}
+						disabled={isLoading}
 					>
 						{t["history.loadMore"]}
 					</Button>

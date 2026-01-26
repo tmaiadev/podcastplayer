@@ -1,6 +1,6 @@
 import crypto from "crypto";
-import { getConvexClient } from "./convex";
-import { api } from "../convex/_generated/api";
+import fs from "fs/promises";
+import path from "path";
 
 interface CacheEntry {
 	validUntil: number;
@@ -18,9 +18,47 @@ interface FetchWithCacheOptions extends RequestInit {
 }
 
 const DEFAULT_CACHE_DURATION = 3600000; // 1 hour in milliseconds
+const CACHE_DIR = path.join(process.cwd(), ".next", "cache", "fetch-with-cache");
 
 function generateCacheTag(url: string): string {
 	return crypto.createHash("md5").update(url).digest("hex");
+}
+
+async function ensureCacheDir(): Promise<void> {
+	try {
+		await fs.mkdir(CACHE_DIR, { recursive: true });
+	} catch {
+		// Directory already exists or cannot be created
+	}
+}
+
+async function getCachedEntry(cacheTag: string): Promise<CacheEntry | null> {
+	try {
+		const filePath = path.join(CACHE_DIR, `${cacheTag}.json`);
+		const data = await fs.readFile(filePath, "utf-8");
+		return JSON.parse(data) as CacheEntry;
+	} catch {
+		return null;
+	}
+}
+
+async function setCachedEntry(cacheTag: string, entry: CacheEntry): Promise<void> {
+	try {
+		await ensureCacheDir();
+		const filePath = path.join(CACHE_DIR, `${cacheTag}.json`);
+		await fs.writeFile(filePath, JSON.stringify(entry), "utf-8");
+	} catch (error) {
+		console.error("Failed to write cache entry:", error);
+	}
+}
+
+async function removeCachedEntry(cacheTag: string): Promise<void> {
+	try {
+		const filePath = path.join(CACHE_DIR, `${cacheTag}.json`);
+		await fs.unlink(filePath);
+	} catch {
+		// File doesn't exist or cannot be deleted
+	}
 }
 
 export async function fetchWithCache(
@@ -31,10 +69,8 @@ export async function fetchWithCache(
 	const cacheTag = options?.cacheTag || generateCacheTag(urlString);
 	const cacheUntil = options?.cacheUntil || Date.now() + DEFAULT_CACHE_DURATION;
 
-	const convex = getConvexClient();
-
 	// Try to get cached entry
-	const cachedEntry = await convex.query(api.fetchCache.get, { cacheTag });
+	const cachedEntry = await getCachedEntry(cacheTag);
 
 	if (cachedEntry) {
 		if (cachedEntry.validUntil > Date.now()) {
@@ -49,7 +85,7 @@ export async function fetchWithCache(
 			});
 		} else {
 			// Remove expired entry (fire-and-forget)
-			convex.mutation(api.fetchCache.remove, { cacheTag });
+			removeCachedEntry(cacheTag);
 		}
 	}
 
@@ -76,10 +112,7 @@ export async function fetchWithCache(
 		};
 
 		// Store in cache (fire-and-forget)
-		convex.mutation(api.fetchCache.set, {
-			cacheTag,
-			...cacheEntry,
-		});
+		setCachedEntry(cacheTag, cacheEntry);
 
 		return new Response(responseBody, {
 			status: response.status,

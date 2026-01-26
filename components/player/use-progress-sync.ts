@@ -1,17 +1,16 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useMutation } from "convex/react";
 import { useAuth } from "@clerk/nextjs";
-import { api } from "@/convex/_generated/api";
 import { usePlayer } from "./use-player";
+import { useUpdateProgress } from "@/lib/hooks/use-history";
 
 const SYNC_INTERVAL = 10000; // 10 seconds
 
 export function useProgressSync() {
 	const { isSignedIn } = useAuth();
 	const player = usePlayer();
-	const updateProgress = useMutation(api.listeningHistory.updateProgress);
+	const { updateProgress } = useUpdateProgress();
 	const lastSyncRef = useRef<number>(0);
 	const lastEpisodeIdRef = useRef<number | null>(null);
 
