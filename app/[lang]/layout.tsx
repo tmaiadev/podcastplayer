@@ -9,10 +9,9 @@ import { PodcastIcon } from "@hugeicons/core-free-icons";
 import { AppSidebar } from "@/components/navigation/app-sidebar";
 import { MobileNavbar } from "@/components/navigation/mobile-navbar";
 import { PlayerProviderWithSync, MobilePlayer } from "@/components/player";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import { ClerkThemeProvider } from "@/components/clerk/clerk-theme-provider";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 
 const nunitoSans = Nunito_Sans({ variable: '--font-sans' });
 
@@ -85,8 +84,7 @@ export default async function LangLayout({
                 </div>
               </div>
             </PlayerProviderWithSync>
-            <Analytics />
-            <SpeedInsights />
+            <GoogleAnalytics />
           </body>
         </html>
     </ClerkThemeProvider>
