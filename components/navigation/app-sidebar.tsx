@@ -79,6 +79,7 @@ export function AppSidebar({ language }: AppSidebarProps) {
         <Link
           href={`/${language}`}
           className="flex items-center gap-2 text-xl font-bold hover:text-primary transition-colors"
+          prefetch
         >
           <HugeiconsIcon icon={PodcastIcon} size={24} />
           Podcast Player

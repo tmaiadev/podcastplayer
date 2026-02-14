@@ -40,15 +40,21 @@ export function HistoryCard({
 	translations: t,
 }: HistoryCardProps) {
 	const player = usePlayer();
-	const progressPercent = duration > 0 ? Math.round((currentTime / duration) * 100) : 0;
-	const remainingTime = Math.max(0, duration - currentTime);
 
-	const isThisEpisodePlaying =
-		player.currentEpisode?.id === episode.id && player.isPlaying;
+	const isCurrentEpisode = player.currentEpisode?.id === episode.id;
+	const isThisEpisodePlaying = isCurrentEpisode && player.isPlaying;
+
+	const displayCurrentTime = isCurrentEpisode ? player.currentTime : currentTime;
+	const displayDuration = isCurrentEpisode && player.duration > 0 ? player.duration : duration;
+
+	const progressPercent = displayDuration > 0 ? Math.round((displayCurrentTime / displayDuration) * 100) : 0;
+	const remainingTime = Math.max(0, displayDuration - displayCurrentTime);
 
 	const handleTogglePlayback = () => {
 		if (isThisEpisodePlaying) {
 			player.pause();
+		} else if (isCurrentEpisode) {
+			player.resume();
 		} else {
 			player.play(episode, podcast, currentTime);
 		}
@@ -101,7 +107,7 @@ export function HistoryCard({
 				<div className="mt-2 space-y-2">
 					<div className="flex items-center gap-2">
 						<span className="text-xs text-muted-foreground whitespace-nowrap">
-							{formatDuration(currentTime)}
+							{formatDuration(displayCurrentTime)}
 						</span>
 						<Progress value={progressPercent} className="h-1.5 flex-1" />
 						<span className="text-xs text-muted-foreground whitespace-nowrap">

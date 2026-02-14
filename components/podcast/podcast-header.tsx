@@ -17,7 +17,7 @@ export function PodcastHeader({ podcast, language }: PodcastHeaderProps) {
   const author = podcast.author || podcast.ownerName;
 
   return (
-    <header className="flex flex-col md:flex-row gap-8 items-start">
+    <header className="flex flex-col lg:flex-row gap-8 items-center text-center lg:text-start lg:items-start">
       {/* Podcast Image */}
       <div className="shrink-0 w-full md:w-auto">
         <PodcastImage
@@ -43,7 +43,7 @@ export function PodcastHeader({ podcast, language }: PodcastHeaderProps) {
 
         {/* Categories */}
         {podcast.categories && Object.keys(podcast.categories).length > 0 && (
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex gap-2 flex-wrap text-center justify-center lg:justify-start lg:text-start">
             {Object.entries(podcast.categories).map(([id, name]) => (
               <Badge key={id} variant="secondary">
                 {getCategory(Number(id), language)?.name ?? name}
@@ -55,7 +55,7 @@ export function PodcastHeader({ podcast, language }: PodcastHeaderProps) {
         {/* Description */}
         {podcast.description && (
           <div className="prose prose-sm max-w-none">
-            <p className="text-muted-foreground leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed text-xs">
               {podcast.description}
             </p>
           </div>

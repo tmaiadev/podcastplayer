@@ -79,7 +79,7 @@ export function PaginationControls({
             size="sm"
             asChild={page !== currentPage}
             disabled={page === currentPage}
-            className="min-w-[2.5rem]"
+            className="min-w-10"
           >
             {page === currentPage ? (
               <span aria-current="page">{page}</span>

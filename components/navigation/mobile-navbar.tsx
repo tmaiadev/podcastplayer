@@ -35,13 +35,14 @@ function NavLink({ href, icon, label, isActive, onClick }: NavLinkProps) {
       href={href}
       onClick={onClick}
       className={cn(
-        "flex flex-col items-center gap-1 px-3 py-1 rounded-lg transition-colors",
+        "flex flex-col items-center px-3 py-1 rounded-lg transition-colors",
         isActive
           ? "text-primary"
           : "text-muted-foreground hover:text-foreground"
       )}
+      prefetch
     >
-      <HugeiconsIcon icon={icon} size={22} />
+      <HugeiconsIcon icon={icon} size={24} />
       <span className="text-xs">{label}</span>
     </Link>
   );
@@ -133,7 +134,7 @@ export function MobileNavbar({ language }: MobileNavbarProps) {
         ) : (
           <>
             {/* Main nav segment */}
-            <div className="flex-1 flex justify-around bg-background/80 backdrop-blur-lg rounded-full border px-2 py-2 shadow-lg">
+            <div className="flex-1 flex justify-around bg-background/80 backdrop-blur-lg rounded-full border p-1 shadow-lg">
               {navItems.map((item) => (
                 <NavLink
                   key={item.id}

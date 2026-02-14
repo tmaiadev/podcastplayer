@@ -20,7 +20,6 @@ interface CategorySectionProps {
 
 export function CategorySection({ category, podcasts, language }: CategorySectionProps) {
   const displayPodcasts = podcasts.slice(0, 12);
-
   const breadcrumbContext: BreadcrumbParams = useMemo(() => ({
     from: 'category',
     catId: category.id,
@@ -28,12 +27,12 @@ export function CategorySection({ category, podcasts, language }: CategorySectio
 
   return (
     <section>
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex items-center mb-2">
         <Link href={`/${language}/cat/${category.id}`} className="group flex items-center gap-1">
-          <h2 className="text-2xl font-semibold transition-colors duration-200 group-hover:text-primary group-focus-visible:text-primary">
+          <h2 className="text-lg font-extrabold transition-colors duration-200 group-hover:text-primary group-focus-visible:text-primary">
             {getCategory(category.id, language)?.name ?? category.name}
           </h2>
-          <span className="transition-transform duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1">
+          <span className="transition-transform duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1 text-muted-foreground">
             <HugeiconsIcon icon={ArrowRight01Icon} size={24} />
           </span>
         </Link>

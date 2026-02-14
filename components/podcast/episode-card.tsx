@@ -5,10 +5,9 @@ import type { Episode, Podcast } from "@/lib/podcast-index";
 import type { SupportedLanguage } from "@/lib/i18n/constants";
 import type { BreadcrumbParams } from "@/lib/breadcrumb";
 import Link from "next/link";
-import { getTranslations } from "@/lib/i18n/translations";
+import { getTranslations, TranslationKeys } from "@/lib/i18n/translations";
 import { buildEpisodeUrl } from "@/lib/breadcrumb";
 import { Card } from "@/components/ui/card";
-import { EpisodeImage } from "./episode-image";
 import { PlayEpisodeButton } from "@/components/player";
 
 interface EpisodeCardProps {
@@ -18,16 +17,14 @@ interface EpisodeCardProps {
   breadcrumbContext?: BreadcrumbParams;
 }
 
-function formatTitle(episode: Episode): string {
-  let title = episode.title;
-
-  if (episode.season && episode.episode) {
-    title = `S${episode.season}E${episode.episode} - ${title}`;
-  } else if (episode.episode) {
-    title = `E${episode.episode} - ${title}`;
+function formatSeasonEpisode(t: TranslationKeys, season?: number, episode?: number): string {
+  if (episode && season) {
+    return t["episodes.season"] + ` ${season} - ` + t["episodes.episode"] + ` ${episode}`;
+  } else if (episode) {
+    return t["episodes.episode"] + ` ${episode}`;
+  } else {
+    return "";
   }
-
-  return title;
 }
 
 function formatDuration(seconds: number): string {
@@ -35,12 +32,16 @@ function formatDuration(seconds: number): string {
   const minutes = Math.floor((seconds % 3600) / 60);
   const secs = seconds % 60;
 
+  let output = "";
   if (hours > 0) {
-    return `${hours}:${minutes.toString().padStart(2, "0")}:${secs
-      .toString()
-      .padStart(2, "0")}`;
+    output += `${hours}h `;
   }
-  return `${minutes}:${secs.toString().padStart(2, "0")}`;
+  if (minutes > 0 || hours > 0) {
+    output += `${minutes}m `;
+  }
+  output += `${secs}s`;
+
+  return output.trim();
 }
 
 function formatPublishDate(ts: number, language: SupportedLanguage): string {
@@ -61,26 +62,50 @@ export const EpisodeCard = memo(function EpisodeCard({
 }: EpisodeCardProps) {
   const t = getTranslations(language);
   const episodeUrl = buildEpisodeUrl(language, podcast.id, episode.id, breadcrumbContext);
-  const podcastImage = podcast.image || podcast.artwork;
+
+  if (1 > 0) {
+    return (
+      <Link href={episodeUrl} className="flex flex-col hover:bg-muted p-4 -ms-4 -me-4" aria-label={episode.title}>
+        <div className="text-muted-foreground text-sm">{formatSeasonEpisode(t, episode.season, episode.episode)}</div>
+        <div className="font-bold">{episode.title}</div>
+        <div className="line-clamp-3 text-muted-foreground text-xs">{episode.description.replace(/<[^>]*>/g, "")}</div>
+        <div className="text-muted-foreground text-xs mt-2 flex flex-row gap-2">
+          {episode.datePublished && (
+            <span>
+              {t["episodes.published"]}: {formatPublishDate(episode.datePublished, language)}
+            </span>
+          )}
+          {episode.duration > 0 && (
+            <span>
+              {t["episodes.duration"]}: {formatDuration(episode.duration)}
+            </span>
+          )}
+        </div>
+        <noscript>
+          {/* Fallback audio player for no-JS */}
+          <div>
+            <audio src={episode.enclosureUrl} controls className="w-full" />
+          </div>
+        </noscript>
+        <div className="flex flex-row gap-4 mt-2">
+          <PlayEpisodeButton
+            episode={episode}
+            podcast={podcast}
+            language={language}
+            showLabel={false}
+            circle
+          />
+        </div>
+      </Link>
+    )
+  }
 
   return (
     <Card className="gap-4 md:flex-row">
-      <div className="-mt-6 md:-mb-6 md:shrink-0 md:w-60">
-        <EpisodeImage
-          src={episode.image}
-          alt={episode.title}
-          episode={episode}
-          size={295}
-          podcastImage={podcastImage}
-          podcastTitle={podcast.title}
-          className="w-full rounded-b-none md:rounded-e-none"
-        />
-      </div>
-
       <div className="flex flex-col gap-4 px-6 grow">
         <Link href={episodeUrl} className="block text-primary hover:underline">
           <h2 className="text-lg font-bold">
-            {formatTitle(episode)}
+            {episode.title}
           </h2>
         </Link>
 
@@ -111,6 +136,7 @@ export const EpisodeCard = memo(function EpisodeCard({
             language={language}
             variant="outline"
             size="sm"
+            circle
           />
           {/* Fallback audio player for no-JS */}
           <noscript>

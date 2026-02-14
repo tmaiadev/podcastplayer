@@ -13,6 +13,7 @@ import type { SupportedLanguage } from "@/lib/i18n/constants";
 import { getTranslations } from "@/lib/i18n/translations";
 import { usePlayer } from "./use-player";
 import { PlayerOptionsMenu } from "./player-options-menu";
+import { cn } from "@/lib/utils";
 
 interface MobilePlayerProps {
   language: SupportedLanguage;
@@ -32,46 +33,43 @@ export function MobilePlayer({ language }: MobilePlayerProps) {
 
   const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
 
-  // Hide if no episode is playing
-  if (!currentEpisode) {
-    return null;
-  }
-
   const imageUrl =
-    currentEpisode.image ||
+    currentEpisode?.image ||
     currentPodcast?.image ||
-    currentPodcast?.artwork ||
-    "/placeholder-podcast.png";
+    currentPodcast?.artwork;
 
   return (
-    <div className="md:hidden">
-      <div className="bg-background/80 backdrop-blur-sm rounded-2xl shadow-lg border p-1 relative overflow-hidden">
+    <div className="md:hidden" aria-hidden={!currentEpisode}>
+      <div className="bg-background/80 backdrop-blur-sm rounded-lg shadow-lg border p-1 relative overflow-hidden">
         <div className="flex items-center gap-3">
           {/* Cover Image */}
-          <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-muted shrink-0">
-            <Image
-              src={imageUrl}
-              alt={currentEpisode.title}
-              fill
-              className="object-cover"
-              sizes="48px"
-            />
+          <div className="relative w-11 h-11 rounded-md overflow-hidden bg-muted shrink-0 border">
+            {imageUrl && (
+              <Image
+                src={imageUrl}
+                alt={currentEpisode?.title || ""}
+                fill
+                className="object-cover"
+                sizes="40px"
+              />
+            )}
           </div>
 
           {/* Episode Info */}
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-sm line-clamp-1">
-              {currentEpisode.title}
-            </h3>
-            {currentPodcast && (
+            {currentEpisode && currentPodcast && (<>
+              <h3 className="font-semibold text-sm line-clamp-1">
+                {currentEpisode.title}
+              </h3>
               <p className="text-xs text-muted-foreground line-clamp-1">
                 {t["podcast.by"]} {currentPodcast.author || currentPodcast.title}
               </p>
-            )}
+            </>)}
           </div>
 
           {/* Controls */}
-          <div className="flex items-center gap-1 shrink-0">
+          <div className={
+            cn("flex items-center gap-1 shrink-0", !currentEpisode && "pointer-events-none opacity-50")}>
             {/* Play/Pause */}
             <Button
               variant="ghost"

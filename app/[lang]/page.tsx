@@ -1,3 +1,4 @@
+import React from 'react';
 import { PodcastIndex } from '@/lib/podcast-index';
 import type { Podcast } from '@/lib/podcast-index';
 import { getPopularCategories, POPULAR_CATEGORIES } from '@/lib/categories';
@@ -84,28 +85,32 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <div className="container mx-auto px-4">
-      <header className="mb-12">
+      <header className="mb-6">
         <h1 className="text-4xl font-bold mb-2">{t['home.title']}</h1>
         <p className="text-muted-foreground">
           {t['home.subtitle']}
         </p>
       </header>
 
-      <div className="space-y-12">
+      <div className="flex flex-col gap-4">
         {/* Eager-loaded categories (server-rendered) */}
         {eagerData.map(({ category, podcasts }, index) => (
-          <div key={category.id}>
-            <CategorySection category={category} podcasts={podcasts} language={lang} />
-            {index < totalSections - 1 && <Separator className="mt-12" />}
-          </div>
+          <React.Fragment key={category.id}>
+            <div key={category.id}>
+              <CategorySection category={category} podcasts={podcasts} language={lang} />
+            </div>
+            {index < totalSections - 1 && <Separator />}
+          </React.Fragment>
         ))}
 
         {/* Lazy-loaded categories (client-side) */}
         {lazyCategories.map((category, index) => (
-          <div key={category.id}>
-            <LazyCategorySection category={category} language={lang} />
-            {eagerData.length + index < totalSections - 1 && <Separator className="mt-12" />}
-          </div>
+          <React.Fragment key={category.id}>
+            <div key={category.id}>
+              <LazyCategorySection category={category} language={lang} />
+            </div>
+            {eagerData.length + index < totalSections - 1 && <Separator />}
+          </React.Fragment>
         ))}
       </div>
     </div>

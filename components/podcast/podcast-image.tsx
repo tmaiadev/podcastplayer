@@ -10,7 +10,7 @@ interface PodcastImageProps {
   alt: string;
   title: string;
   podcastId: number;
-  size: 240 | 300;
+  size: number;
   priority?: boolean;
   className?: string;
 }

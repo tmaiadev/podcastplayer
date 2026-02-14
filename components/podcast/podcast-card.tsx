@@ -24,7 +24,7 @@ export function PodcastCard({ podcast, language, className, breadcrumbContext }:
     <Link
       href={link}
       className={cn(
-        "group w-60 shrink-0 flex flex-col gap-2 focus-visible:outline-none",
+        "group w-36 shrink-0 flex flex-col gap-2 focus-visible:outline-none",
         className
       )}
     >
@@ -35,13 +35,13 @@ export function PodcastCard({ podcast, language, className, breadcrumbContext }:
           alt={podcast.title}
           title={podcast.title}
           podcastId={podcast.id}
-          size={240}
-          className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-110 group-focus-visible:scale-110"
+          size={140}
+          className="w-full aspect-square object-cover transition-transform duration-300"
         />
       </div>
 
       {/* Text content */}
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-0">
         <div className="line-clamp-2 text-sm font-bold transition-colors duration-200 group-hover:text-primary group-focus-visible:text-primary">
           {podcast.title}
         </div>

@@ -7,7 +7,7 @@ interface CategorySectionSkeletonProps {
 
 function PodcastCardSkeleton() {
   return (
-    <div className="w-60 shrink-0 flex flex-col gap-2">
+    <div className="w-36 shrink-0 flex flex-col gap-2">
       {/* Image skeleton */}
       <Skeleton className="w-full aspect-square rounded-lg" />
 
@@ -27,8 +27,8 @@ export function CategorySectionSkeleton({ showTitle = true }: CategorySectionSke
   return (
     <section>
       {showTitle && (
-        <div className="flex items-center gap-3 mb-6">
-          <Skeleton className="h-8 w-48" />
+        <div className="flex items-center mb-2">
+          <Skeleton className="h-5 w-36" />
         </div>
       )}
 

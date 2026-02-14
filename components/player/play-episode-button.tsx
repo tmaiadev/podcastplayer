@@ -7,25 +7,28 @@ import type { Episode, Podcast } from "@/lib/podcast-index";
 import type { SupportedLanguage } from "@/lib/i18n/constants";
 import { getTranslations } from "@/lib/i18n/translations";
 import { usePlayer } from "./use-player";
+import { cn } from "@/lib/utils";
 
 interface PlayEpisodeButtonProps {
-  episode: Episode;
-  podcast: Podcast;
-  language: SupportedLanguage;
-  variant?: "default" | "outline" | "ghost";
-  size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
-  showLabel?: boolean;
+  circle?: boolean;
   className?: string;
+  episode: Episode;
+  language: SupportedLanguage;
+  podcast: Podcast;
+  showLabel?: boolean;
+  size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
+  variant?: "default" | "outline" | "ghost";
 }
 
 export function PlayEpisodeButton({
-  episode,
-  podcast,
-  language,
-  variant = "default",
-  size = "default",
-  showLabel = true,
+  circle = false,
   className,
+  episode,
+  language,
+  podcast,
+  showLabel = true,
+  size = "default",
+  variant = "default",
 }: PlayEpisodeButtonProps) {
   const t = getTranslations(language);
   const { currentEpisode, isPlaying, play, pause, resume } = usePlayer();
@@ -33,7 +36,10 @@ export function PlayEpisodeButton({
   const isCurrentEpisode = currentEpisode?.id === episode.id;
   const isCurrentlyPlaying = isCurrentEpisode && isPlaying;
 
-  const handleClick = () => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     if (isCurrentEpisode) {
       if (isPlaying) {
         pause();
@@ -50,14 +56,14 @@ export function PlayEpisodeButton({
 
   return (
     <Button
-      variant={variant}
-      size={size}
+      className={cn(circle && "rounded-full aspect-square flex items-center justify-center p-0", className)}
       onClick={handleClick}
-      className={className}
+      size={size}
       title={label}
+      variant={variant}
     >
       <HugeiconsIcon icon={Icon} size={size.includes("icon") ? 20 : 16} />
-      {showLabel && !size.includes("icon") && <span>{label}</span>}
+      {showLabel && !circle && !size.includes("icon") && <span>{label}</span>}
     </Button>
   );
 }

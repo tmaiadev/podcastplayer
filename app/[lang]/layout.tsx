@@ -55,7 +55,7 @@ export default async function LangLayout({
             <div className="md:ml-64">
               {/* Mobile Header - only visible on mobile */}
               <header className="border-b md:hidden">
-                <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+                <div className="container mx-auto px-4 py-2 md:p-4 flex items-center justify-between">
                   <Link href={`/${lang}`} className="text-xl font-bold hover:text-primary transition-colors flex items-center gap-2">
                     <HugeiconsIcon icon={PodcastIcon} size={24} />
                     Podcast Player
