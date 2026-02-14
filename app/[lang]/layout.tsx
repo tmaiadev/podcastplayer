@@ -9,8 +9,8 @@ import { PodcastIcon } from "@hugeicons/core-free-icons";
 import { AppSidebar } from "@/components/navigation/app-sidebar";
 import { MobileNavbar } from "@/components/navigation/mobile-navbar";
 import { PlayerProviderWithSync, MobilePlayer } from "@/components/player";
-import { SignedIn, UserButton } from "@clerk/nextjs";
 import { ClerkThemeProvider } from "@/components/clerk/clerk-theme-provider";
+import { UserAvatar } from "@/components/clerk/user-avatar";
 import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 
 const nunitoSans = Nunito_Sans({ variable: '--font-sans' });
@@ -44,49 +44,47 @@ export default async function LangLayout({
   return (
     <ClerkThemeProvider>
       <html lang={lang} className={`${nunitoSans.variable} overflow-x-hidden`}>
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-          >
-            <PlayerProviderWithSync>
-              {/* Desktop Sidebar - fixed position, hidden on mobile */}
-              <AppSidebar language={lang} />
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <PlayerProviderWithSync>
+            {/* Desktop Sidebar - fixed position, hidden on mobile */}
+            <AppSidebar language={lang} />
 
-              {/* Main wrapper with left margin on desktop for sidebar */}
-              <div className="md:ml-64">
-                {/* Mobile Header - only visible on mobile */}
-                <header className="border-b md:hidden">
-                  <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-                    <Link href={`/${lang}`} className="text-xl font-bold hover:text-primary transition-colors flex items-center gap-2">
-                      <HugeiconsIcon icon={PodcastIcon} size={24} />
-                      Podcast Player
-                    </Link>
-                    <div className="flex items-center gap-3">
-                      <LanguageSwitcher />
-                      <SignedIn>
-                        <UserButton />
-                      </SignedIn>
-                    </div>
+            {/* Main wrapper with left margin on desktop for sidebar */}
+            <div className="md:ml-64">
+              {/* Mobile Header - only visible on mobile */}
+              <header className="border-b md:hidden">
+                <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+                  <Link href={`/${lang}`} className="text-xl font-bold hover:text-primary transition-colors flex items-center gap-2">
+                    <HugeiconsIcon icon={PodcastIcon} size={24} />
+                    Podcast Player
+                  </Link>
+                  <div className="flex items-center gap-3">
+                    <LanguageSwitcher />
+                    <UserAvatar />
                   </div>
-                </header>
-
-                {/* Main Content - add bottom padding on mobile for navbar and player */}
-                <div className="pb-36 md:pb-0">
-                  <main className="md:min-h-screen py-8">
-                    {children}
-                  </main>
                 </div>
-              </div>
+              </header>
 
-              <div className="p-2 fixed left-0 bottom-0 right-0 md:hidden">
-                <div className="flex flex-col gap-2 w-full">
-                  <MobilePlayer language={lang} />
-                  <MobileNavbar language={lang} />
-                </div>
+              {/* Main Content - add bottom padding on mobile for navbar and player */}
+              <div className="pb-36 md:pb-0">
+                <main className="md:min-h-screen py-8">
+                  {children}
+                </main>
               </div>
-            </PlayerProviderWithSync>
-            <GoogleAnalytics />
-          </body>
-        </html>
+            </div>
+
+            <div className="p-2 fixed left-0 bottom-0 right-0 md:hidden">
+              <div className="flex flex-col gap-2 w-full">
+                <MobilePlayer language={lang} />
+                <MobileNavbar language={lang} />
+              </div>
+            </div>
+          </PlayerProviderWithSync>
+          <GoogleAnalytics />
+        </body>
+      </html>
     </ClerkThemeProvider>
   );
 }

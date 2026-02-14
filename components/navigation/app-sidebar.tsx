@@ -13,7 +13,7 @@ import {
   Clock01Icon,
 } from "@hugeicons/core-free-icons";
 import { LanguageSwitcher } from "@/components/language-switcher";
-import { SignedIn, UserButton } from "@clerk/nextjs";
+import { UserAvatar } from "@/components/clerk/user-avatar";
 import { SidebarPlayer } from "@/components/player";
 import { cn } from "@/lib/utils";
 
@@ -106,9 +106,7 @@ export function AppSidebar({ language }: AppSidebarProps) {
       {/* Footer */}
       <div className="p-4 border-t flex items-center justify-between">
         <LanguageSwitcher />
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
+        <UserAvatar />
       </div>
     </aside>
   );
