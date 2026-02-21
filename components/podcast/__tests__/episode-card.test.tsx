@@ -78,7 +78,8 @@ describe('formatTitle (via EpisodeCard)', () => {
       episode: 5,
     });
     render(<EpisodeCard episode={episode} language="en" podcast={mockPodcast} />);
-    expect(screen.getByText('S2E5 - Great Episode')).toBeInTheDocument();
+    expect(screen.getByText('Season 2 - Episode 5')).toBeInTheDocument();
+    expect(screen.getByText('Great Episode')).toBeInTheDocument();
   });
 
   it('formats title with episode number only', () => {
@@ -88,7 +89,8 @@ describe('formatTitle (via EpisodeCard)', () => {
       season: undefined,
     });
     render(<EpisodeCard episode={episode} language="en" podcast={mockPodcast} />);
-    expect(screen.getByText('E10 - Just Episode')).toBeInTheDocument();
+    expect(screen.getByText('Episode 10')).toBeInTheDocument();
+    expect(screen.getByText('Just Episode')).toBeInTheDocument();
   });
 
   it('displays plain title when no season/episode', () => {
@@ -104,9 +106,9 @@ describe('formatTitle (via EpisodeCard)', () => {
 
 describe('formatDuration (via EpisodeCard)', () => {
   it('shows duration when duration > 0', () => {
-    const episode = createMockEpisode({ duration: 3665 }); // 1:01:05
+    const episode = createMockEpisode({ duration: 3665 }); // 1h 1m 5s
     render(<EpisodeCard episode={episode} language="en" podcast={mockPodcast} />);
-    expect(screen.getByText(/1:01:05/)).toBeInTheDocument();
+    expect(screen.getByText(/1h 1m 5s/)).toBeInTheDocument();
   });
 
   it('does not show duration when duration is 0', () => {
@@ -116,9 +118,9 @@ describe('formatDuration (via EpisodeCard)', () => {
   });
 
   it('formats minutes-only duration correctly', () => {
-    const episode = createMockEpisode({ duration: 125 }); // 2:05
+    const episode = createMockEpisode({ duration: 125 }); // 2m 5s
     render(<EpisodeCard episode={episode} language="en" podcast={mockPodcast} />);
-    expect(screen.getByText(/2:05/)).toBeInTheDocument();
+    expect(screen.getByText(/2m 5s/)).toBeInTheDocument();
   });
 });
 
