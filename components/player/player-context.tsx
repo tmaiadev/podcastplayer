@@ -151,6 +151,86 @@ export function PlayerProvider({ children }: PlayerProviderProps) {
     };
   }, []);
 
+  // Media Session API integration
+  useEffect(() => {
+    if (!("mediaSession" in navigator)) return;
+    if (!state.currentEpisode || !state.currentPodcast) return;
+
+    const { currentEpisode: episode, currentPodcast: podcast } = state;
+    const artworkUrl = episode.image || podcast.artwork || podcast.image;
+
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: episode.title,
+      artist: podcast.author || podcast.ownerName,
+      album: podcast.title,
+      artwork: artworkUrl
+        ? [
+            { src: artworkUrl, sizes: "512x512" },
+          ]
+        : undefined,
+    });
+
+    navigator.mediaSession.setActionHandler("play", () => {
+      audioRef.current?.play().catch(console.error);
+    });
+    navigator.mediaSession.setActionHandler("pause", () => {
+      audioRef.current?.pause();
+    });
+    navigator.mediaSession.setActionHandler("seekbackward", (details) => {
+      const audio = audioRef.current;
+      if (audio) {
+        audio.currentTime = Math.max(0, audio.currentTime - (details.seekOffset ?? 30));
+      }
+    });
+    navigator.mediaSession.setActionHandler("seekforward", (details) => {
+      const audio = audioRef.current;
+      if (audio) {
+        audio.currentTime = Math.min(audio.duration, audio.currentTime + (details.seekOffset ?? 30));
+      }
+    });
+    navigator.mediaSession.setActionHandler("seekto", (details) => {
+      const audio = audioRef.current;
+      if (audio && details.seekTime !== undefined) {
+        audio.currentTime = details.seekTime;
+      }
+    });
+
+    return () => {
+      (["play", "pause", "seekbackward", "seekforward", "seekto"] as MediaSessionAction[]).forEach(
+        (action) => {
+          try {
+            navigator.mediaSession.setActionHandler(action, null);
+          } catch {
+            // Some browsers may not support all action types
+          }
+        }
+      );
+    };
+  }, [state.currentEpisode, state.currentPodcast]);
+
+  // Sync Media Session playback state and position
+  useEffect(() => {
+    if (!("mediaSession" in navigator)) return;
+
+    navigator.mediaSession.playbackState = state.isPlaying
+      ? "playing"
+      : state.isPaused
+        ? "paused"
+        : "none";
+
+    if (state.duration > 0) {
+      try {
+        navigator.mediaSession.setPositionState({
+          duration: state.duration,
+          playbackRate: state.playbackRate,
+          position: Math.min(state.currentTime, state.duration),
+        });
+      } catch {
+        // setPositionState may throw if values are invalid
+      }
+    }
+  }, [state.isPlaying, state.isPaused, state.currentTime, state.duration, state.playbackRate]);
+
   // Sleep timer effect - intentionally updates state in interval to show countdown
   useEffect(() => {
     if (state.sleepTimerEndTime === null) {
